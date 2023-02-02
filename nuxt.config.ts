@@ -1,4 +1,5 @@
 const themeLocalPackagePath = process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH
+const nuxtThemePreset = process.env.NUXT_APP_PRESET || 'default'
 const allowServerFilesFrom: Array<any> = themeLocalPackagePath
   ? [
       process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH,
@@ -6,19 +7,19 @@ const allowServerFilesFrom: Array<any> = themeLocalPackagePath
   : []
 export default defineNuxtConfig({
   extends: [
-    process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH,
+    themeLocalPackagePath,
   ],
   runtimeConfig: {
     // Server side only env variables
     public: {
-      appPreset: process.env.NUXT_APP_PRESET || 'default',
+      appPreset: nuxtThemePreset,
     },
   },
   srcDir: 'src',
   components: themeLocalPackagePath
     ? [
         {
-          path: `${process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH}/components/${process.env.NUXT_APP_PRESET}`,
+          path: `${themeLocalPackagePath}/components/${nuxtThemePreset}`,
           pathPrefix: false,
         },
       ]
@@ -51,6 +52,9 @@ export default defineNuxtConfig({
       fallbackLocale: 'en',
       availableLocales: ['en'],
     },
+  },
+  tailwindcss: {
+    configPath: '~/tailwind.config.js',
   },
   typescript: {
     tsConfig: {
