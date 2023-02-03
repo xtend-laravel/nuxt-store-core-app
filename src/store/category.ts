@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
+import type { FilterState } from '@/store/filters'
 import type { Product } from '@/store/products'
 import { useProductStore } from '@/store/products'
+
 export interface Category {
   id: number
   title: string
@@ -9,16 +11,9 @@ export interface Category {
   sortBy: string
 }
 
-export interface Filters {
-  categoryIds: Array<number>
-  priceRange: Array<number>
-  availableColorIds: Array<string>
-  availableSizeIds: Array<string>
-}
-
 interface CategoryState {
   category: Category
-  filters: Filters
+  filters: FilterState
   products: Record<string, Product>
 }
 
@@ -33,12 +28,7 @@ export const useCategoryStore = defineStore({
       image: '',
       sortBy: '',
     },
-    filters: <Filters>{
-      categoryIds: [],
-      priceRange: [],
-      availableColorIds: [],
-      availableSizeIds: [],
-    },
+    filters: <FilterState>{},
     products: useProductStore().items,
   }),
 
