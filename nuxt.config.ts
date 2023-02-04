@@ -1,5 +1,5 @@
 const themeLocalPackagePath = process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH
-const nuxtThemePreset = process.env.NUXT_APP_PRESET || 'default'
+const nuxtThemePreset = process.env.NUXT_APP_PRESET || ''
 const allowServerFilesFrom: Array<any> = themeLocalPackagePath
   ? [
       process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH,
