@@ -1,5 +1,6 @@
 const themeLocalPackagePath = process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH
-const nuxtThemePreset = process.env.NUXT_APP_PRESET || ''
+const nuxtThemePreset = process.env.NUXT_APP_PRESET || 'default'
+const componentsThemePath = themeLocalPackagePath + (nuxtThemePreset === 'default' ? '/components' : `/components/${nuxtThemePreset}`)
 const allowServerFilesFrom: Array<any> = themeLocalPackagePath
   ? [
       process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH,
@@ -19,7 +20,7 @@ export default defineNuxtConfig({
   components: themeLocalPackagePath
     ? [
         {
-          path: `${themeLocalPackagePath}/components/${nuxtThemePreset}`,
+          path: componentsThemePath,
           pathPrefix: false,
         },
       ]
