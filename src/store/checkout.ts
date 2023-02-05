@@ -20,7 +20,9 @@ export const useCheckoutStore = defineStore({
   id: 'checkout',
 
   state: (): CheckoutState => ({
-    contents: JSON.parse(localStorage.getItem(CHECKOUT_STORAGE) as string) ?? {},
+    contents: process.client
+      ? JSON.parse(localStorage.getItem(CHECKOUT_STORAGE) as string) ?? {}
+      : {},
   }),
 
   getters: {

@@ -23,7 +23,9 @@ export const useCartStore = defineStore({
   id: 'cart',
 
   state: (): CartState => ({
-    contents: JSON.parse(localStorage.getItem(CART_STORAGE) as string) ?? {},
+    contents: process.client
+      ? JSON.parse(localStorage.getItem(CART_STORAGE) as string) ?? {}
+      : {},
   }),
 
   getters: {

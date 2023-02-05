@@ -43,8 +43,6 @@ export const useProductStore = defineStore({
       if (this.loaded)
         return
 
-      if (this.loaded) return
-
       const data: any = await fetch('https://fakestoreapi.com/products').then(res => res.json())
       this.ids = data.map((product: any) => {
         product.hasFlag = true
