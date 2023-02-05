@@ -9,7 +9,7 @@ const layout: Ref = computed(() => config.public.appPreset)
 </script>
 
 <template>
-  <Html :lang="locale">
+  <Html :lang="locale" class="light">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:300,400,500,600,700" rel="stylesheet">
     <Body
@@ -23,7 +23,4 @@ const layout: Ref = computed(() => config.public.appPreset)
 </template>
 
 <style lang="postcss">
-body {
-  @apply bg-gray-50 dark:bg-gray-800;
-}
 </style>
