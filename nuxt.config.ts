@@ -1,3 +1,4 @@
+const hubBaseUrl = process.env.NUXT_APP_HUB_BASE_URL
 const themeLocalPackagePath = process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH
 const nuxtThemePreset = process.env.NUXT_APP_PRESET || 'default'
 const componentsThemePath = themeLocalPackagePath + (nuxtThemePreset === 'default' ? '/components' : `/components/${nuxtThemePreset}`)
@@ -7,6 +8,12 @@ const allowServerFilesFrom: Array<any> = themeLocalPackagePath
     ]
   : []
 export default defineNuxtConfig({
+  routeRules: {
+    '/sanctum/csrf-cookie': { ssr: false },
+    '/api/**': { ssr: false },
+    '/sanctum/account/**': { ssr: false },
+    '/sanctum/auth/**': { ssr: false },
+  },
   extends: [
     themeLocalPackagePath,
   ],
@@ -27,9 +34,29 @@ export default defineNuxtConfig({
     : undefined,
   modules: [
     '@vueuse/nuxt',
+    '@nuxt-alt/auth',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
   ],
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: hubBaseUrl,
+        endpoints: {
+          login: {
+            url: '/api/login',
+          },
+          logout: {
+            url: '/api/logout',
+          },
+          user: {
+            url: '/api/restify/profile',
+          },
+        },
+      },
+    },
+  },
   // localization - i18n config
   i18n: {
     locales: [
