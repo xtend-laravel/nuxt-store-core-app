@@ -43,6 +43,13 @@ export default defineNuxtConfig({
       laravelSanctum: {
         provider: 'laravel/sanctum',
         url: hubBaseUrl,
+        token: {
+          property: 'data.token.plainTextToken',
+          required: true,
+          global: true,
+          name: 'Authorization',
+          type: 'Bearer',
+        },
         endpoints: {
           login: {
             url: '/api/login',
