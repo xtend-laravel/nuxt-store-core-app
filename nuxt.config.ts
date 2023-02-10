@@ -34,36 +34,9 @@ export default defineNuxtConfig({
     : undefined,
   modules: [
     '@vueuse/nuxt',
-    '@nuxt-alt/auth',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
   ],
-  auth: {
-    strategies: {
-      laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: hubBaseUrl,
-        token: {
-          property: 'data.token.plainTextToken',
-          required: true,
-          global: true,
-          name: 'Authorization',
-          type: 'Bearer',
-        },
-        endpoints: {
-          login: {
-            url: '/api/login',
-          },
-          logout: {
-            url: '/api/logout',
-          },
-          user: {
-            url: '/api/restify/profile',
-          },
-        },
-      },
-    },
-  },
   // localization - i18n config
   i18n: {
     locales: [
