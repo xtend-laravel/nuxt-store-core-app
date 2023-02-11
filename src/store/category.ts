@@ -55,7 +55,7 @@ export const useCategoryStore = defineStore({
       this.setCurrentCategory(data)
     },
     setCurrentCategory(category: any) {
-      this.category = category
+      this.$state.category = category
     },
   },
 })
