@@ -25,6 +25,13 @@ const fetchProfile = async () => {
   })
 }
 
+const fetchOrders = async () => {
+  await useFetch('/api/orders').then((response: any) => {
+    serverRequest.value = 'orders'
+    serverResponse.value = response.data
+  })
+}
+
 async function fetchAuthCheck() {
   const { data: { value: { loggedIn } } } = await useFetch('/api/auth-check') as any
   serverRequest.value = 'fetchAuthCheck'
@@ -52,11 +59,10 @@ onMounted(() => {
     <div style="width:40%;">
       <div class="px-10">
         <ul class="flex justify-between">
-          <li><a href="#" @click="init">Init</a></li>
           <li><a href="#" @click="loginRequest">Login</a></li>
           <li><a href="#" @click="fetchProfile">Profile</a></li>
-          <li><a href="#">Orders</a></li>
-          <li><a href="#">Addresses</a></li>
+          <li><a href="#" @click="fetchOrders">Orders</a></li>
+          <li><a href="#">Customers</a></li>
           <li><a href="#">Categories</a></li>
           <li><a href="#">Products</a></li>
         </ul>
