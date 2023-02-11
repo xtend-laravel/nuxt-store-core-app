@@ -47,14 +47,15 @@ export const useCategoryStore = defineStore({
 
   actions: {
     async fetch(categoryId: number) {
-      // @todo - Later we will fetch category data from Laravel API search by slug
-      this.category = <Category>{
-        id: categoryId,
-        title: `Category ${categoryId}`,
-        description: `Category ${categoryId} description`,
-        image: 'https://picsum.photos/200/300',
-        sortBy: 'price',
-      }
+      const { data } = await useStoreInventory({
+        type: 'category',
+        routeMatch: '[id]',
+        params: { id: categoryId },
+      })
+      this.setCurrentCategory(data)
+    },
+    setCurrentCategory(category: any) {
+      this.category = category
     },
   },
 })
