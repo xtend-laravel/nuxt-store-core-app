@@ -46,9 +46,8 @@ export const useCategoryStore = defineStore({
   },
 
   actions: {
-    async fetch() {
-      const route = useRoute()
-      console.log(route.params.id, route.params.slug)
+    async fetch(categoryId: number) {
+      console.log(categoryId)
       // @todo - Later we will fetch category data from Laravel API search by slug
       this.category = <Category>{}
     },
