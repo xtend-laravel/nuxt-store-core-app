@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/store/auth'
+
+const isAuthenticated = ref(false)
 const serverRequest = ref('')
-const serverResponse = ref('')
+const serverResponse = ref({})
 const loginRequest = async () => {
   await useFetch('/api/login', {
     method: 'POST',
@@ -11,6 +14,7 @@ const loginRequest = async () => {
   }).then((response: any) => {
     serverRequest.value = 'login'
     serverResponse.value = response.data
+    useAuthStore().setUser(response.data.value.user)
   })
 }
 
@@ -20,6 +24,20 @@ const fetchProfile = async () => {
     serverResponse.value = response.data
   })
 }
+
+async function fetchAuthCheck() {
+  const { data: { value: { loggedIn } } } = await useFetch('/api/auth-check') as any
+  serverRequest.value = 'fetchAuthCheck'
+  serverResponse.value = { loggedIn }
+  isAuthenticated.value = loggedIn
+  useAuthStore().check(loggedIn)
+}
+
+onMounted(() => {
+  nextTick(() => {
+    fetchAuthCheck()
+  })
+})
 </script>
 
 <template>
@@ -29,11 +47,12 @@ const fetchProfile = async () => {
     <h1
       class="text-black dark:text-white text-xl font-semibold text-center my-4"
     >
-      Nuxt 3 - Nitro Server Testing
+      Nuxt 3 - Nitro Server Testing <span v-if="isAuthenticated">- Authenticated</span>
     </h1>
     <div style="width:40%;">
       <div class="px-10">
         <ul class="flex justify-between">
+          <li><a href="#" @click="init">Init</a></li>
           <li><a href="#" @click="loginRequest">Login</a></li>
           <li><a href="#" @click="fetchProfile">Profile</a></li>
           <li><a href="#">Orders</a></li>

@@ -1,6 +1,7 @@
 import { H3Event, setCookie } from 'h3'
 const baseUrl = process.env.NUXT_APP_HUB_BASE_URL
 let token: string | null = null
+let user: any = null
 const cookieOptions = {
   httpOnly: true,
   maxAge: 60 * 60 * 24, // 1 day
@@ -17,11 +18,13 @@ export default defineEventHandler(async (event: H3Event) => {
     },
     body: JSON.stringify(body),
   }).then((response: any) => {
+    user = response.data.user
     token = decodeURIComponent(response.data.token.plainTextToken)
     setCookie(event, 'token', token, cookieOptions)
   })
   return {
     loggedIn: !!token,
     token,
+    user,
   }
 })
