@@ -16,7 +16,7 @@ export interface Product {
   route: string
 }
 
-interface ProductState {
+export interface ProductState {
   items: any
   initialItems: any
   ids: number[]
