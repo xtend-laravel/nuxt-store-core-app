@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import useStoreInventory from '../composables/useStoreInventory'
 import type { FilterState } from '@/store/filters'
 import type { Product } from '@/store/products'
 import { useProductStore } from '@/store/products'
@@ -11,7 +12,7 @@ export interface Category {
   sortBy: string
 }
 
-interface CategoryState {
+export interface CategoryState {
   category: Category
   filters: FilterState
   products: Record<string, Product>
@@ -46,6 +47,8 @@ export const useCategoryStore = defineStore({
 
   actions: {
     async fetch() {
+      const route = useRoute()
+      console.log(route.params.id, route.params.slug)
       // @todo - Later we will fetch category data from Laravel API search by slug
       this.category = <Category>{}
     },
