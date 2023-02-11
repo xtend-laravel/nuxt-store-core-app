@@ -11,5 +11,5 @@ export default async function useStoreInventory(options: IStoreInventory): Promi
       return param.startsWith('[') && param.endsWith(']') ? params[param.slice(1, -1)] : param
     }).join('-')
     : ''
-  return useFetch(`/api/${type}/${routeMatchWithParams}`)
+  return $fetch(`/api/${type}/${routeMatchWithParams}`)
 }
