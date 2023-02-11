@@ -13,7 +13,7 @@ export interface Category {
 }
 
 export interface CategoryState {
-  category: Category
+  category: any
   filters: FilterState
   products: Record<string, Product>
 }
@@ -22,13 +22,7 @@ export const useCategoryStore = defineStore({
   id: 'category',
 
   state: (): CategoryState => ({
-    category: <Category>{
-      id: 0,
-      title: '',
-      description: '',
-      image: '',
-      sortBy: '',
-    },
+    category: {},
     filters: <FilterState>{},
     products: useProductStore().items,
   }),
@@ -55,7 +49,7 @@ export const useCategoryStore = defineStore({
       this.setCurrentCategory(data)
     },
     setCurrentCategory(category: any) {
-      this.$state.category = category
+      this.category = reactive(category)
     },
   },
 })
