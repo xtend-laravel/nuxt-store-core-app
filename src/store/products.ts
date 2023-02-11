@@ -17,7 +17,8 @@ export interface Product {
 }
 
 interface ProductState {
-  items: Record<string, Product>
+  items: any
+  initialItems: any
   ids: number[]
 }
 
@@ -25,11 +26,14 @@ export const useProductStore = defineStore({
   id: 'products',
 
   state: (): ProductState => ({
-    items: {},
+    initialItems: [],
+    items: [],
     ids: [],
   }),
 
   getters: {
+    products: (state: ProductState) => state.items,
+    countProducts: (state: ProductState) => state.items.length,
     list(): Product[] {
       return this.ids.map(i => this.items[i])
     },
