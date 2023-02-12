@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import useStoreInventory from '../composables/useStoreInventory'
 import type { FilterState } from '@/store/filters'
 import type { Product } from '@/store/products'
 import { useProductStore } from '@/store/products'
@@ -40,16 +39,8 @@ export const useCategoryStore = defineStore({
   },
 
   actions: {
-    async fetch(categoryId: number) {
-      const { data } = await useStoreInventory({
-        type: 'category',
-        routeMatch: '[id]',
-        params: { id: categoryId },
-      })
-      this.setCurrentCategory(data)
-    },
     setCurrentCategory(category: any) {
-      this.category = reactive(category)
+      this.category = category
     },
   },
 })
