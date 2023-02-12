@@ -40,7 +40,7 @@ export const useCategoryStore = defineStore({
 
   actions: {
     setCurrentCategory(category: any) {
-      this.category = category
+      this.$state.category = category
     },
   },
 })
