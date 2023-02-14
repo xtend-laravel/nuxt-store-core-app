@@ -4,6 +4,6 @@ export default defineEventHandler(async (event: H3Event) => {
   const params: any = event.context.params
   return await useNitroApi({
     event,
-    endpoint: `/api/restify/categories/${params.id}`,
+    endpoint: `/api/restify/categories/${params.id}?include=publishedProducts`,
   })
 })
