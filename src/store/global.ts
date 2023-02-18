@@ -17,8 +17,8 @@ export const useGlobalStore = defineStore({
     ],
   }),
   actions: {
-    pushBreadCrumbs(breadCrumbs: BreadCrumb[]) {
-      this.breadCrumbs = [...this.breadCrumbs, ...breadCrumbs]
+    setBreadcrumbs(breadCrumbs: BreadCrumb[]) {
+      this.breadCrumbs = [{ name: 'Home', to: '/' }, ...breadCrumbs]
     },
   },
 })
