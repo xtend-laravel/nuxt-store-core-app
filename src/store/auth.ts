@@ -9,10 +9,9 @@ interface AuthState {
 export const useAuthStore = defineStore({
   id: 'auth',
 
-  // Global state for all auths
   state: (): AuthState => ({
     loggedIn: false,
-    user: process.client ? JSON.parse(<any>localStorage.getItem('user')) : null,
+    user: JSON.parse(<any>localStorage.getItem('user')),
   }),
 
   getters: {
@@ -27,18 +26,14 @@ export const useAuthStore = defineStore({
   actions: {
     setUser(user: any) {
       this.user = user
-      if (process.client) {
-        localStorage.setItem('user', JSON.stringify(user))
-      }
+      localStorage.setItem('user', JSON.stringify(user))
     },
     check(state: boolean) {
       this.loggedIn = state
     },
     logout() {
       this.user = null
-      if (process.client) {
-        localStorage.removeItem('user')
-      }
+      localStorage.removeItem('user')
     },
   },
 })
