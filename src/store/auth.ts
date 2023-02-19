@@ -12,7 +12,7 @@ export const useAuthStore = defineStore({
   // Global state for all auths
   state: (): AuthState => ({
     loggedIn: false,
-    user: null,
+    user: process.client ? JSON.parse(<any>localStorage.getItem('user')) : null,
   }),
 
   getters: {
@@ -27,12 +27,18 @@ export const useAuthStore = defineStore({
   actions: {
     setUser(user: any) {
       this.user = user
+      if (process.client) {
+        localStorage.setItem('user', JSON.stringify(user))
+      }
     },
     check(state: boolean) {
       this.loggedIn = state
     },
     logout() {
       this.user = null
+      if (process.client) {
+        localStorage.removeItem('user')
+      }
     },
   },
 })
