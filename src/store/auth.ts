@@ -30,6 +30,9 @@ export const useAuthStore = defineStore({
     },
     check(state: boolean) {
       this.loggedIn = state
+      if (!this.loggedIn) {
+        this.logout()
+      }
     },
     logout() {
       this.user = null
