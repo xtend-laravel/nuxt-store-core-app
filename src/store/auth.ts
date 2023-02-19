@@ -26,6 +26,7 @@ export const useAuthStore = defineStore({
   actions: {
     setUser(user: any) {
       this.user = user
+      console.log('User to save:', JSON.stringify(user))
       localStorage.setItem('user', JSON.stringify(user))
     },
     check(state: boolean) {
