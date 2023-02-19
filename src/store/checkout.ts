@@ -2,42 +2,51 @@ import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
 import { CHECKOUT_STORAGE } from '~/composables/usePersistCheckout'
 
-export interface Checkout {
-  steps: Array<string>
-  currentStep: string
-  summary: Record<string, string>
-  paymentMethod: string
-  shippingMethod: string
-  shippingAddress: Record<string, string>
-  billingAddress: Record<string, string>
+interface CheckoutStep {
+  index: number
+  title: string
+  description: string
+  component: any
 }
 
-interface CheckoutState {
-  contents: Record<string, Checkout>
+export interface CheckoutState {
+  _steps: CheckoutStep[],
+  _currentStep: number
+  _summary: Record<string, string>
+  _paymentMethod: string
+  _shippingMethod: string
+  _shippingAddress: Record<string, string>
+  _billingAddress: Record<string, string>
 }
 
 export const useCheckoutStore = defineStore({
   id: 'checkout',
 
   state: (): CheckoutState => ({
-    contents: process.client
-      ? JSON.parse(localStorage.getItem(CHECKOUT_STORAGE) as string) ?? {}
-      : {},
+    _steps: [],
+    _currentStep: 0,
+    _summary: {},
+    _paymentMethod: '',
+    _shippingMethod: '',
+    _shippingAddress: {},
+    _billingAddress: {},
   }),
 
   getters: {
-    getCheckout(): UnwrapRef<CheckoutState['contents']> {
-      return this.contents
+    currentStep(): UnwrapRef<CheckoutState['_currentStep']> {
+      return this._currentStep
     },
-    getCheckoutItems(): Array<Checkout> {
-      return Object.values(this.contents)
-    },
-    getCheckoutItemsCount(): number {
-      return Object.values(this.contents).length
+    steps(): UnwrapRef<CheckoutState['_steps']> {
+      return this._steps
     },
   },
 
   actions: {
-    // @todo - Later we will fetch checkout data from Laravel API
+    setSteps(steps: CheckoutStep[]): void {
+      this._steps = steps
+    },
+    setCurrentStep(currentStep: number): void {
+      this._currentStep = currentStep
+    }
   },
 })
