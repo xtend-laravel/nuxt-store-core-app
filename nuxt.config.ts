@@ -8,6 +8,8 @@ const allowServerFilesFrom: Array<any> = themeLocalPackagePath
     ]
   : []
 export default defineNuxtConfig({
+  debug: true,
+  dev: true,
   routeRules: {
     '/sanctum/csrf-cookie': { ssr: false },
     '/api/**': { ssr: false },
