@@ -2,11 +2,13 @@ import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
 import { CHECKOUT_STORAGE } from '~/composables/usePersistCheckout'
 
-interface CheckoutStep {
+export interface CheckoutStep {
   index: number
+  completed: boolean
   title: string
   description: string
   component: any
+  hidden?: boolean
 }
 
 export interface CheckoutState {
@@ -39,6 +41,9 @@ export const useCheckoutStore = defineStore({
     steps(): UnwrapRef<CheckoutState['_steps']> {
       return this._steps
     },
+    seperateBillingAddress(): UnwrapRef<boolean> {
+      return this._billingAddress !== this._shippingAddress
+    },
   },
 
   actions: {
@@ -47,6 +52,6 @@ export const useCheckoutStore = defineStore({
     },
     setCurrentStep(currentStep: number): void {
       this._currentStep = currentStep
-    }
+    },
   },
 })
