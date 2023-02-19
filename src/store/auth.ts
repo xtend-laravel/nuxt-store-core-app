@@ -26,6 +26,7 @@ export const useAuthStore = defineStore({
   actions: {
     setUser(user: any) {
       this.user = user
+      this.loggedIn = true
       localStorage.setItem('user', JSON.stringify(user))
     },
     check(state: boolean) {
@@ -36,6 +37,7 @@ export const useAuthStore = defineStore({
     },
     logout() {
       this.user = null
+      this.loggedIn = false
       localStorage.removeItem('user')
     },
   },
