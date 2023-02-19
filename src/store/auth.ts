@@ -25,9 +25,14 @@ export const useAuthStore = defineStore({
 
   actions: {
     setUser(user: any) {
+      console.log('beforeSetUser')
       this.user = user
-      console.log('User to save:', JSON.stringify(user))
-      localStorage.setItem('user', JSON.stringify(user))
+      console.log('afterSetUser', user)
+      try {
+        localStorage.setItem('user', JSON.stringify(user))
+      } catch (error) {
+        console.error('Error saving user to localStorage:', error)
+      }
     },
     check(state: boolean) {
       this.loggedIn = state
