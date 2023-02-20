@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
+import { useAuthStore } from '~/store/auth'
 import useCheckout from '~/composables/useCheckout'
 
 export interface CheckoutStep {
@@ -44,6 +45,9 @@ export const useCheckoutStore = defineStore({
     separateBillingAddress(): UnwrapRef<boolean> {
       return this._billingAddress !== this._shippingAddress
     },
+    isAuthenticated(): boolean {
+      return useAuthStore().isAuthenticated
+    }
   },
 
   actions: {
