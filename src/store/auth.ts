@@ -19,7 +19,7 @@ export const useAuthStore = defineStore({
       return this.user
     },
     isAuthenticated(): boolean {
-      return this.loggedIn
+      return this.loggedIn && this.user
     },
   },
 

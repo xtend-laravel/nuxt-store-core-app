@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
-import { CHECKOUT_STORAGE } from '~/composables/usePersistCheckout'
+import useCheckout from '~/composables/useCheckout'
 
 export interface CheckoutStep {
   index: number
@@ -12,7 +12,7 @@ export interface CheckoutStep {
 }
 
 export interface CheckoutState {
-  _steps: CheckoutStep[],
+  _steps: CheckoutStep[]
   _currentStep: number
   _summary: Record<string, string>
   _paymentMethod: string
@@ -41,12 +41,15 @@ export const useCheckoutStore = defineStore({
     steps(): UnwrapRef<CheckoutState['_steps']> {
       return this._steps
     },
-    seperateBillingAddress(): UnwrapRef<boolean> {
+    separateBillingAddress(): UnwrapRef<boolean> {
       return this._billingAddress !== this._shippingAddress
     },
   },
 
   actions: {
+    async fetch(): Promise<void> {
+      const { data } = await useCheckout()
+    },
     setSteps(steps: CheckoutStep[]): void {
       this._steps = steps
     },
