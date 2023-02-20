@@ -50,11 +50,11 @@ export const useCheckoutStore = defineStore({
   actions: {
     async fetch(): Promise<void> {
       const { data } = await useCheckout()
-      console.log(data.value, 'why null?')
+      console.log(data)
 
-      // if (data.addresses) {
-      //   this.setAddresses(data.addresses)
-      // }
+      if (data.addresses) {
+        this.setAddresses(data.addresses)
+      }
     },
     setSteps(steps: CheckoutStep[]): void {
       this._steps = steps
