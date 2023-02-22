@@ -14,6 +14,7 @@ export const useCheckoutStore = defineStore({
       cartId: 0,
       billingAddressId: 0,
       shippingAddressId: 0,
+      separateBillingAddress: false,
       currency: 'EUR',
       subtotal: '0.00',
       shipping: '0.00',
@@ -40,7 +41,7 @@ export const useCheckoutStore = defineStore({
       return this._addresses
     },
     separateBillingAddress(): UnwrapRef<boolean> {
-      return this._orderSummary['billingAddressId'] !== this._orderSummary['shippingAddressId']
+      return this._orderSummary.separateBillingAddress
     },
     isAuthenticated(): boolean {
       return useAuthStore().isAuthenticated
@@ -64,6 +65,24 @@ export const useCheckoutStore = defineStore({
     },
     setAddresses(addresses: Addresses[]): void {
       this._addresses = addresses
+    },
+    setSeparateBillingAddress(separateBillingAddress: boolean): void {
+      this._orderSummary.separateBillingAddress = separateBillingAddress
+    },
+    markStepAsCompleted(stepKey: string): void {
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
+      if (!step.completed) {
+        step.completed = true
+      }
+    },
+    toggleStep(stepKey: string): void {
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
+      step.hidden = !step.hidden
+    },
+    toggleBillingAddress(): void {
+      this.toggleStep('billing_address')
+      this.markStepAsCompleted('shipping_address')
+      this.setSeparateBillingAddress(!this._orderSummary.separateBillingAddress)
     },
   },
 })

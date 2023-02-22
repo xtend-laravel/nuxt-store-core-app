@@ -1,5 +1,6 @@
 export interface CheckoutStep {
   index: number
+  key: string
   completed: boolean
   title: string
   description: string
@@ -10,8 +11,9 @@ export interface CheckoutStep {
 export interface OrderSummary<TAmount, TCurrency> {
   cartId: number
   billingAddressId: number
-  currency: TCurrency
   shippingAddressId: number
+  separateBillingAddress: boolean
+  currency: TCurrency
   subtotal: TAmount
   shipping: TAmount
   tax: TAmount
