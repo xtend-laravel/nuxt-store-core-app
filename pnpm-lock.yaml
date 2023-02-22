@@ -4,6 +4,7 @@ specifiers:
   '@antfu/eslint-config': 0.34.0
   '@iconify-json/carbon': ^1.1.14
   '@iconify-json/feather': ^1.1.3
+  '@malolebrin/pinia-entity-store': ^0.2.4
   '@nuxt/content': ^2.2.2
   '@nuxtjs/i18n': 8.0.0-beta.7
   '@nuxtjs/tailwindcss': ^6.3.1
@@ -26,12 +27,13 @@ specifiers:
   unplugin-icons: ^0.15.2
 
 dependencies:
+  '@malolebrin/pinia-entity-store': 0.2.4
   '@nuxtjs/i18n': 8.0.0-beta.7
   '@nuxtjs/tailwindcss': 6.3.1
   '@pinia/nuxt': 0.4.6_typescript@4.9.4
   nuxt-headlessui: 1.1.1
   nuxt-swiper: 1.0.0
-  pinceau: 0.16.1
+  pinceau: 0.16.4
   pinia: 2.0.28_typescript@4.9.4
 
 devDependencies:
@@ -159,7 +161,6 @@ packages:
 
   /@antfu/utils/0.7.2:
     resolution: {integrity: sha512-vy9fM3pIxZmX07dL+VX1aZe7ynZ+YyB0jY+jE6r3hOK6GNY2t6W8rzpFC4tgpbXUYABkFQwgJq2XYXlxbXAI0g==}
-    dev: true
 
   /@babel/code-frame/7.18.6:
     resolution: {integrity: sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==}
@@ -988,6 +989,12 @@ packages:
       path-to-regexp: 6.2.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@malolebrin/pinia-entity-store/0.2.4:
+    resolution: {integrity: sha512-rWgyv3LtgrXCt9bjVM8Fj4L8aJxPiZOLvBmgHuus+UXMwm3mjsTxyObeD46CrMBOt21vWdVTN3RY0Jfh7yi8MQ==}
+    dependencies:
+      '@antfu/utils': 0.7.2
     dev: false
 
   /@mapbox/node-pre-gyp/1.0.10:
@@ -2023,23 +2030,23 @@ packages:
       vue: 3.2.45
     dev: true
 
-  /@volar/language-core/1.2.0-alpha.17:
-    resolution: {integrity: sha512-nTJfag+EsjWPaefp7JxQ3uJIe0pLdTEfR1ZmaJgn4yKA2FkturuLdlHk3Nj3HjhAhoRDfF7S1BZFDnMjZCAegw==}
+  /@volar/language-core/1.2.0-alpha.19:
+    resolution: {integrity: sha512-l/QsncqY3aV4CwJtw3r88tmUGO9yoTwcTXqKUfMwU2RC7X97xe6yAaB2medK7T+Azx6Xpv2yh9g5V0immyMWcA==}
     dependencies:
-      '@volar/source-map': 1.2.0-alpha.17
+      '@volar/source-map': 1.2.0-alpha.19
     dev: false
 
-  /@volar/source-map/1.2.0-alpha.17:
-    resolution: {integrity: sha512-g0NO3HWSo5PaY4Vv8MuQ9qhIwyxCWFWI69b0fuwdXsHo9gJ4Ngf9BKgg7U0h3b9XtmNnj1efIpgIK1rtwC+nyw==}
+  /@volar/source-map/1.2.0-alpha.19:
+    resolution: {integrity: sha512-pkMPiP28r3zHvyoSh29q4/MY2T+UGtsEN5ASu6N0/JEI0Wl4KKk0+nKP2Fge1JtIx9ZLjpGQxPr1eHBFvHxLAg==}
     dependencies:
       muggle-string: 0.2.2
     dev: false
 
-  /@volar/vue-language-core/1.1.5:
-    resolution: {integrity: sha512-HpouTNZuwVX+DicGik6y+g9m2fI0Xvng9K9Wh8xZCXzMFEhvjsxsbtWVmLSgnSV6mgyF8YTM3R6n/buR6kYBWA==}
+  /@volar/vue-language-core/1.1.7:
+    resolution: {integrity: sha512-oEgMfbbU5kk6X+xs0U37KGdvHwq5xgQL7IhXLb0RUQVagVVnAzlkZs9m+Fv+XOioGwH75MeH2NQzk4+KVSCuEQ==}
     dependencies:
-      '@volar/language-core': 1.2.0-alpha.17
-      '@volar/source-map': 1.2.0-alpha.17
+      '@volar/language-core': 1.2.0-alpha.19
+      '@volar/source-map': 1.2.0-alpha.19
       '@vue/compiler-dom': 3.2.47
       '@vue/compiler-sfc': 3.2.47
       '@vue/reactivity': 3.2.47
@@ -2941,6 +2948,11 @@ packages:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
     dev: true
 
+  /commander/10.0.0:
+    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
+    engines: {node: '>=14'}
+    dev: false
+
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
     dev: true
@@ -2959,11 +2971,6 @@ packages:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
     dev: true
-
-  /commander/9.5.0:
-    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
-    engines: {node: ^12.20.0 || >=14}
-    dev: false
 
   /commondir/1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
@@ -6949,11 +6956,11 @@ packages:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
 
-  /pinceau/0.16.1:
-    resolution: {integrity: sha512-LsoWXy/D6Fckd2F+JJ+yso2+0w2VUhy4Qotr6x4XAB2mQUXoy0JiS6PhEkLmGPuBypyfp09avbmsC2oy77sZIQ==}
+  /pinceau/0.16.4:
+    resolution: {integrity: sha512-rVJcKZpwn0AzK2+WzceRXp4el/L1pAAovi1kSbcsYDJHTyHW/gLEMcPRHvNnyQaAJ2d2bqpcCZqXx23yAwkMBw==}
     dependencies:
       '@unocss/reset': 0.49.7
-      '@volar/vue-language-core': 1.1.5
+      '@volar/vue-language-core': 1.1.7
       acorn: 8.8.2
       chroma-js: 2.4.2
       consola: 2.15.3
@@ -6964,12 +6971,12 @@ packages:
       ohash: 1.0.0
       paneer: 0.1.0
       pathe: 1.1.0
-      postcss-custom-properties: 13.1.3
+      postcss-custom-properties: 13.1.4
       postcss-dark-theme-class: 0.7.3
       postcss-nested: 6.0.1
       recast: 0.22.0
       scule: 1.0.0
-      style-dictionary-esm: 1.3.0
+      style-dictionary-esm: 1.3.4
       unbuild: 1.1.2
       unplugin: 1.1.0
     transitivePeerDependencies:
@@ -7073,8 +7080,8 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /postcss-custom-properties/13.1.3:
-    resolution: {integrity: sha512-15equAsfqtnr7jyzes6vyaGdAiNmKd+50FZ35/E/huBNBt7PgGMSNL/4o765nnNoP2dmaMJklb3FwJf3fdRcpA==}
+  /postcss-custom-properties/13.1.4:
+    resolution: {integrity: sha512-iSAdaZrM3KMec8cOSzeTUNXPYDlhqsMJHpt62yrjwG6nAnMtRHPk5JdMzGosBJtqEahDolvD5LNbcq+EZ78o5g==}
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
       postcss: ^8.4
@@ -8325,14 +8332,14 @@ packages:
     dependencies:
       acorn: 8.8.2
 
-  /style-dictionary-esm/1.3.0:
-    resolution: {integrity: sha512-+n+8bSVwpQO9k07XCXAC45R8e2Sizza7T9w/kdXjB+/A1S+040Yf+2v+eG09WBlUVQzgl23NLgZRSZTKDHbkIA==}
+  /style-dictionary-esm/1.3.4:
+    resolution: {integrity: sha512-pH/v3Isj/PTBhgeWImw9diA6tfKgx77kDeaJW6G8LuWdci+5MaKnZe+atpxRG4Gp49j0Y18rBVzZAL7Ou3M6Sg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
       chalk: 4.1.2
       change-case: 4.1.2
-      commander: 9.5.0
+      commander: 10.0.0
       consola: 2.15.3
       glob: 8.1.0
       jiti: 1.17.1
