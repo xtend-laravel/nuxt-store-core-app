@@ -4,11 +4,12 @@ interface INitroApiOptions {
   event: H3Event
   endpoint: string
   requiresAuth?: boolean
+  method?: string
   contentType?: string
 }
 
-export default function useNitroApi(options: INitroApiOptions): Promise<any> {
-  const { event, endpoint, requiresAuth = false, contentType = 'application/json' } = options
+export default function useNitroApi(options: INitroApiOptions, data?: any): Promise<any> {
+  const { event, endpoint, requiresAuth = false, method = 'GET', contentType = 'application/json' } = options
   const headers: any = {
     'Accept': contentType,
     'Content-Type': contentType,
@@ -16,5 +17,9 @@ export default function useNitroApi(options: INitroApiOptions): Promise<any> {
   if (requiresAuth)
     headers.Authorization = `Bearer ${getCookie(event, 'token') || ''}`
 
-  return $fetch(`${baseUrl}${endpoint}`, { headers })
+  return $fetch(`${baseUrl}${endpoint}`, {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : undefined,
+  })
 }

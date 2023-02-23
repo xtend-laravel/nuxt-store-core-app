@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import type { IEntity } from '~/types/repository'
+import useRepositoryAction from '~/composables/useRepository'
 
 export interface BreadCrumb {
   name: string
@@ -19,6 +21,10 @@ export const useGlobalStore = defineStore({
   actions: {
     setBreadcrumbs(breadCrumbs: BreadCrumb[]) {
       this.breadCrumbs = [{ name: 'Home', to: '/' }, ...breadCrumbs]
+    },
+    async persistEntity(options: IEntity): Promise<any> {
+      const { data } = await useRepositoryAction(options)
+      return data
     },
   },
 })
