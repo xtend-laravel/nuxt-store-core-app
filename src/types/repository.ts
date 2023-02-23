@@ -6,5 +6,6 @@ export interface IEntity {
   repository: Repository
   action: Action
   method: RequestMethod
-  data?: RequestMethod extends 'POST' ? any : undefined
+  data?: any
+  exclude?: any
 }

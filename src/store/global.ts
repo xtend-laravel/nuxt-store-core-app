@@ -23,8 +23,9 @@ export const useGlobalStore = defineStore({
       this.breadCrumbs = [{ name: 'Home', to: '/' }, ...breadCrumbs]
     },
     async persistEntity(options: IEntity): Promise<any> {
-      const { data } = await useRepositoryAction(options)
-      return data
+      console.log('persistEntity', options)
+      // const { data } = await useRepositoryAction(options)
+      // return data
     },
   },
 })
