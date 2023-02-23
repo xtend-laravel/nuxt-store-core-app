@@ -1,7 +1,7 @@
 import type { IEntity } from '~/types/repository'
 import { useGlobalStore } from '~/store/global'
 
-export default function usePersistForm(options: IEntity) {
+export default async function usePersistForm(options: IEntity) {
   const { data, exclude = [] } = options
 
   const filteredData: Record<string, unknown> = Object.keys(data)
@@ -10,10 +10,10 @@ export default function usePersistForm(options: IEntity) {
     }, {})
 
   delete options.exclude
-  useGlobalStore()
+  return await useGlobalStore()
     .persistEntity({
       ...options,
       data: filteredData,
     })
-    .then((response) => console.log(response))
+    .then((response: any) => console.log('response', response))
 }
