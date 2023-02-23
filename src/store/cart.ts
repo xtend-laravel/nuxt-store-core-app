@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useProductStore } from './products'
 import { CART_STORAGE } from '~/composables/usePersistCart'
+import useCheckout from "~/composables/useCheckout";
 
 export interface Purchase {
   productId: number
@@ -8,6 +9,7 @@ export interface Purchase {
 }
 
 interface CartState {
+  cartId: number
   contents: Record<string, Purchase>
 }
 
@@ -23,9 +25,8 @@ export const useCartStore = defineStore({
   id: 'cart',
 
   state: (): CartState => ({
-    contents: process.client
-      ? JSON.parse(localStorage.getItem(CART_STORAGE) as string) ?? {}
-      : {},
+    cartId: 0,
+    contents: JSON.parse(<any>localStorage.getItem('cart')),
   }),
 
   getters: {
@@ -63,6 +64,10 @@ export const useCartStore = defineStore({
   },
 
   actions: {
+    async fetch(): Promise<void> {
+      const { data } = await useCart()
+      console.log(data)
+    },
     add(productId: number) {
       if (this.contents[productId]) {
         this.contents[productId].quantity += 1

@@ -38,7 +38,13 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
+    '@sidebase/nuxt-session',
   ],
+  session: {
+    session: {
+      expiryInSeconds: 60 * 60 * 48,
+    },
+  },
   // localization - i18n config
   i18n: {
     locales: [
