@@ -32,10 +32,10 @@ export const useCartStore = defineStore({
     cartId(): UnwrapRef<CartState['_cartId']> {
       return this._cartId
     },
-    products(): UnwrapRef<CartState['_products']> {
+    items(): UnwrapRef<CartState['_products']> {
       return this._products
     },
-    productCount(): number {
+    cartCount(): number {
       return Object.keys(this._products).length
     },
     totals(): UnwrapRef<CartState['_totals']> {
