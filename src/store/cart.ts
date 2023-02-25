@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
 import { useGlobalStore } from '~/store/global'
-import useCheckout from "~/composables/useCheckout";
 
 export interface Purchase {
   id: number
@@ -35,6 +34,9 @@ export const useCartStore = defineStore({
     },
     products(): UnwrapRef<CartState['_products']> {
       return this._products
+    },
+    productCount(): number {
+      return Object.keys(this._products).length
     },
     totals(): UnwrapRef<CartState['_totals']> {
       return this._totals
