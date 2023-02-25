@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import { useProductStore } from './products'
-import usePersistForm from "~/composables/usePersistForm";
-import {useGlobalStore} from "~/store/global";
+import type { UnwrapRef } from 'vue'
+import { useGlobalStore } from '~/store/global'
 
 export interface Purchase {
   productId: number
@@ -9,92 +8,86 @@ export interface Purchase {
 }
 
 interface CartState {
-  cartId: number
-  products: Record<string, Purchase>
-}
-
-export interface CartPreview {
-  id: number
-  image: string
-  title: string
-  quantity: number
-  cost: number
+  _cartId: number
+  _products: Record<number, Purchase>
+  _totals: Record<string, number>
 }
 
 export const useCartStore = defineStore({
   id: 'cart',
 
   state: (): CartState => ({
-    cartId: 0,
-    products: JSON.parse(<any>localStorage.getItem('cartProducts')) || {},
+    _cartId: 0,
+    _products: {},
+    _totals: {},
   }),
 
   getters: {
-    // count(): number {
-    //   return Object.keys(this.products).reduce((acc, id) => {
-    //     return acc + this.products[id].quantity
-    //   }, 0)
-    // },
-    //
-    // total(): number {
-    //   const products = useProductStore()
-    //   return Object.keys(this.products).reduce((acc, id) => {
-    //     return acc + products.items[id].price * this.products[id].quantity
-    //   }, 0)
-    // },
-    //
-    // formattedCart(): CartPreview[] {
-    //   const products = useProductStore()
-    //
-    //   if (!products.loaded)
-    //     return []
-    //
-    //   return Object.keys(this.products).map((productId) => {
-    //     const purchase = this.products[productId]
-    //
-    //     return {
-    //       id: purchase.productId,
-    //       image: products.items[purchase.productId].image,
-    //       title: products.items[purchase.productId].name,
-    //       quantity: purchase.quantity,
-    //       cost: purchase.quantity * products.items[purchase.productId].price,
-    //     }
-    //   })
-    // },
+    isCartEmpty(): boolean {
+      return Object.keys(this._products).length === 0
+    },
+    cartId(): UnwrapRef<CartState['_cartId']> {
+      return this._cartId
+    },
+    products(): UnwrapRef<CartState['_products']> {
+      return this._products
+    },
+    totals(): UnwrapRef<CartState['_totals']> {
+      return this._totals
+    },
   },
 
   actions: {
     async fetch(): Promise<void> {
-      const { data } = await useCart()
-      console.log(data)
+      const { data: { cart } } = await useCart()
+      const products: Record<number, Purchase> = {}
+      cart.products.forEach((product: Purchase) => {
+        products[product.productId] = product
+      })
 
-      this.cartId = data.cart.id
-      if (data.items) {
-        localStorage.setItem('cartProducts', JSON.stringify(data.items))
-      }
+      this.setCartId(cart.id)
+      this.setProducts(products)
+      this.setTotals(cart.totals)
     },
-    async add(productId: number) {
-      this.products[productId] = {
-        productId,
-        quantity: (this.products[productId]?.quantity ?? 0) + 1,
-      }
-
-      return await useGlobalStore()
+    setCartId(cartId: number): void {
+      this._cartId = cartId
+    },
+    setProducts(products: Record<number, Purchase>): void {
+      this._products = products
+    },
+    setTotals(totals: Record<string, number>): void {
+      this._totals = totals
+    },
+    async persistCartData(data: any): Promise<any> {
+      return useGlobalStore()
         .persistEntity({
           repository: 'carts',
           action: 'update',
           method: 'POST',
-          data: {
-            cartId: this.cartId,
-            products: this.products,
-          },
+          data,
         })
         .then((response: any) => console.log('response', response))
     },
-    remove(productId: number): void {
-      this.products[productId]?.quantity > 0
-        ? (this.products[productId].quantity -= 1)
-        : delete this.products[productId]
+    async add(productId: number): Promise<any> {
+      this._products[productId] = {
+        productId,
+        quantity: (this._products[productId]?.quantity ?? 0) + 1,
+      }
+
+      return await this.persistCartData({
+        cartId: this._cartId,
+        products: this._products,
+      })
+    },
+    async remove(productId: number): Promise<any> {
+      this._products[productId]?.quantity > 0
+        ? (this._products[productId].quantity -= 1)
+        : delete this._products[productId]
+
+      return await this.persistCartData({
+        cartId: this._cartId,
+        products: this._products,
+      })
     },
   },
 })
