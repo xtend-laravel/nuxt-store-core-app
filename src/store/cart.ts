@@ -1,10 +1,14 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
 import { useGlobalStore } from '~/store/global'
+import useCheckout from "~/composables/useCheckout";
 
 export interface Purchase {
+  id: number
   productId: number
   quantity: number
+  purchasable?: any
+  total?: number
 }
 
 interface CartState {
@@ -42,7 +46,8 @@ export const useCartStore = defineStore({
       const { data: { cart } } = await useCart()
       const products: Record<number, Purchase> = {}
       cart.products.forEach((product: Purchase) => {
-        products[product.productId] = product
+        const id: number = product.id || product.productId
+        products[id] = product
       })
 
       this.setCartId(cart.id)
@@ -58,25 +63,24 @@ export const useCartStore = defineStore({
     setTotals(totals: Record<string, number>): void {
       this._totals = totals
     },
-    async persistCartData(data: any): Promise<any> {
+    async persistCartData(productId: number, currentQuantity: number): Promise<any> {
       return useGlobalStore()
         .persistEntity({
           repository: 'carts',
           action: 'update',
           method: 'POST',
-          data,
+          data: {
+            cartId: this._cartId,
+            product: {
+              id: productId,
+              quantity: currentQuantity || 1,
+            },
+          },
         })
-        .then((response: any) => console.log('response', response))
     },
-    async add(productId: number): Promise<any> {
-      this._products[productId] = {
-        productId,
-        quantity: (this._products[productId]?.quantity ?? 0) + 1,
-      }
-
-      return await this.persistCartData({
-        cartId: this._cartId,
-        products: this._products,
+    async add(productId: number, quantity = 1): Promise<any> {
+      return await this.persistCartData(productId, quantity).then(async (response: any) => {
+        this._products[productId] = response
       })
     },
     async remove(productId: number): Promise<any> {
@@ -84,10 +88,7 @@ export const useCartStore = defineStore({
         ? (this._products[productId].quantity -= 1)
         : delete this._products[productId]
 
-      return await this.persistCartData({
-        cartId: this._cartId,
-        products: this._products,
-      })
+      return await this.persistCartData(productId, -1)
     },
   },
 })
