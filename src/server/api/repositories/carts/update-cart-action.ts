@@ -6,7 +6,7 @@ export default defineEventHandler(async (event: H3Event) => {
   return await useNitroApi({
     event,
     endpoint: `/api/restify/carts/${body.cartId}/actions?action=update-cart-action`,
-    requiresAuth: true,
+    requiresAuth: false,
     method: 'POST',
   }, body)
 })

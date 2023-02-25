@@ -14,8 +14,9 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
     'Accept': contentType,
     'Content-Type': contentType,
   }
-  if (requiresAuth)
+  if (requiresAuth) {
     headers.Authorization = `Bearer ${getCookie(event, 'token') || ''}`
+  }
 
   return $fetch(`${baseUrl}${endpoint}`, {
     method,
