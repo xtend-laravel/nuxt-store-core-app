@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { IEntity } from '~/types/repository'
-import useRepositoryAction from '~/composables/useRepository'
+import type { IEntity } from '../types/repository'
+import useRepositoryAction from '../composables/useRepository'
 
 export interface BreadCrumb {
   name: string

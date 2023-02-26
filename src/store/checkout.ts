@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
-import { useAuthStore } from '~/store/auth'
-import useCheckout from '~/composables/useCheckout'
-import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '~/types/checkout'
+import { useAuthStore } from './auth'
+import useCheckout from '../composables/useCheckout'
+import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '../types/checkout'
 
 export const useCheckoutStore = defineStore({
   id: 'checkout',

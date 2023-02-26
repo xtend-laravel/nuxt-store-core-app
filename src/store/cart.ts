@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
-import { useGlobalStore } from '~/store/global'
+import { useGlobalStore } from './global'
 
 export interface Purchase {
   id: number

@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import type { FilterState } from '@/store/filters'
-import type { Product } from '@/store/products'
-import { useProductStore } from '@/store/products'
-import { LocaleField } from '~/types/locale'
+import type { FilterState } from './filters'
+import type { Product } from './products'
+import { useProductStore } from './products'
+import { LocaleField } from '../types/locale'
 
 export interface Category {
   id: number

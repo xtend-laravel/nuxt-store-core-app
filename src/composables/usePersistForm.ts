@@ -1,5 +1,5 @@
-import type { IEntity } from '~/types/repository'
-import { useGlobalStore } from '~/store/global'
+import type { IEntity } from '../types/repository'
+import { useGlobalStore } from '../store/global'
 
 export default async function usePersistForm(options: IEntity) {
   const { data, exclude = [] } = options

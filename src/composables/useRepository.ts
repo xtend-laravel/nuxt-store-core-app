@@ -1,4 +1,4 @@
-import type { IEntity } from '~/types/repository'
+import type { IEntity } from '../types/repository'
 
 export default async function useRepositoryAction(options: IEntity): Promise<any> {
   const { repository, action, method = 'POST', data }: IEntity = options
