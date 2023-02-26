@@ -16,9 +16,9 @@ export default defineNuxtConfig({
     '/sanctum/account/**': { ssr: false },
     '/sanctum/auth/**': { ssr: false },
   },
-  extends: [
-    themeLocalPackagePath,
-  ],
+  // extends: [
+  //   themeLocalPackagePath,
+  // ],
   runtimeConfig: {
     // Server side only env variables
     public: {

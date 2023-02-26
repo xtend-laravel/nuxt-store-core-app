@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
+import useCart from '../composables/useCart'
 import { useGlobalStore } from './global'
 
 export interface Purchase {
