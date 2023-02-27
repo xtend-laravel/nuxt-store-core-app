@@ -17,6 +17,7 @@ export interface Product {
 }
 
 export interface ProductState {
+  currentProduct: any
   items: any
   initialItems: any
   ids: number[]
@@ -26,6 +27,7 @@ export const useProductStore = defineStore({
   id: 'products',
 
   state: (): ProductState => ({
+    currentProduct: {},
     initialItems: [],
     items: [],
     ids: [],
