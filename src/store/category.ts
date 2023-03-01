@@ -2,12 +2,14 @@ import { defineStore } from 'pinia'
 import type { FilterState } from './filters'
 import type { Product } from './products'
 import { useProductStore } from './products'
-import { LocaleField } from '../types/locale'
+import { LocaleField } from '~/types/locale'
 
 export interface Category {
   id: number
   name: LocaleField
   description: LocaleField
+  attributes: any
+  relationships: any
   image: string
   sortBy: string
   children: Category[]
@@ -15,8 +17,6 @@ export interface Category {
 
 export interface CategoryState {
   category: any
-  filters: FilterState
-  products: Record<string, Product>
 }
 
 export const useCategoryStore = defineStore({
@@ -24,24 +24,25 @@ export const useCategoryStore = defineStore({
 
   state: (): CategoryState => ({
     category: {},
-    filters: <FilterState>{},
-    products: useProductStore().items,
   }),
 
   getters: {
     currentCategory(): Category {
       return this.category
     },
-    products(): Record<string, Product> {
-      return useProductStore().items
-    },
-    productsCount(): number {
-      return Object.keys(this.products).length
-    },
   },
 
   actions: {
-    setCurrentCategory(category: any) {
+    async fetch(categoryId: number): Promise<Category> {
+      const { data } = await useStoreInventory({
+        type: 'categories',
+        routeMatch: '[id]',
+        params: { id: categoryId },
+      })
+      this.setCurrentCategory(data)
+      return data
+    },
+    setCurrentCategory(category: Category) {
       this.category = category
     },
   },
