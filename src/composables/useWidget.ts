@@ -1,7 +1,7 @@
 export interface Widget {
   id: number
   name: string
-  data: any
+  data?: any
 }
 
 export default async function useWidget(id: number): Promise<Widget> {
