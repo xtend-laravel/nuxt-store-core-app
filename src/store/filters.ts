@@ -1,5 +1,7 @@
 import {defineStore} from 'pinia'
 import useFilter from '../composables/useFilter'
+import { useProductListStore } from './productList'
+const productListStore = useProductListStore()
 
 export interface FilterState {
   _brandIds: Array<number>
@@ -49,6 +51,7 @@ export const useFilterStore = defineStore({
     async apply(): Promise<FilterState> {
       this.buildFilterQueryString()
       const { data } = await useFilter('products', this._filterQueryString)
+      productListStore.setItems(data, false)
       return data
     },
     buildFilterQueryString(): void {

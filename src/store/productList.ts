@@ -46,7 +46,7 @@ export const useProductListStore = defineStore({
       if (init) {
         this.setInitialItems(items)
       }
-      this._items = items
+      this._items = items || this._initialItems
     },
   },
 })
