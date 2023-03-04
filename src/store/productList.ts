@@ -34,6 +34,11 @@ export const useProductListStore = defineStore({
       })
       return data
     },
+    reset(): void {
+      this._page = 1
+      this._sortBy = 'name'
+      this._items = this._initialItems
+    },
     setInitialItems(items: any): void {
       this._initialItems = items
     },

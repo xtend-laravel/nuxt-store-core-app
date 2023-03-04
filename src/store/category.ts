@@ -1,8 +1,13 @@
 import { defineStore } from 'pinia'
 import type { FilterState } from './filters'
 import type { Product } from './products'
+import { useFilterStore } from './filters'
+import { useProductListStore } from './productList'
 import { useProductStore } from './products'
 import { LocaleField } from '~/types/locale'
+
+const filterStore = useFilterStore()
+const productListStore = useProductListStore()
 
 export interface Category {
   id: number
@@ -40,10 +45,16 @@ export const useCategoryStore = defineStore({
         params: { id: categoryId },
       })
       this.setCurrentCategory(data)
+      await this.applyFilters(categoryId)
       return data
     },
     setCurrentCategory(category: Category) {
       this.category = category
+    },
+    async applyFilters(categoryId: number): Promise<void> {
+      filterStore.setCategoryIds([categoryId])
+      const items = await filterStore.apply()
+      productListStore.setItems(items, true)
     },
   },
 })

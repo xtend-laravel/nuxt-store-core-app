@@ -53,8 +53,8 @@ export const useFilterStore = defineStore({
     },
     buildFilterQueryString(): void {
       const filterCriteria: FilterCriteria[] = [
-        { param: 'brandIds', values: this.brandIds },
-        { param: 'categoryIds', values: this.categoryIds },
+        { param: 'brand_id', values: this.brandIds },
+        { param: 'collection_id', values: this.categoryIds },
         { param: 'priceRange', values: this.priceRange },
         { param: 'availableColorIds', values: this.availableColorIds },
         { param: 'availableSizeIds', values: this.availableSizeIds },
