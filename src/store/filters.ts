@@ -6,6 +6,7 @@ const productListStore = useProductListStore()
 export interface FilterState {
   _brandIds: Array<number>
   _categoryIds: Array<number>
+  _keyword: string
   _priceRange: Array<number>
   _availableColorIds: Array<number>
   _availableSizeIds: Array<number>
@@ -14,7 +15,7 @@ export interface FilterState {
 
 interface FilterCriteria {
   param: string
-  values: Array<number>
+  values: Array<number | string>
 }
 
 export const useFilterStore = defineStore({
@@ -23,6 +24,7 @@ export const useFilterStore = defineStore({
   state: (): FilterState => ({
     _brandIds: [],
     _categoryIds: [],
+    _keyword: '',
     _priceRange: [],
     _availableColorIds: [],
     _availableSizeIds: [],
@@ -36,6 +38,9 @@ export const useFilterStore = defineStore({
     categoryIds(): Array<number> {
       return this._categoryIds
     },
+    keyword(): string {
+      return this._keyword
+    },
     priceRange(): Array<number> {
       return this._priceRange
     },
@@ -48,7 +53,7 @@ export const useFilterStore = defineStore({
   },
 
   actions: {
-    async apply(): Promise<FilterState> {
+    async apply(): Promise<any> {
       this.buildFilterQueryString()
       const { data } = await useFilter('products', this._filterQueryString)
       productListStore.setItems(data, false)
@@ -58,7 +63,8 @@ export const useFilterStore = defineStore({
       const filterCriteria: FilterCriteria[] = [
         { param: 'brand_id', values: this.brandIds },
         { param: 'collection_id', values: this.categoryIds },
-        { param: 'priceRange', values: this.priceRange },
+        { param: 'keyword', values: [this.keyword] },
+        { param: 'price_range', values: this.priceRange },
         { param: 'availableColorIds', values: this.availableColorIds },
         { param: 'availableSizeIds', values: this.availableSizeIds },
       ]
@@ -73,6 +79,9 @@ export const useFilterStore = defineStore({
     },
     setCategoryIds(ids: Array<number>) {
       this._categoryIds = ids
+    },
+    setKeyword(keyword: string) {
+      this._keyword = keyword
     },
     setPriceRange(range: Array<number>) {
       this._priceRange = range
