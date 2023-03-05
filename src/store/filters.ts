@@ -13,6 +13,11 @@ export interface FilterState {
   _filterQueryString: string
 }
 
+interface IApplyOptions {
+  init?: boolean
+  onScroll?: boolean
+}
+
 interface FilterCriteria {
   param: string
   values: Array<number | string>
@@ -53,10 +58,14 @@ export const useFilterStore = defineStore({
   },
 
   actions: {
-    async apply(): Promise<any> {
+    async apply(options: IApplyOptions): Promise<any> {
+      if (!options.onScroll) {
+        productListStore.setPage(1)
+      }
       this.buildFilterQueryString()
-      const { data } = await useFilter('products', this._filterQueryString)
-      productListStore.setItems(data, false)
+      const { data, meta } = await useFilter('products', this._filterQueryString)
+
+      this.updateProductListStore(data, meta, options)
       return data
     },
     buildFilterQueryString(): void {
@@ -73,6 +82,18 @@ export const useFilterStore = defineStore({
         .filter((criteria: FilterCriteria) => criteria.values.length > 0)
         .map((criteria: FilterCriteria) => `&${criteria.param}=${criteria.values.join(',')}`)
         .join('')
+
+      const currentPage = productListStore.currentPage
+      if (currentPage >= 1) {
+        this._filterQueryString = `&page=${currentPage}`+this._filterQueryString
+      }
+    },
+    updateProductListStore(data: any, meta: any, options: IApplyOptions): void {
+      productListStore.setMeta(meta)
+
+      options.onScroll
+        ? productListStore.appendItems(data)
+        : productListStore.setItems(data, options.init)
     },
     setBrandIds(ids: Array<number>) {
       this._brandIds = ids

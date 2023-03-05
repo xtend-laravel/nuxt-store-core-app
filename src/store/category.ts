@@ -45,16 +45,10 @@ export const useCategoryStore = defineStore({
         params: { id: categoryId },
       })
       this.setCurrentCategory(data)
-      await this.applyFilters(categoryId)
       return data
     },
     setCurrentCategory(category: Category) {
       this.category = category
-    },
-    async applyFilters(categoryId: number): Promise<void> {
-      filterStore.setCategoryIds([categoryId])
-      const items = await filterStore.apply()
-      productListStore.setItems(items, true)
     },
   },
 })
