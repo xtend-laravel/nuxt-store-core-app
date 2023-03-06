@@ -39,6 +39,12 @@ export const useBrandStore = defineStore({
       this.setCurrentBrand(data)
       return data
     },
+    async allBrands(): Promise<Brand[]> {
+      const { data } = await useStoreInventory({
+        type: 'brands',
+      })
+      return data
+    },
     setCurrentBrand(brand: Brand) {
       this.brand = brand
     },
