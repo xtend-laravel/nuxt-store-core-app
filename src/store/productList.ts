@@ -18,7 +18,7 @@ export const useProductListStore = defineStore({
   state: (): ProductListState => ({
     _page: 1,
     _meta: {},
-    _sortBy: 'name',
+    _sortBy: 'default',
     _initialItems: [],
     _items: [],
     _ids: [],
@@ -65,6 +65,9 @@ export const useProductListStore = defineStore({
     },
     setPage(page: number): void {
       this._page = page
+    },
+    setSortBy(sortBy: string): void {
+      this._sortBy = sortBy
     },
   },
 })

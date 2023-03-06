@@ -87,6 +87,11 @@ export const useFilterStore = defineStore({
       if (currentPage >= 1) {
         this._filterQueryString = `&page=${currentPage}`+this._filterQueryString
       }
+
+      const sortBy = productListStore.sortBy
+      if (sortBy !== 'default') {
+        this._filterQueryString = `&sort=${sortBy}`+this._filterQueryString
+      }
     },
     updateProductListStore(data: any, meta: any, options: IApplyOptions): void {
       productListStore.setMeta(meta)
