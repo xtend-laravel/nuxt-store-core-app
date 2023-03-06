@@ -1,13 +1,6 @@
 import { defineStore } from 'pinia'
-import type { FilterState } from './filters'
-import type { Product } from './products'
-import { useFilterStore } from './filters'
-import { useProductListStore } from './productList'
-import { useProductStore } from './products'
+import useStoreInventory from '../composables/useStoreInventory'
 import { LocaleField } from '~/types/locale'
-
-const filterStore = useFilterStore()
-const productListStore = useProductListStore()
 
 export interface Category {
   id: number
