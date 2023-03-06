@@ -24,7 +24,7 @@ export const useProductListStore = defineStore({
     _ids: [],
   }),
   getters: {
-    countItems: (state: ProductListState): number => state._items.length,
+    countItems: (state: ProductListState): number => state._meta.total,
     currentPage: (state: ProductListState): number => state._page,
     items: (state: ProductListState) => state._items,
     meta: (state: ProductListState) => state._meta,
