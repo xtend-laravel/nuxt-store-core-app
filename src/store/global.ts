@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { IEntity } from '../types/repository'
 import useRepositoryAction from '../composables/useRepository'
+import type { IEntity } from '~/types/repository'
 
 export interface BreadCrumb {
   name: string
@@ -9,6 +9,7 @@ export interface BreadCrumb {
 
 export interface GlobalState {
   breadCrumbs: BreadCrumb[]
+  favorites: number[]
 }
 
 export const useGlobalStore = defineStore({
@@ -17,6 +18,7 @@ export const useGlobalStore = defineStore({
     breadCrumbs: [
       { name: 'Home', to: '/' },
     ],
+    favorites: [],
   }),
   actions: {
     setBreadcrumbs(breadCrumbs: BreadCrumb[]) {
@@ -25,6 +27,9 @@ export const useGlobalStore = defineStore({
     async persistEntity(options: IEntity): Promise<any> {
       const { data } = await useRepositoryAction(options)
       return data
+    },
+    addToFavorite(id: number) {
+      this.favorites = [...this.favorites, id]
     },
   },
 })
