@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+export type ProductListLayout = 'grid' | 'list'
+
 export interface ProductListState {
   _page: number
   _meta: any
@@ -7,6 +9,7 @@ export interface ProductListState {
   _initialItems: any
   _items: any
   _ids: number[]
+  _layout: ProductListLayout
 }
 interface iQueryParams {
   page: number
@@ -22,6 +25,7 @@ export const useProductListStore = defineStore({
     _initialItems: [],
     _items: [],
     _ids: [],
+    _layout: 'grid',
   }),
   getters: {
     countItems: (state: ProductListState): number => state._meta.total,
@@ -29,6 +33,7 @@ export const useProductListStore = defineStore({
     items: (state: ProductListState) => state._items,
     meta: (state: ProductListState) => state._meta,
     sortBy: (state: ProductListState) => state._sortBy,
+    layout: (state: ProductListState) => state._layout,
   },
   actions: {
     async fetch(entity: string, id: number, queryParams: iQueryParams): Promise<void> {
@@ -53,7 +58,7 @@ export const useProductListStore = defineStore({
     setInitialItems(items: any): void {
       this._initialItems = items
     },
-    setItems(items: any, init: boolean = false): void {
+    setItems(items: any, init = false): void {
       if (init) {
         this.setInitialItems(items)
       }
@@ -68,6 +73,9 @@ export const useProductListStore = defineStore({
     },
     setSortBy(sortBy: string): void {
       this._sortBy = sortBy
+    },
+    setLayout(layout: ProductListLayout): void {
+      this._layout = layout
     },
   },
 })
