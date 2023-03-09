@@ -6,10 +6,11 @@ interface INitroApiOptions {
   requiresAuth?: boolean
   method?: string
   contentType?: string
+  query?: any
 }
 
 export default function useNitroApi(options: INitroApiOptions, data?: any): Promise<any> {
-  const { event, endpoint, requiresAuth = false, method = 'GET', contentType = 'application/json' } = options
+  const { event, endpoint, requiresAuth = false, method = 'GET', contentType = 'application/json', query } = options
   const headers: any = {
     'Accept': contentType,
     'Content-Type': contentType,
@@ -22,5 +23,6 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
     method,
     headers,
     body: data ? JSON.stringify(data) : undefined,
+    query,
   })
 }
