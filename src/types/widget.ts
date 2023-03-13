@@ -1,3 +1,9 @@
+export interface WidgetSlot {
+  slot: string
+  params?: any
+  splitTesting?: any
+}
+
 export interface Widget {
   id: string
   component: string

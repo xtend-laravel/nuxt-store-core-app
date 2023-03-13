@@ -1,8 +1,12 @@
 interface ISplitTesting {
   version: 'A' | 'B' | undefined
-  route?: string
+  pageName?: string
   params?: any
 }
-export default async function useSplitTesting(options: ISplitTesting): Promise<void> {
-  console.log('useSplitTesting', options)
+export default function useSplitTesting(options: ISplitTesting): ISplitTesting {
+  return {
+    version: options.version,
+    pageName: options.pageName,
+    params: options.params || [],
+  }
 }

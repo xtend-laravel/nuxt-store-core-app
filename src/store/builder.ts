@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import type { Widget } from '../types/Widget'
-import useWidgetCollection, { IWidgetCollection } from '../composables/useWidgetCollection'
+import type { Widget, WidgetSlot } from '../types/Widget'
+import useWidgetSlot from '../composables/useWidgetSlot'
 
 interface BuilderState {
   route: string
+  slot: string
   params?: Record<string, string>
   widgets: Widget[]
 }
@@ -12,6 +13,7 @@ export const useBuilderStore = defineStore({
   id: 'builder',
   state: (): BuilderState => ({
     route: '',
+    slot: '',
     params: undefined,
     widgets: [],
   }),
@@ -19,20 +21,22 @@ export const useBuilderStore = defineStore({
     setRoute(route: string): void {
       this.route = route
     },
+    setSlot(slot: string): void {
+      this.slot = slot
+    },
     setParams(params: Record<string, string> | undefined): void {
       this.params = params
     },
     setWidgets(widgets: Widget[]): void {
       this.widgets = widgets
     },
-    async fetchWidgets(serve: any): Promise<void> {
-      const options: IWidgetCollection = {
-        type: 'store-component',
-        route: this.route,
+    async fetchWidgets(splitTesting: any): Promise<void> {
+      const options: WidgetSlot = {
+        slot: this.slot,
         params: this.params,
-        splitTesting: serve,
+        splitTesting,
       }
-      const data = await useWidgetCollection(options)
+      const data = await useWidgetSlot(options)
       this.setWidgets(data)
     },
   },
