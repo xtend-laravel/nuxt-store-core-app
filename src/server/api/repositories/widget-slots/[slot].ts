@@ -4,6 +4,6 @@ export default defineEventHandler(async (event: H3Event) => {
   const params: any = event.context.params
   return await useNitroApi({
     event,
-    endpoint: `/api/restify/widget-slots/${params.slot}`,
+    endpoint: `/api/restify/widget-slots/1?include=widgets`,
   })
 })
