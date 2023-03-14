@@ -1,6 +1,7 @@
 export default function useProductRoute(product: any) {
   console.log('useProductRoute', product.category_slug)
-  const url = `/${product.attributes.category_slug}/${product.attributes.id}-${product.attributes.name.en
+  const attributes = product.attributes || product
+  const url = `/${attributes.category_slug}/${attributes.id}-${attributes.name.en
     .toLowerCase()
     .replace(/[\s\W-]+/g, '-')}`
   return { url }
