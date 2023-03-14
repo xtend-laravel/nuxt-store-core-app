@@ -3,13 +3,16 @@ import { Widget } from '../types/Widget'
 export interface IWidgetSlot {
   slot: string
   params?: any
-  splitTesting?: 'A' | 'B'
+  splitTesting?: any
 }
 
-export default async function useWidgetSlot(options: IWidgetSlot): Promise<Widget[]> {
+export default async function useWidgetSlot(options: IWidgetSlot): Promise<any> {
   const { slot, params, splitTesting } = options
 
+  // convert json to url query string
+
   const query = {
+    include: 'widgets',
     params: params ?? undefined,
     splitTesting: splitTesting ?? undefined,
   }

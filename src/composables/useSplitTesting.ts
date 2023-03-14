@@ -1,12 +1,12 @@
 interface ISplitTesting {
+  page?: string
   version: 'A' | 'B' | undefined
-  pageName?: string
   params?: any
 }
 export default function useSplitTesting(options: ISplitTesting): ISplitTesting {
   return {
+    page: options.page,
     version: options.version,
-    pageName: options.pageName,
-    params: options.params || [],
+    params: options.params || undefined,
   }
 }
