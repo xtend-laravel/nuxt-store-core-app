@@ -27,17 +27,18 @@ export const useBuilderStore = defineStore({
     setParams(params: Record<string, string> | undefined): void {
       this.params = params
     },
-    setWidgets(widgets: Widget[]): void {
+    setWidgets(widgets: any): void {
       this.widgets = widgets
     },
-    async fetchWidgets(splitTesting: any): Promise<void> {
+    async fetchWidgets(splitTesting: any): Promise<any> {
       const options: WidgetSlot = {
         slot: this.slot,
         params: this.params,
         splitTesting,
       }
-      const data = await useWidgetSlot(options)
-      this.setWidgets(data)
+      const { data } = await useWidgetSlot(options)
+      this.setWidgets(data.relationships.widgets)
+      return this.widgets
     },
   },
 })
