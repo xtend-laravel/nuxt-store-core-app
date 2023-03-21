@@ -15,6 +15,7 @@ interface CartState {
   _cartId: number
   _products: Record<number, Purchase>
   _totals: Record<string, number>
+  _meta: Record<string, any>
 }
 
 export const useCartStore = defineStore({
@@ -24,6 +25,7 @@ export const useCartStore = defineStore({
     _cartId: 0,
     _products: {},
     _totals: {},
+    _meta: {},
   }),
 
   getters: {
@@ -41,6 +43,9 @@ export const useCartStore = defineStore({
     },
     totals(): UnwrapRef<CartState['_totals']> {
       return this._totals
+    },
+    meta(): UnwrapRef<CartState['_meta']> {
+      return this._meta
     },
   },
 

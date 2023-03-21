@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
 import { useAuthStore } from './auth'
+import { useCartStore } from './cart'
 import useCheckout from '../composables/useCheckout'
 import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '../types/checkout'
+import { useGlobalStore } from "./global";
 
+const cartStore = useCartStore()
 export const useCheckoutStore = defineStore({
   id: 'checkout',
 
@@ -49,6 +52,16 @@ export const useCheckoutStore = defineStore({
   },
 
   actions: {
+    init(): void {
+      this.setOrderSummary({
+        ...this._orderSummary,
+        subtotal: cartStore.totals.sub_total,
+        shipping: cartStore.totals.shipping_total,
+        tax: cartStore.totals.tax_total,
+        discount: cartStore.totals.discount_total,
+        total: cartStore.totals.total,
+      })
+    },
     async fetch(): Promise<void> {
       const { data } = await useCheckout()
       console.log(data)
@@ -56,6 +69,11 @@ export const useCheckoutStore = defineStore({
       if (data.addresses) {
         this.setAddresses(data.addresses)
       }
+    },
+    async createOrder(): Promise<void> {
+    },
+    setOrderSummary(orderSummary: OrderSummary<any, any>): void {
+      this._orderSummary = orderSummary
     },
     setSteps(steps: CheckoutStep[]): void {
       this._steps = steps
