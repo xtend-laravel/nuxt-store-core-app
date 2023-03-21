@@ -61,6 +61,7 @@ export const useCartStore = defineStore({
       this.setCartId(cart.id)
       this.setProducts(products)
       this.setTotals(cart.totals)
+      this.setMeta(cart.meta)
     },
     setCartId(cartId: number): void {
       this._cartId = cartId
@@ -70,6 +71,9 @@ export const useCartStore = defineStore({
     },
     setTotals(totals: Record<string, number>): void {
       this._totals = totals
+    },
+    setMeta(meta: Record<string, any>): void {
+      this._meta = meta
     },
     async persistCartData(productId: number, currentQuantity: number): Promise<any> {
       return useGlobalStore()
