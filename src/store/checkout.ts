@@ -43,6 +43,9 @@ export const useCheckoutStore = defineStore({
     addresses(): UnwrapRef<CheckoutState['_addresses']> {
       return this._addresses
     },
+    shippingMethods(): UnwrapRef<CheckoutState['_shippingMethods']> {
+      return this._shippingMethods
+    },
     separateBillingAddress(): UnwrapRef<boolean> {
       return this._orderSummary.separateBillingAddress
     },
@@ -64,10 +67,11 @@ export const useCheckoutStore = defineStore({
     },
     async fetch(): Promise<void> {
       const { data } = await useCheckout()
-      console.log(data)
-
       if (data.addresses) {
         this.setAddresses(data.addresses)
+      }
+      if (data.shipping_methods) {
+        this.setShippingMethods(data.shipping_methods)
       }
     },
     async createOrder(): Promise<void> {
@@ -83,6 +87,9 @@ export const useCheckoutStore = defineStore({
     },
     setAddresses(addresses: Addresses[]): void {
       this._addresses = addresses
+    },
+    setShippingMethods(shippingMethods: any[]): void {
+      this._shippingMethods = shippingMethods
     },
     setSeparateBillingAddress(separateBillingAddress: boolean): void {
       this._orderSummary.separateBillingAddress = separateBillingAddress
