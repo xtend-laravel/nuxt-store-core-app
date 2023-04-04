@@ -1,10 +1,6 @@
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
-const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
-  debug: true,
-  dev: true,
-  alias: { '#nuxt-store-core': join(__dirname, './src/') },
+  // debug: true,
+  // dev: true,
   routeRules: {
     '/sanctum/csrf-cookie': { ssr: false },
     '/api/**': { ssr: false },
