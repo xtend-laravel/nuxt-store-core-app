@@ -1,12 +1,11 @@
-import { createResolver } from '@nuxt/kit'
-
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { defineNuxtConfig } from 'nuxt/config'
-const { resolve } = createResolver(import.meta.url)
-
+const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
   debug: true,
   dev: true,
-  alias: { '#nuxt-store-core': resolve('./src/') },
+  alias: { '#nuxt-store-core': join(__dirname, './src/') },
   routeRules: {
     '/sanctum/csrf-cookie': { ssr: false },
     '/api/**': { ssr: false },
