@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
-import { defineNuxtConfig } from 'nuxt/config'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
   debug: true,
