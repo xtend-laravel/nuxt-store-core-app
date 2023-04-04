@@ -1,4 +1,4 @@
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia'
 import useFilter from '../composables/useFilter'
 import { useProductListStore } from './productList'
 const productListStore = useProductListStore()
@@ -63,7 +63,10 @@ export const useFilterStore = defineStore({
         productListStore.setPage(1)
       }
       this.buildFilterQueryString()
-      const { data, meta } = await useFilter('products', this._filterQueryString)
+      const { data, meta } = await useFilter(
+        'products',
+        this._filterQueryString,
+      )
 
       this.updateProductListStore(data, meta, options)
       return data
@@ -80,17 +83,20 @@ export const useFilterStore = defineStore({
 
       this._filterQueryString = filterCriteria
         .filter((criteria: FilterCriteria) => criteria.values.length > 0)
-        .map((criteria: FilterCriteria) => `&${criteria.param}=${criteria.values.join(',')}`)
+        .map(
+          (criteria: FilterCriteria) =>
+            `&${criteria.param}=${criteria.values.join(',')}`,
+        )
         .join('')
 
       const currentPage = productListStore.currentPage
       if (currentPage >= 1) {
-        this._filterQueryString = `&page=${currentPage}`+this._filterQueryString
+        this._filterQueryString = `&page=${currentPage}${this._filterQueryString}`
       }
 
       const sortBy = productListStore.sortBy
       if (sortBy !== 'default') {
-        this._filterQueryString = `&sort=${sortBy}`+this._filterQueryString
+        this._filterQueryString = `&sort=${sortBy}${this._filterQueryString}`
       }
     },
     updateProductListStore(data: any, meta: any, options: IApplyOptions): void {

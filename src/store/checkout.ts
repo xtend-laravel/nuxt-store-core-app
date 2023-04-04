@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia'
 import { UnwrapRef } from 'vue'
+import useCheckout from '../composables/useCheckout'
+import type {
+  Addresses,
+  CheckoutState,
+  CheckoutStep,
+  OrderSummary,
+} from '../types/checkout'
 import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
-import useCheckout from '../composables/useCheckout'
-import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '../types/checkout'
-import { useGlobalStore } from "./global";
+import { useGlobalStore } from './global'
 
 const cartStore = useCartStore()
 export const useCheckoutStore = defineStore({
@@ -74,8 +79,7 @@ export const useCheckoutStore = defineStore({
         this.setShippingMethods(data.shipping_methods)
       }
     },
-    async createOrder(): Promise<void> {
-    },
+    async createOrder(): Promise<void> {},
     setOrderSummary(orderSummary: OrderSummary<any, any>): void {
       this._orderSummary = orderSummary
     },
@@ -95,19 +99,25 @@ export const useCheckoutStore = defineStore({
       this._orderSummary.separateBillingAddress = separateBillingAddress
     },
     markStepAsCompleted(stepKey: string): void {
-      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
+      const step: any = this._steps.find(
+        (step: CheckoutStep) => step.key === stepKey,
+      )
       if (!step.completed) {
         step.completed = true
       }
     },
     toggleStep(stepKey: string): void {
-      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
+      const step: any = this._steps.find(
+        (step: CheckoutStep) => step.key === stepKey,
+      )
       step.hidden = !step.hidden
     },
     toggleBillingAddress(): void {
       this.toggleStep('billing_address')
       this.markStepAsCompleted('shipping_address')
-      this.setSeparateBillingAddress(!this._orderSummary.separateBillingAddress)
+      this.setSeparateBillingAddress(
+        !this._orderSummary.separateBillingAddress,
+      )
     },
   },
 })

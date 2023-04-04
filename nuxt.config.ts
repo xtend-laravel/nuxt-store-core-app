@@ -1,39 +1,19 @@
-const hubBaseUrl = process.env.NUXT_APP_HUB_BASE_URL
-const themeLocalPackagePath = process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH
-const nuxtThemePreset = process.env.NUXT_APP_PRESET || 'default'
-const componentsThemePath = themeLocalPackagePath + (nuxtThemePreset === 'default' ? '/components' : `/components/${nuxtThemePreset}`)
-const allowServerFilesFrom: Array<any> = themeLocalPackagePath
-  ? [
-      process.env.NUXT_APP_THEME_LOCAL_PACKAGE_PATH,
-    ]
-  : []
+import { createResolver } from '@nuxt/kit'
+
+import { defineNuxtConfig } from 'nuxt/config'
+const { resolve } = createResolver(import.meta.url)
+
 export default defineNuxtConfig({
   debug: true,
   dev: true,
+  alias: { '#nuxt-store-core': resolve('./src/') },
   routeRules: {
     '/sanctum/csrf-cookie': { ssr: false },
     '/api/**': { ssr: false },
     '/sanctum/account/**': { ssr: false },
     '/sanctum/auth/**': { ssr: false },
   },
-  // extends: [
-  //   themeLocalPackagePath,
-  // ],
-  runtimeConfig: {
-    // Server side only env variables
-    public: {
-      appPreset: nuxtThemePreset,
-    },
-  },
   srcDir: 'src',
-  components: themeLocalPackagePath
-    ? [
-        {
-          path: componentsThemePath,
-          pathPrefix: false,
-        },
-      ]
-    : undefined,
   modules: [
     '@vueuse/nuxt',
     '@pinia/nuxt',
@@ -69,22 +49,11 @@ export default defineNuxtConfig({
       availableLocales: ['en'],
     },
   },
-  tailwindcss: {
-    configPath: '~/tailwind.config.js',
-  },
   typescript: {
     tsConfig: {
       compilerOptions: {
         strict: true,
         types: ['@pinia/nuxt', './type.d.ts'],
-      },
-    },
-  },
-  vite: {
-    logLevel: 'info',
-    server: {
-      fs: {
-        allow: allowServerFilesFrom,
       },
     },
   },

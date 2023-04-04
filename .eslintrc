@@ -5,8 +5,11 @@
     "rules": {
         "curly": "off",
         "no-console": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/consistent-type-imports": "off",
         "vue/no-deprecated-slot-attribute": "off",
-        "vue/no-reserved-component-names": "off"
+        "vue/no-reserved-component-names": "off",
+        "vue/html-self-closing": "off",
+        "vue/require-explicit-emits": "off"
     }
 }
