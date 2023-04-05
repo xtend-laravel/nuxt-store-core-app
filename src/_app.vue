@@ -2,6 +2,7 @@
 import { Ref } from 'vue'
 import { RuntimeConfig } from '@nuxt/schema'
 import { InitApp } from '~/utils/initApp'
+
 InitApp()
 const locale: Ref = useState<string>('locale.i18n')
 const config: RuntimeConfig = useRuntimeConfig()

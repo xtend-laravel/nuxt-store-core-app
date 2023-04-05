@@ -1,8 +1,8 @@
 {
   "name": "nuxt-store-core-app",
   "version": "1.0.0",
-  "private": true,
-  "packageManager": "yarn@3.3.1",
+  "type": "module",
+  "main": "./nuxt.config.ts",
   "engines": {
     "node": "^16.11.0 || ^17.0.0 || || ^18.0.0"
   },
@@ -11,8 +11,7 @@
     "build": "nuxi build",
     "generate": "nuxi generate",
     "start": "node .output/server/index.mjs",
-    "lint": "eslint .",
-    "allupdate": "yarn upgrade-interactive"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@nuxtjs/i18n": "8.0.0-beta.10",
@@ -20,22 +19,24 @@
     "@pinia/nuxt": "0.4.7",
     "nuxt-headlessui": "^1.1.1",
     "nuxt-swiper": "^1.1.0",
-    "pinia": "2.0.33"
+    "pinia": "2.0.33",
+    "vue-collapsed": "^1.1.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.38.4",
     "@iconify-json/carbon": "^1.1.16",
     "@iconify-json/feather": "^1.1.4",
-    "@nuxt/content": "^2.5.2",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@sidebase/nuxt-session": "^0.2.7",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.4",
+    "@types/node": "^18.15.11",
     "@vueuse/core": "^9.13.0",
     "@vueuse/nuxt": "9.13.0",
-    "eslint": "8.37.0",
-    "eslint-config-prettier": "8.8.0",
-    "eslint-plugin-prettier": "4.2.1",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "9.10.0",
     "nuxt": "3.3.3",
     "prettier": "2.8.7",

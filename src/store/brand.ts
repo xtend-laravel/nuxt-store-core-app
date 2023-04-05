@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import useStoreInventory from '../composables/useStoreInventory'
 import { LocaleField } from '~/types/locale'
+
 export interface Brand {
   id: number
   name: LocaleField

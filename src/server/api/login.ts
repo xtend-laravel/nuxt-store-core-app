@@ -1,4 +1,5 @@
 import { H3Event, setCookie } from 'h3'
+
 const baseUrl = process.env.NUXT_APP_HUB_BASE_URL
 let token: string | null = null
 let user: any = null

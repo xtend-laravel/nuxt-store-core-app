@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import useFilter from '../composables/useFilter'
 import { useProductListStore } from './productList'
+
 const productListStore = useProductListStore()
 
 export interface FilterState {

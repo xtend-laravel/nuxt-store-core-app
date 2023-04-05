@@ -1,4 +1,5 @@
 import { H3Event, getCookie } from 'h3'
+
 const baseUrl = process.env.NUXT_APP_HUB_BASE_URL
 interface INitroApiOptions {
   event: H3Event

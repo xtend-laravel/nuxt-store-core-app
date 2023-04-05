@@ -3,9 +3,11 @@ const formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 })
 
-export const toCurrency = (value: number) => formatter.format(value)
+export function toCurrency(value: number) {
+  return formatter.format(value)
+}
 
-export const truncate = (str: string, length: number) => {
+export function truncate(str: string, length: number) {
   if (str.length > length)
     return `${str.substring(0, length)}...`
 

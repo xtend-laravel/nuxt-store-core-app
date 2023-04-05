@@ -9,7 +9,6 @@ import type {
 } from '../types/checkout'
 import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
-import { useGlobalStore } from './global'
 
 const cartStore = useCartStore()
 export const useCheckoutStore = defineStore({
