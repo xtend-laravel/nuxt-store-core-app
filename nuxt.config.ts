@@ -1,5 +1,8 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import pkg from './package.json'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 
@@ -54,6 +57,21 @@ export default defineNuxtConfig({
       compilerOptions: {
         strict: true,
         types: ['@pinia/nuxt', './type.d.ts'],
+      },
+    },
+  },
+  vite: {
+    plugins: [
+      Components({
+        resolvers: [AntDesignVueResolver()],
+      }),
+    ],
+    ssr: {
+      noExternal: ['moment', 'compute-scroll-into-view', 'ant-design-vue'],
+    },
+    build: {
+      rollupOptions: {
+        external: [...Object.keys(pkg.dependencies || {})],
       },
     },
   },
