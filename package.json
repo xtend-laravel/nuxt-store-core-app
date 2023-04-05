@@ -8,8 +8,7 @@
     "build": "nuxi build",
     "generate": "nuxi generate",
     "preview": "nuxt preview",
-    "lint": "eslint .",
-    "postinstall": "nuxt prepare"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@nuxtjs/i18n": "8.0.0-beta.10",
