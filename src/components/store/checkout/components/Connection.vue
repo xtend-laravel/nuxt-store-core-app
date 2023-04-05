@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { debounce } from 'throttle-debounce'
 import { useAuthStore } from '#nuxt-store-core/store/auth'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const debounce = require('throttle-debounce').debounce
 
 const checkoutStore = useCheckoutStore()
 const hasAccount = ref(false)
