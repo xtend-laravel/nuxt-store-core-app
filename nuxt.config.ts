@@ -56,7 +56,7 @@ export default defineNuxtConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: [...Object.keys(pkg.dependencies || {})],
+        external: [...Object.keys(pkg.dependencies || {}), 'swiper/vue'],
       },
     },
   },
