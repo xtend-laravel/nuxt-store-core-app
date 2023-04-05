@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import pkg from './package.json'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 
@@ -50,13 +49,6 @@ export default defineNuxtConfig({
       compilerOptions: {
         strict: true,
         types: ['@pinia/nuxt', './type.d.ts'],
-      },
-    },
-  },
-  vite: {
-    build: {
-      rollupOptions: {
-        external: [...Object.keys(pkg.dependencies || {}), 'swiper/vue'],
       },
     },
   },
