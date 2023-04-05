@@ -1,9 +1,7 @@
 <script setup lang="ts">
+import { debounce } from 'throttle-debounce'
 import { useAuthStore } from '#nuxt-store-core/store/auth'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const debounce = require('throttle-debounce').debounce
 
 const checkoutStore = useCheckoutStore()
 const hasAccount = ref(false)
@@ -73,7 +71,7 @@ function checkEmailExists() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
   }).then((res: any) => (hasAccount.value = res.ok))
 }
@@ -101,7 +99,7 @@ const update = debounce(1000, () => {
 
 const disableAction = computed(() => {
   if (!hasAccount.value)
-    return !form.toc
+return !form.toc
   return !form.email || !form.password || !!form.errors.email
 })
 
@@ -132,14 +130,10 @@ watch([() => form.email, () => form.password], ([email, password]) => {
   <div class="flex flex-1 flex-col justify-center space-y-5 px-10">
     <!-- authenticated -->
     <div v-if="isAuthenticated && useAuthStore().user" class="text-center">
-      <h2 class="text-xl">
-        Connected as <span class="text-brand-500" v-text="useAuthStore().user.name" />
-      </h2>
+      <h2 class="text-xl">Connected as <span class="text-brand-500" v-text="useAuthStore().user.name" /></h2>
       <p class="mt-2 text-gray-500">
         If this is not you, please
-        <button class="text-brand-500 underline" @click="logout">
-          Sign out
-        </button>
+        <button class="text-brand-500 underline" @click="logout">Sign out</button>
       </p>
     </div>
 

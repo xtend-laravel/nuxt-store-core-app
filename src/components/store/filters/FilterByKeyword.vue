@@ -1,8 +1,6 @@
 <script setup lang="ts">
+import { debounce } from 'throttle-debounce'
 import { useFilterStore } from '#nuxt-store-core/store/filters'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const debounce = require('throttle-debounce').debounce
 
 interface Option {
   query: string
