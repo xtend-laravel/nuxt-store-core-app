@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import debounce from 'lodash.debounce'
+import { debounce } from 'throttle-debounce'
 import { useAuthStore } from '#nuxt-store-core/store/auth'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
@@ -92,10 +92,10 @@ function validateEmail() {
   return 'Please enter a valid email address'
 }
 
-const update = debounce(() => {
+const update = debounce(1000, () => {
   form.errors.email = validateEmail()
   checkEmailExists()
-}, 1000)
+})
 
 const disableAction = computed(() => {
   if (!hasAccount.value)

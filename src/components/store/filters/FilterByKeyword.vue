@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import debounce from 'lodash.debounce'
+import { debounce } from 'throttle-debounce'
 import { useFilterStore } from '#nuxt-store-core/store/filters'
 
 interface Option {
@@ -30,7 +30,7 @@ function searchResult(query: string, data: any): Option[] {
   }))
 }
 
-const handleSearch = debounce(async (val: string) => {
+const handleSearch = debounce(1000, async (val: string) => {
   console.log('handleSearch', val)
   filterStore.setKeyword(val)
   const data = await filterStore.apply({
@@ -38,7 +38,7 @@ const handleSearch = debounce(async (val: string) => {
   })
   console.log('data', data)
   dataSource.value = val ? searchResult(val, data) : []
-}, 1000)
+})
 function handleKeyPress(ev: KeyboardEvent) {
   console.log('handleKeyPress', ev)
 }
