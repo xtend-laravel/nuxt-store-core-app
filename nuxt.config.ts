@@ -17,12 +17,7 @@ export default defineNuxtConfig({
     '/sanctum/auth/**': { ssr: false },
   },
   srcDir: 'src',
-  modules: [
-    '@vueuse/nuxt',
-    '@pinia/nuxt',
-    '@nuxtjs/i18n',
-    '@sidebase/nuxt-session',
-  ],
+  modules: ['@vueuse/nuxt', '@pinia/nuxt', '@nuxtjs/i18n', '@sidebase/nuxt-session'],
   session: {
     session: {
       expiryInSeconds: 60 * 60 * 48,
