@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Navigation } from 'swiper'
+import swiper from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Container } from '#components'
 
@@ -32,7 +32,7 @@ const items = computed(() => data.value?.items.data)
     <div class="relative">
       <Swiper
         :lazy="true"
-        :modules="[Navigation]"
+        :modules="[swiper.Navigation]"
         :slides-per-view="data.params.carousel.items"
         :navigation="{
           nextEl: '.swiper-button-next',
