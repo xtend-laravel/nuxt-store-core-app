@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import swiper from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Container } from '#components'
 
 const props = defineProps<{
