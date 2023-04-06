@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
   srcDir: 'src',
   modules: [
-    './src/modules/extend-layers-support',
+    // './src/modules/extend-layers-support',
     './src/modules/swiper',
     '@pinia/nuxt',
     '@vueuse/nuxt',
