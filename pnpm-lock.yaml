@@ -21,6 +21,7 @@ specifiers:
   eslint-plugin-vue: 9.10.0
   nuxt: 3.3.3
   nuxt-headlessui: ^1.1.1
+  nuxt-swiper: ^1.1.0
   pinia: 2.0.33
   prettier: 2.8.7
   prettier-plugin-tailwindcss: ^0.2.6
@@ -37,6 +38,7 @@ dependencies:
   '@vueform/slider': 2.1.7
   ant-design-vue: 3.2.17
   nuxt-headlessui: 1.1.1
+  nuxt-swiper: 1.1.0
   pinia: 2.0.33_typescript@5.0.3
   swiper: 9.2.0
   throttle-debounce: 5.0.0
@@ -5094,6 +5096,16 @@ packages:
       - rollup
       - supports-color
       - vue
+    dev: false
+
+  /nuxt-swiper/1.1.0:
+    resolution: {integrity: sha512-DJFxKLIKvJw8BQ4VL/64Eu/znOL9UlQA07R4vA4fJCUxbk/vUvgrWEX1fRS7z7+vb2tEY8HIAxSLdoRSneFogA==}
+    dependencies:
+      '@nuxt/kit': 3.3.3
+      swiper: 9.2.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
     dev: false
 
   /nuxt/3.3.3_i2n4woepixtecb2zavhfas6mpq:
