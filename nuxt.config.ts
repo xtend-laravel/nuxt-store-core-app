@@ -19,7 +19,6 @@ export default defineNuxtConfig({
   },
   srcDir: 'src',
   modules: [
-    './src/modules/swiper',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     ['unplugin-icons/nuxt', {}],
