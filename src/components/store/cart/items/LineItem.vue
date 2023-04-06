@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useCartStore } from '#nuxt-store-core/store/cart'
-import { useExtendedCartStore } from '~/store/cart'
-
 defineProps<{
   item: Record<string, any>
 }>()
 
-const cartStore = useExtendedCartStore()
-const { isCartEmpty, items, totals } = useCartStore()
 const { formatPrice } = useFormattedPrice('EUR')
-const { currentPage, drawerOpen } = storeToRefs(useExtendedCartStore())
 
 function getFormattedPrice(price: Ref<number> | number): string {
   const priceValue = isRef(price) ? price.value : price

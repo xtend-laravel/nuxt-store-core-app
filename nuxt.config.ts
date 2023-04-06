@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     '/sanctum/account/**': { ssr: false },
     '/sanctum/auth/**': { ssr: false },
   },
+  components: {
+    global: true,
+    dirs: [join(currentDir, './src/components')],
+  },
   srcDir: 'src',
   modules: [
     '@pinia/nuxt',

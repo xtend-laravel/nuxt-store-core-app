@@ -6,7 +6,15 @@ const props = defineProps<{
   widget: Record<string, any>
 }>()
 
-const loadedComponent = components[props.widget.component] as Component
+// Note all components must be prefixed with DataBuilderWidgets
+const component = props.widget.component as string
+const themeComponent = component.replace('DataBuilderWidgets', '')
+
+const loadedComponent = (
+  process.env.NODE_ENV === 'production'
+    ? themeComponent || component
+    : components[themeComponent] || components[component]
+) as Component
 </script>
 
 <template>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Container } from '#components'
 import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import SquareMiniature from '/_nuxt/components/store/product/SquareMiniature.vue'
+import { Container } from '#components'
 
 const props = defineProps<{
   widget: any
@@ -41,7 +40,7 @@ const items = computed(() => data.value?.items.data)
         }"
       >
         <SwiperSlide v-for="item in items" :key="item.id">
-          <SquareMiniature :item="item" />
+          <slot name="item" :item="item" />
         </SwiperSlide>
       </Swiper>
       <button type="button" class="swiper-button-prev" />

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { useCartStore } from '#nuxt-store-core/store/cart'
-import { useExtendedCartStore } from '~/store/cart'
 
-const cartStore = useExtendedCartStore()
-const { items, totals } = useCartStore()
+const { totals } = useCartStore()
 const { formatPrice } = useFormattedPrice('EUR')
 
 const labels = ref({

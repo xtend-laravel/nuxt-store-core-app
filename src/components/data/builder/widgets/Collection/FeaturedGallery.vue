@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Container } from '#components'
-import SquareMiniature from '/_nuxt/components/store/product/SquareMiniature.vue'
 
 const props = defineProps<{
   widget: any
@@ -33,7 +32,7 @@ const items = computed(() => data.value?.items.data)
     >
       <div class="grid flex-1 grid-cols-2 gap-4">
         <template v-for="item in items" :key="item.id">
-          <SquareMiniature :item="item" size="small" />
+          <slot name="item" :item="item" />
         </template>
       </div>
     </div>

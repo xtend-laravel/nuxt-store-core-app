@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { storeToRefs } from 'pinia'
 import CheckoutActionIcon from './CheckoutActionIcon.vue'
-import { useExtendedCartStore } from '~/store/cart'
 
 const props = withDefaults(
   defineProps<{
@@ -16,11 +14,10 @@ const props = withDefaults(
     icon: CheckoutActionIcon,
   },
 )
-const { currentPage } = storeToRefs(useExtendedCartStore())
 </script>
 
 <template>
-  <div v-if="currentPage !== 'checkout'" class="mt-6 text-center">
+  <div class="mt-6 text-center">
     <NuxtLink
       to="checkout"
       class="inline-flex w-full items-center justify-center rounded-md px-6 py-4 text-lg font-semibold transition-all duration-200 ease-in-out hover:bg-gray-800 focus:shadow"
