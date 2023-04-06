@@ -30,10 +30,7 @@ const data = computed(() => props.widget.data) as Ref<AdsWidget['data']>
           alt=""
         />
       </NuxtLink>
-      <h3
-        class="mt-4 text-center text-lg font-medium uppercase"
-        v-text="data.title"
-      />
+      <h3 class="mt-4 text-center text-lg font-medium uppercase" v-text="data.title" />
       <div class="mt-24 pb-8 text-center">
         <NuxtLink
           :to="data.route"

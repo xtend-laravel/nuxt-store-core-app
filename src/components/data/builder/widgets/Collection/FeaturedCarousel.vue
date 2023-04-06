@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Container, Swiper, SwiperSlide } from '#components'
+import { Container } from '#components'
+import { Navigation } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import SquareMiniature from '/_nuxt/components/store/product/SquareMiniature.vue'
 
 const props = defineProps<{
@@ -31,7 +33,7 @@ const items = computed(() => data.value?.items.data)
     <div class="relative">
       <Swiper
         :lazy="true"
-        :modules="[SwiperNavigation]"
+        :modules="[Navigation]"
         :slides-per-view="data.params.carousel.items"
         :navigation="{
           nextEl: '.swiper-button-next',
