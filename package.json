@@ -21,7 +21,6 @@
     "nuxt-headlessui": "^1.1.1",
     "nuxt-swiper": "^1.1.0",
     "pinia": "2.0.33",
-    "swiper": "^9.2.0",
     "throttle-debounce": "^5.0.0",
     "vue-collapsed": "^1.1.2"
   },
