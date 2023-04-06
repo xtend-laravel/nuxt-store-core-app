@@ -20,7 +20,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     ['unplugin-icons/nuxt', {}],
     'nuxt-headlessui',
-    'nuxt-swiper',
     '@nuxtjs/i18n',
     '@sidebase/nuxt-session',
   ],
