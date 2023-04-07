@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useSplitTesting from '#nuxt-store-core/composables/useSplitTesting'
 import { useBuilderStore } from '#nuxt-store-core/store/builder'
-import { Widget } from '#nuxt-store-core/types/widget'
+import type { Widget } from '#nuxt-store-core/types/widget'
 
 const props = defineProps<{
   slot: string
@@ -46,18 +46,20 @@ const widgetList = computed(() => {
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
-    <template v-for="widget in widgetList" :key="widget.id">
-      <div :class="[widget.position, widget.size]">
-        <DataBuilderWidgetComponent :widget="widget.attributes">
-          <template #beforeComponent>
-            <slot :widget="widget.attributes" name="beforeComponent" />
-          </template>
-          <!-- Main slot content if any here -->
-          <template #afterComponent>
-            <slot :widget="widget.attributes" name="afterComponent" />
-          </template>
-        </DataBuilderWidgetComponent>
-      </div>
-    </template>
+    <slot name="freestyle" :widgets="widgetList">
+      <template v-for="widget in widgetList" :key="widget.id">
+        <div :class="[widget.position, widget.size]">
+          <DataBuilderWidgetComponent :widget="widget">
+            <template #beforeComponent>
+              <slot :widget="widget.attributes" name="beforeComponent" />
+            </template>
+            <!-- Main slot content if any here -->
+            <template #afterComponent>
+              <slot :widget="widget.attributes" name="afterComponent" />
+            </template>
+          </DataBuilderWidgetComponent>
+        </div>
+      </template>
+    </slot>
   </div>
 </template>
