@@ -30,7 +30,7 @@ const items = computed(() => data.value?.items.data)
     <div class="relative">
       <Swiper
         :lazy="true"
-        :modules="[swiper.Navigation]"
+        :modules="[SwiperNavigation]"
         :slides-per-view="data.params.carousel.items"
         :navigation="{
           nextEl: '.swiper-button-next',
