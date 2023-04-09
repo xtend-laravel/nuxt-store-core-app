@@ -4,7 +4,7 @@ import { useBuilderStore } from '#nuxt-store-core/store/builder'
 import type { Widget } from '#nuxt-store-core/types/widget'
 
 const props = defineProps<{
-  slot: string
+  widgetSlot: string
   version?: 'A' | 'B'
   params?: Record<string, string>
 }>()
@@ -12,12 +12,13 @@ const props = defineProps<{
 const splitTestingOptions = {
   version: props.version,
   params: props.params,
-  page: props.slot.replace('page_', ''),
+  page: props.widgetSlot.replace('page_', ''),
 }
-const splitTesting = props.slot.startsWith('page_') && props.version ? useSplitTesting(splitTestingOptions) : undefined
+const splitTesting =
+  props.widgetSlot.startsWith('page_') && props.version ? useSplitTesting(splitTestingOptions) : undefined
 
 const builderStore = useBuilderStore()
-builderStore.setSlot(props.slot)
+builderStore.setSlot(props.widgetSlot)
 if (props.params) {
   builderStore.setParams(props.params)
 }
@@ -25,7 +26,7 @@ if (props.params) {
 const widgets = await builderStore.fetchWidgets(splitTesting)
 
 function calculateWidgetSize(widget: Widget): string {
-  return `col-span-${widget.cols} row-span-${widget.rows}`
+  return `md:col-span-${widget.cols} md:row-span-${widget.rows}`
 }
 
 function calculateWidgetPosition(widget: Widget): string {
