@@ -1,5 +1,5 @@
 export interface WidgetSlot {
-  slot: string
+  id: number
   params?: any
   splitTesting?: any
 }

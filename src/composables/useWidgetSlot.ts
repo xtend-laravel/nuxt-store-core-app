@@ -1,13 +1,13 @@
-import { Widget } from '../types/Widget'
+import type { Widget } from '~/types/widget'
 
 export interface IWidgetSlot {
-  slot: string
+  id: number
   params?: any
   splitTesting?: any
 }
 
 export default async function useWidgetSlot(options: IWidgetSlot): Promise<any> {
-  const { slot, params, splitTesting } = options
+  const { id, params, splitTesting } = options
 
   // convert json to url query string
 
@@ -16,5 +16,5 @@ export default async function useWidgetSlot(options: IWidgetSlot): Promise<any> 
     params: params ?? undefined,
     splitTesting: splitTesting ?? undefined,
   }
-  return await $fetch(`/api/repositories/widget-slots/${slot}`, { query }) as Widget[]
+  return (await $fetch(`/api/repositories/widget-slots/${id}`, { query })) as Widget[]
 }
