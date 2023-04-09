@@ -22,6 +22,7 @@ export const useBuilderStore = defineStore({
       this.route = route
     },
     setSlot(slot: string): void {
+      // @todo validate slot exists
       this.slot = slot
     },
     setParams(params: Record<string, string> | undefined): void {
@@ -30,9 +31,18 @@ export const useBuilderStore = defineStore({
     setWidgets(widgets: any): void {
       this.widgets = widgets
     },
+    mapSlotToId(): number {
+      // @todo use slots from API
+      const slots: any = {
+        page_home: 1,
+        page_fashion: 2,
+      }
+      return slots[this.slot]
+    },
     async fetchWidgets(splitTesting: any): Promise<any> {
+      // @todo fetch all available slots from API
       const options: WidgetSlot = {
-        slot: this.slot,
+        id: this.mapSlotToId(),
         params: this.params,
         splitTesting,
       }
