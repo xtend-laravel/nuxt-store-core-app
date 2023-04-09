@@ -3,7 +3,6 @@ import useNitroApi from '../../../../composables/useNitroApi'
 
 export default defineEventHandler(async (event: H3Event) => {
   const params: any = event.context.params
-  console.log('params', params)
   return await useNitroApi({
     event,
     endpoint: `/api/restify/widget-slots/${params.id}?include=widgets`,

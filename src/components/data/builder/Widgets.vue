@@ -6,7 +6,7 @@ import type { Widget } from '#nuxt-store-core/types/widget'
 const props = defineProps<{
   widgetSlot: string
   version?: 'A' | 'B'
-  params?: Record<string, string>
+  params?: any
 }>()
 
 const splitTestingOptions = {

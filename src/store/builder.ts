@@ -25,7 +25,7 @@ export const useBuilderStore = defineStore({
       // @todo validate slot exists
       this.slot = slot
     },
-    setParams(params: Record<string, string> | undefined): void {
+    setParams(params: any): void {
       this.params = params
     },
     setWidgets(widgets: any): void {
