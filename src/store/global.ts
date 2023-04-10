@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import useRepositoryAction from '../composables/useRepository'
-import type { IEntity } from '~/types/repository'
+import type { IEntity } from '../types/repository'
 
 export interface GlobalState {
   favorites: number[]
