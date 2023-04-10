@@ -25,7 +25,7 @@ function createCategoryNode(category: Category): CategoryNode {
   const { id, name, children } = category
   return {
     key: id,
-    title: name.en,
+    title: name,
     disabled: false,
     disableCheckbox: false,
     selectable: false,

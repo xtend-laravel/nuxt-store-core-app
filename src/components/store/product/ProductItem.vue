@@ -2,7 +2,7 @@
 import Badge from './Badge.vue'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 import { useCategoryStore } from '#nuxt-store-core/store/category'
-import { ProductListLayout } from '#nuxt-store-core/store/productList'
+import type { ProductListLayout } from '#nuxt-store-core/store/productList'
 import { useGlobalStore } from '#nuxt-store-core/store/global'
 import useProductRoute from '#nuxt-store-core/composables/useProductRoute'
 import IconEdit from '~icons/carbon/shopping-cart-plus'
@@ -45,7 +45,7 @@ function addToFavorite(product: any) {
           v-if="product.attributes.images.thumbnail"
           :src="product.attributes.images.thumbnail"
           class="h-full w-full object-cover"
-          :alt="product.attributes.name.en"
+          :alt="product.attributes.name"
         />
         <!-- Else display placeholder image -->
         <img
@@ -93,12 +93,8 @@ function addToFavorite(product: any) {
       </NuxtLink>
       <!-- badges -->
       <div class="absolute left-0 top-0 ml-2 mt-2 flex items-center gap-2">
-        <Badge class="bg-red-500">
-          On sale!
-        </Badge>
-        <Badge class="bg-black">
-          All sold out!
-        </Badge>
+        <Badge class="bg-red-500"> On sale! </Badge>
+        <Badge class="bg-black"> All sold out! </Badge>
       </div>
     </div>
 
@@ -120,7 +116,7 @@ function addToFavorite(product: any) {
         <h3
           class="text-gray-600"
           :class="layout === 'list' ? 'text-sm lg:text-base' : 'text-xs lg:text-sm'"
-          v-text="product.attributes.name.en"
+          v-text="product.attributes.name"
         />
       </NuxtLink>
       <!-- price section -->

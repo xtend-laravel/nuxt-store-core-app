@@ -11,11 +11,11 @@ import IconPinterest from '~icons/carbon/logo-pinterest'
 import { useExtendedProductStore } from '~/store/product'
 
 const { currentProduct } = storeToRefs(useExtendedProductStore())
-const name = computed(() => currentProduct.value.attributes.name.en)
+const name = computed(() => currentProduct.value.attributes.name)
 const brandName = computed(() => currentProduct.value.attributes.legacy_data.manufacturer_name)
 const description = computed(() =>
-  currentProduct.value.attributes.description.en
-    ? currentProduct.value.attributes.description.en.replace(/<[^>]*>/g, '')
+  currentProduct.value.attributes.description
+    ? currentProduct.value.attributes.description.replace(/<[^>]*>/g, '')
     : '',
 )
 
@@ -49,7 +49,7 @@ const formattedPrice = computed(() => formatPrice(price, 0, 1000).value)
           <div class="ml-5">
             <button
               type="button"
-              class="flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-0.5 text-xxs uppercase"
+              class="text-xxs flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-0.5 uppercase"
             >
               <IconHelp class="inline h-2 w-2" />
               Size chart
@@ -70,7 +70,7 @@ const formattedPrice = computed(() => formatPrice(price, 0, 1000).value)
           </button>
           <input
             type="number"
-            class="3xl:w-28 z-10 inline-flex h-10 w-full border border-neutral-200 px-2 py-2 text-center text-xs focus:border-brand-600 focus:ring-brand-600 xl:w-24"
+            class="3xl:w-28 focus:border-brand-600 focus:ring-brand-600 z-10 inline-flex h-10 w-full border border-neutral-200 px-2 py-2 text-center text-xs xl:w-24"
             style="appearance: textfield"
             value="1"
             inputmode="numeric"
@@ -85,14 +85,14 @@ const formattedPrice = computed(() => formatPrice(price, 0, 1000).value)
         <!-- add to cart button -->
         <button
           type="button"
-          class="flex w-full items-center justify-center gap-1 bg-black px-7 py-3 text-xs font-semibold uppercase text-white transition-colors hover:bg-brand-500"
+          class="hover:bg-brand-500 flex w-full items-center justify-center gap-1 bg-black px-7 py-3 text-xs font-semibold uppercase text-white transition-colors"
         >
           <IconShoppingCart class="h-3 w-3" />
           Add to cart
         </button>
         <button
           type="button"
-          class="border-px flex h-[40px] w-full items-center justify-center gap-1 border border-black px-7 py-3 text-xs font-semibold uppercase text-black transition-colors hover:border-transparent hover:bg-brand-500 hover:text-white"
+          class="border-px hover:bg-brand-500 flex h-[40px] w-full items-center justify-center gap-1 border border-black px-7 py-3 text-xs font-semibold uppercase text-black transition-colors hover:border-transparent hover:text-white"
         >
           Add to wishlist
           <IconHeart />
@@ -118,7 +118,7 @@ const formattedPrice = computed(() => formatPrice(price, 0, 1000).value)
     <div class="mt-5">
       <button
         type="button"
-        class="flex w-full items-center justify-center gap-2 rounded border border-neutral-200 bg-white py-2 text-sm font-medium uppercase tracking-wider transition-colors hover:border-brand-400 hover:bg-neutral-50/10 hover:text-brand-500"
+        class="hover:border-brand-400 hover:text-brand-500 flex w-full items-center justify-center gap-2 rounded border border-neutral-200 bg-white py-2 text-sm font-medium uppercase tracking-wider transition-colors hover:bg-neutral-50/10"
       >
         <CarbonUserAvatar class="h-4 w-4 text-black" />
         send to a friend
