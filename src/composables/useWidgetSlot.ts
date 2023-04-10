@@ -8,13 +8,13 @@ export interface IWidgetSlot {
 
 export default async function useWidgetSlot(options: IWidgetSlot): Promise<any> {
   const { id, params, splitTesting } = options
-
-  // convert json to url query string
-
-  const query = {
+  const query: any = {
     include: 'widgets',
-    params: params ?? undefined,
-    splitTesting: splitTesting ?? undefined,
+    params: params ? JSON.stringify(params) : undefined,
+    splitTesting: splitTesting ? JSON.stringify(splitTesting) : undefined,
   }
-  return (await $fetch(`/api/repositories/widget-slots/${id}`, { query })) as Widget[]
+  Object.keys(query).forEach((key) => query[key] === undefined && delete query[key])
+
+  const requestParams = `${id}|${new URLSearchParams(query).toString()}`
+  return (await $fetch(`/api/repositories/widget-slots/${requestParams}`)) as Widget
 }
