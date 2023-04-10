@@ -1,20 +1,16 @@
 import { defineStore } from 'pinia'
-import { UnwrapRef } from 'vue'
+import type { UnwrapRef } from 'vue'
 import useCheckout from '../composables/useCheckout'
-import type {
-  Addresses,
-  CheckoutState,
-  CheckoutStep,
-  OrderSummary,
-} from '../types/checkout'
 import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
+import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '~/types/checkout'
 
 const cartStore = useCartStore()
 export const useCheckoutStore = defineStore({
   id: 'checkout',
 
   state: (): CheckoutState => ({
+    _type: 'standard',
     _steps: [],
     _currentStep: 0,
     _orderSummary: {
@@ -35,6 +31,9 @@ export const useCheckoutStore = defineStore({
   }),
 
   getters: {
+    checkoutType(): UnwrapRef<CheckoutState['_type']> {
+      return this._type
+    },
     currentStep(): UnwrapRef<CheckoutState['_currentStep']> {
       return this._currentStep
     },
@@ -79,6 +78,9 @@ export const useCheckoutStore = defineStore({
       }
     },
     async createOrder(): Promise<void> {},
+    setType(type: string): void {
+      this._type = type
+    },
     setOrderSummary(orderSummary: OrderSummary<any, any>): void {
       this._orderSummary = orderSummary
     },
@@ -98,25 +100,19 @@ export const useCheckoutStore = defineStore({
       this._orderSummary.separateBillingAddress = separateBillingAddress
     },
     markStepAsCompleted(stepKey: string): void {
-      const step: any = this._steps.find(
-        (step: CheckoutStep) => step.key === stepKey,
-      )
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
       if (!step.completed) {
         step.completed = true
       }
     },
     toggleStep(stepKey: string): void {
-      const step: any = this._steps.find(
-        (step: CheckoutStep) => step.key === stepKey,
-      )
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
       step.hidden = !step.hidden
     },
     toggleBillingAddress(): void {
       this.toggleStep('billing_address')
       this.markStepAsCompleted('shipping_address')
-      this.setSeparateBillingAddress(
-        !this._orderSummary.separateBillingAddress,
-      )
+      this.setSeparateBillingAddress(!this._orderSummary.separateBillingAddress)
     },
   },
 })

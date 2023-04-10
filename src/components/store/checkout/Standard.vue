@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Summary from './standard/Summary.vue'
+import Summary from './components/Summary.vue'
 import ProgressBar from './elements/ProgressBar.vue'
 import Header from './elements/Header.vue'
 import Panels from './standard/Panels.vue'
@@ -13,11 +13,13 @@ import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
 const props = withDefaults(
   defineProps<{
+    progressBarClasses?: string
     leftColumnClasses?: string
     rightColumnClasses?: string
     steps?: any // @todo use type from checkout store
   }>(),
   {
+    progressBarClasses: 'mb-20 flex justify-center space-x-4 bg-slate-50 py-4 shadow-sm',
     leftColumnClasses: 'mb-10 w-full px-4 md:w-7/12 lg:mb-0 lg:w-7/12 xl:w-8/12',
     rightColumnClasses: 'w-full px-4 md:w-5/12 lg:w-5/12 xl:w-4/12',
     steps: [
@@ -68,6 +70,7 @@ const props = withDefaults(
 )
 const { isCartEmpty } = useCartStore()
 const checkoutStore = useCheckoutStore()
+checkoutStore.setType('standard')
 checkoutStore.setSteps(props.steps)
 checkoutStore.setCurrentStep(0)
 </script>
@@ -75,8 +78,8 @@ checkoutStore.setCurrentStep(0)
 <template>
   <section class="overflow-hidden py-10">
     <div v-if="!isCartEmpty">
-      <slot name="progress-bar">
-        <ProgressBar />
+      <slot name="progress-bar" :progress-bar-classes="progressBarClasses">
+        <ProgressBar :class="progressBarClasses" />
       </slot>
       <slot name="header">
         <Header heading="Checkout" />

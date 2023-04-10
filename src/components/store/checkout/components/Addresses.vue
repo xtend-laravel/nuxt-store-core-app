@@ -11,6 +11,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    required: false,
+  },
 })
 const checkoutStore = useCheckoutStore()
 const { addresses, separateBillingAddress } = storeToRefs(checkoutStore)
@@ -51,9 +55,7 @@ function toggleBillingStep() {
     <SwiperSlide v-for="address in addresses" :key="address.id">
       <section class="shadow-3xl border-base group rounded bg-gray-50 hover:bg-white">
         <address class="relative h-48 p-4 text-sm not-italic">
-          <h4 class="mb-4 font-medium">
-            Address {{ address.id }}
-          </h4>
+          <h4 class="mb-4 font-medium">Address {{ address.id }}</h4>
           <input
             :id="`address_${address.id}`"
             v-model="form.shippingAddressId"

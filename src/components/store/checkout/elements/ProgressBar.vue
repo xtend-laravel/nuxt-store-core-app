@@ -4,11 +4,13 @@ import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
 const props = withDefaults(
   defineProps<{
+    direction?: string
     completedStepClasses?: string
     currentStepClasses?: string
     inactiveStepClasses?: string
   }>(),
   {
+    direction: 'horizontal',
     completedStepClasses: 'bg-slate-300 text-white',
     currentStepClasses: 'bg-black text-white',
     inactiveStepClasses: 'border bg-slate-50',
@@ -26,7 +28,7 @@ function getStepClasses(step: any) {
 </script>
 
 <template>
-  <div class="mb-20 flex justify-center space-x-4 bg-slate-50 py-4 shadow-sm">
+  <div>
     <div v-for="step in steps" :key="step.index" class="flex items-center">
       <div class="flex h-8 w-8 items-center justify-center rounded-full" :class="getStepClasses(step)">
         <span v-text="step.index + 1" />

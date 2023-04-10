@@ -7,18 +7,21 @@ import Connection from './components/Connection.vue'
 import Addresses from './components/Addresses.vue'
 import Shipping from './components/Shipping.vue'
 import Payment from './components/Payment.vue'
+import Summary from './components/Summary.vue'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
 const props = withDefaults(
   defineProps<{
+    progressBarClasses?: string
     leftColumnClasses?: string
     rightColumnClasses?: string
     steps?: any // @todo use type from checkout store
   }>(),
   {
-    leftColumnClasses: 'mb-10 w-full px-4 md:w-7/12 lg:mb-0 lg:w-7/12 xl:w-8/12',
-    rightColumnClasses: 'w-full px-4 md:w-5/12 lg:w-5/12 xl:w-4/12',
+    progressBarClasses: 'col-span-2',
+    leftColumnClasses: 'col-span-7 overflow-hidden px-10',
+    rightColumnClasses: 'col-span-3',
     steps: [
       {
         index: 0,
@@ -70,19 +73,33 @@ const checkoutStore = useCheckoutStore()
 const { steps, currentStep } = storeToRefs(checkoutStore)
 
 const { isCartEmpty } = useCartStore()
+checkoutStore.setType('express')
 checkoutStore.setSteps(props.steps)
 checkoutStore.setCurrentStep(0)
 </script>
 
 <template>
-  <section class="overflow-hidden py-10">
+  <section class="relative overflow-hidden p-8">
     <div v-if="!isCartEmpty">
-      <ProgressBar />
-      <Header class="text-center" heading="Express Checkout" />
-      <div class="mx-auto grid w-full rounded-2xl bg-white p-2 md:grid-cols-3">
-        <template v-for="step in steps" :key="step.index">
-          <Component :is="step.component" :current-step-key="step.key" />
-        </template>
+      <slot name="header">
+        <Header class="text-center" heading="Express Checkout" />
+      </slot>
+      <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
+        <slot name="progress-bar" :progress-bar-classes="progressBarClasses">
+          <ProgressBar direction="vertical" :class="progressBarClasses" />
+        </slot>
+        <div :class="leftColumnClasses">
+          <slot name="components" v-bind="{ steps, currentStep }">
+            <template v-for="step in steps" :key="step.index">
+              <Component :is="step.component" :current-step-key="step.key" type="express" />
+            </template>
+          </slot>
+        </div>
+        <div :class="rightColumnClasses">
+          <slot name="summary">
+            <Summary />
+          </slot>
+        </div>
       </div>
     </div>
     <div v-else>

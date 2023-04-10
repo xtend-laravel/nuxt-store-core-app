@@ -50,6 +50,7 @@ export interface Addresses {
 }
 
 export interface CheckoutState {
+  _type: string
   _steps: CheckoutStep[]
   _currentStep: number
   _orderSummary: OrderSummary<string, string>
