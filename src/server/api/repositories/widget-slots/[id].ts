@@ -3,10 +3,10 @@ import useNitroApi from '../../../../composables/useNitroApi'
 
 export default defineEventHandler(async (event: H3Event) => {
   const params: any = event.context.params
-  const requestParams = params.requestParams.replace('%7C', '?')
-  console.info(`/api/restify/widget-slots/${requestParams}&include=widgets`)
+  let query: any = getQuery(event)
+  query = new URLSearchParams(query).toString()
   return await useNitroApi({
     event,
-    endpoint: `/api/restify/widget-slots/${requestParams}&include=widgets`,
+    endpoint: `/api/restify/widget-slots/${params.id}?${query}`,
   })
 })

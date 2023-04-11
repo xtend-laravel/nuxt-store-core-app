@@ -1,5 +1,7 @@
 export interface WidgetSlot {
   id: number
+  routeMatch?: string
+  query?: string
   params?: any
   splitTesting?: any
 }

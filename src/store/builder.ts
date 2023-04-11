@@ -41,12 +41,12 @@ export const useBuilderStore = defineStore({
     },
     async fetchWidgets(splitTesting: any): Promise<any> {
       // @todo fetch all available slots from API
-      const options: WidgetSlot = {
-        id: this.mapSlotToId(),
-        params: this.params,
-        splitTesting,
-      }
-      const { data } = await useWidgetSlot(options)
+      const { data } = await useWidgetSlot(<WidgetSlot>{
+        routeMatch: '[id]',
+        query: 'include=widgets',
+        params: { id: this.mapSlotToId() },
+      })
+
       this.setWidgets(data.relationships.widgets)
       return this.widgets
     },
