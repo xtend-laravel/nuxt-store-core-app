@@ -24,7 +24,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
         </div>
       </slot>
       <slot name="override-items">
-        <StoreCartItems />
+        <CoreStoreCartItems />
       </slot>
     </div>
   </section>

@@ -24,11 +24,11 @@ withDefaults(defineProps<BlockProps>(), {
           <Header heading="Cart summary" />
         </slot>
         <slot name="override-content">
-          <StoreCartBlockContent />
+          <CoreStoreCartBlockContent />
         </slot>
       </div>
       <slot name="override-footer">
-        <StoreCartBlockFooter />
+        <CoreStoreCartBlockFooter />
       </slot>
     </div>
   </div>

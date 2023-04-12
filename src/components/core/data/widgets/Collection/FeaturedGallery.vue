@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Container } from '#components'
-
 const props = defineProps<{
   widget: any
 }>()
@@ -25,7 +23,7 @@ const items = computed(() => data.value?.items.data)
 </script>
 
 <template v-if="data">
-  <Container class="mx-auto">
+  <CoreLayoutContainer class="mx-auto">
     <div
       class="flex w-full flex-col flex-wrap gap-4 overflow-hidden md:overflow-visible"
       :class="data.params?.gallery?.layout === 'left' ? 'lg:flex-row-reverse' : 'lg:flex-row'"
@@ -36,5 +34,5 @@ const items = computed(() => data.value?.items.data)
         </template>
       </div>
     </div>
-  </Container>
+  </CoreLayoutContainer>
 </template>

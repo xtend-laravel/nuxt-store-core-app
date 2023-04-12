@@ -7,8 +7,8 @@ const props = defineProps<{
 }>()
 
 // Note all components must be prefixed with DataBuilderWidgets
-const component = `DataBuilderWidgets${props.widget.attributes.component}` as string
-const themeComponent = component.replace('DataBuilderWidgets', '')
+const component = `CoreDataWidgets${props.widget.attributes.component}` as string
+const themeComponent = component.substring(4) as string
 const loadedComponent = (canResolveComponent(themeComponent) ? themeComponent : component) as Component
 
 function canResolveComponent(name) {

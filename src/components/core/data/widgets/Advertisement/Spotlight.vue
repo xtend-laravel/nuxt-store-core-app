@@ -21,7 +21,7 @@ const data = computed(() => props.widget.data) as Ref<AdsWidget['data']>
 </script>
 
 <template>
-  <Container v-if="data" class="mx-auto">
+  <CoreLayoutContainer v-if="data" class="mx-auto">
     <div class="static block shadow-2xl">
       <NuxtLink :to="data.route" class="block w-full overflow-hidden">
         <img
@@ -41,5 +41,5 @@ const data = computed(() => props.widget.data) as Ref<AdsWidget['data']>
         </NuxtLink>
       </div>
     </div>
-  </Container>
+  </CoreLayoutContainer>
 </template>

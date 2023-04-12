@@ -51,7 +51,7 @@ const widgetList = computed(() => {
       <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
         <template v-for="widget in widgetList" :key="widget.id">
           <div :class="[widget.position, widget.size]">
-            <DataBuilderWidgetComponent :widget="widget">
+            <BuilderWidgetComponent :widget="widget">
               <template #beforeComponent>
                 <slot :widget="widget.attributes" name="beforeComponent" />
               </template>
@@ -59,7 +59,7 @@ const widgetList = computed(() => {
               <template #afterComponent>
                 <slot :widget="widget.attributes" name="afterComponent" />
               </template>
-            </DataBuilderWidgetComponent>
+            </BuilderWidgetComponent>
           </div>
         </template>
       </div>

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Container } from '#components'
-
 const props = defineProps<{
   widget: any
 }>()
@@ -26,7 +24,7 @@ const items = computed(() => data.value?.items.data)
 
 <template v-if="data">
   BASE COMPONENT ...
-  <Container class="mx-auto">
+  <CoreLayoutContainer class="mx-auto">
     <div class="relative">
       <Swiper
         :lazy="true"
@@ -44,5 +42,5 @@ const items = computed(() => data.value?.items.data)
       <button type="button" class="swiper-button-prev" />
       <button type="button" class="swiper-button-next" />
     </div>
-  </Container>
+  </CoreLayoutContainer>
 </template>

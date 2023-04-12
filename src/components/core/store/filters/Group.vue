@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <details class="border-b border-neutral-200 pt-4 pb-1" :open="open">
+  <details class="border-b border-neutral-200 pb-1 pt-4" :open="open">
     <summary class="flex cursor-pointer items-center justify-between pb-3">
       <span class="font-medium">{{ title }}</span>
       <IconChevronDown />

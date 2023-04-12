@@ -2,9 +2,7 @@
 
 <template>
   <section class="border-base mt-6 min-h-[700px] rounded shadow-lg">
-    <h4 class="mb-4 px-4 pt-4 font-medium underline">
-      Order summary
-    </h4>
+    <h4 class="mb-4 px-4 pt-4 font-medium underline">Order summary</h4>
     <div class="bg-white p-6">
       <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
         <span>Subtotal</span>
@@ -34,7 +32,7 @@
         <input
           type="text"
           placeholder="Enter your promo code here .."
-          class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 relative h-10 w-px flex-auto flex-1 flex-shrink flex-grow rounded-l-md border px-3 text-xs leading-normal focus:outline-none focus:ring-0"
+          class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 relative h-10 w-px flex-1 flex-auto flex-shrink flex-grow rounded-l-md border px-3 text-xs leading-normal focus:outline-none focus:ring-0"
         />
         <div class="-mr-px flex">
           <!-- Apply button -->
