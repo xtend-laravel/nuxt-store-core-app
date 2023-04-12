@@ -1,4 +1,5 @@
-import { H3Event, setCookie } from 'h3'
+import type { H3Event } from 'h3'
+import { setCookie } from 'h3'
 
 const baseUrl = process.env.NUXT_APP_HUB_BASE_URL
 let token: string | null = null
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event: H3Event) => {
   await $fetch(`${baseUrl}/api/login`, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
