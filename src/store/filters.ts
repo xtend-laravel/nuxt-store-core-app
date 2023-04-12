@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 import useFilter from '../composables/useFilter'
 import { useProductListStore } from './productList'
 
-const productListStore = useProductListStore()
-
 export interface FilterState {
   _brandIds: Array<number>
   _categoryIds: Array<number>
@@ -61,13 +59,10 @@ export const useFilterStore = defineStore({
   actions: {
     async apply(options: IApplyOptions): Promise<any> {
       if (!options.onScroll) {
-        productListStore.setPage(1)
+        useProductListStore().setPage(1)
       }
       this.buildFilterQueryString()
-      const { data, meta } = await useFilter(
-        'products',
-        this._filterQueryString,
-      )
+      const { data, meta } = await useFilter('products', this._filterQueryString)
 
       this.updateProductListStore(data, meta, options)
       return data
@@ -84,28 +79,23 @@ export const useFilterStore = defineStore({
 
       this._filterQueryString = filterCriteria
         .filter((criteria: FilterCriteria) => criteria.values.length > 0)
-        .map(
-          (criteria: FilterCriteria) =>
-            `&${criteria.param}=${criteria.values.join(',')}`,
-        )
+        .map((criteria: FilterCriteria) => `&${criteria.param}=${criteria.values.join(',')}`)
         .join('')
 
-      const currentPage = productListStore.currentPage
+      const currentPage = useProductListStore().currentPage
       if (currentPage >= 1) {
         this._filterQueryString = `&page=${currentPage}${this._filterQueryString}`
       }
 
-      const sortBy = productListStore.sortBy
+      const sortBy = useProductListStore().sortBy
       if (sortBy !== 'default') {
         this._filterQueryString = `&sort=${sortBy}${this._filterQueryString}`
       }
     },
     updateProductListStore(data: any, meta: any, options: IApplyOptions): void {
-      productListStore.setMeta(meta)
+      useProductListStore().setMeta(meta)
 
-      options.onScroll
-        ? productListStore.appendItems(data)
-        : productListStore.setItems(data, options.init)
+      options.onScroll ? useProductListStore().appendItems(data) : useProductListStore().setItems(data, options.init)
     },
     setBrandIds(ids: Array<number>) {
       this._brandIds = ids
