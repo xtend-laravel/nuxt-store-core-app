@@ -1,9 +1,10 @@
-import { H3Event, readBody } from 'h3'
+import type { H3Event } from 'h3'
+import { readBody } from 'h3'
 import useNitroApi from '../../../../composables/useNitroApi'
 
 export default defineEventHandler(async (event: H3Event) => {
   const body = await readBody(event)
-  console.log(body, 'defineEventHandler')
+  // console.log(body, 'defineEventHandler')
   return await useNitroApi(
     {
       event,
