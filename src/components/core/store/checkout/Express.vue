@@ -82,16 +82,18 @@ checkoutStore.setCurrentStep(0)
   <section class="relative overflow-hidden p-8">
     <div v-if="!isCartEmpty">
       <slot name="header">
-        <Header class="text-center" heading="Express Checkout" />
+        <Header class="text-center" heading="Checkout faster" />
+        <p class="text-center text-lg text-gray-400 font-light">You are almost there...</p>
       </slot>
       <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
+        <!-- progress bar -->
         <slot name="progress-bar" :progress-bar-classes="progressBarClasses">
           <ProgressBar direction="vertical" :class="progressBarClasses" />
         </slot>
         <div :class="leftColumnClasses">
           <slot name="components" v-bind="{ steps, currentStep }">
             <template v-for="step in steps" :key="step.index">
-              <Component :is="step.component" :current-step-key="step.key" type="express" />
+              <Component :is="step.component" :current-step-key="step.key" type="express" class="pb-12" />
             </template>
           </slot>
         </div>

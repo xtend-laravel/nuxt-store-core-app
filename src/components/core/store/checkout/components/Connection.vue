@@ -3,7 +3,14 @@ import { debounce } from 'throttle-debounce'
 import { useAuthStore } from '#nuxt-store-core/store/auth'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
+const {type} = defineProps<{
+  type: 'standard' | 'express'
+}>()
+
 const checkoutStore = useCheckoutStore()
+const checkoutType = checkoutStore.checkoutType
+console.log('checkoutType', checkoutType)
+
 const hasAccount = ref(false)
 const emailIsValid = ref(false)
 const isAuthenticated = ref(false)
@@ -127,9 +134,9 @@ watch([() => form.email, () => form.password], ([email, password]) => {
 
 <template>
   <!-- Login box -->
-  <div class="flex flex-1 flex-col justify-center space-y-5 px-10">
+  <div class="flex flex-1 flex-col justify-center space-y-5">
     <!-- authenticated -->
-    <div v-if="isAuthenticated && useAuthStore().user" class="text-center">
+    <div v-if="isAuthenticated && useAuthStore().user" class="text-center" :class="checkoutType === 'express' ?  'flex items-center justify-between' : ''">
       <h2 class="text-xl">Connected as <span class="text-brand-500" v-text="useAuthStore().user.name" /></h2>
       <p class="mt-2 text-gray-500">
         If this is not you, please
