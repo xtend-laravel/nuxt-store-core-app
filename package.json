@@ -37,7 +37,7 @@
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "9.10.0",
-    "nuxt": "3.4.0",
+    "nuxt": "3.4.1",
     "prettier": "2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.7",
     "typescript": "5.0.4",
