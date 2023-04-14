@@ -29,7 +29,7 @@ const icons = {
         <div v-if="step.key !== 'payment_method'" class="absolute top-0 h-full w-px bg-transparent border-gray-200 border-l border-dashed" />
 
         <!-- icons -->
-        <button type="button" class="absolute top-0 border rounded-full p-3 bg-gray-200 flex items-center justify-center flex-col">
+        <button type="button" class="absolute top-0 border rounded-full p-3 bg-gray-100 flex items-center justify-center flex-col">
           <component class="w-6 h-6" :is="icons[step.key]" />
         </button>
       </div>

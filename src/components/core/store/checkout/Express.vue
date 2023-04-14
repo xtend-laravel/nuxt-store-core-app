@@ -87,19 +87,10 @@ checkoutStore.setCurrentStep(0)
         <p class="text-center text-lg text-gray-400 font-light">You are almost there...</p>
       </slot>
       <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
-        <!-- progress bar -->
-        <slot name="progress-bar" :progress-bar-classes="progressBarClasses">
-<!--          <ProgressBar direction="vertical" :class="progressBarClasses" />-->
-        </slot>
         <div :class="leftColumnClasses">
           <slot name="panels">
             <Panels />
           </slot>
-<!--          <slot name="components" v-bind="{ steps, currentStep }">-->
-<!--            <template v-for="step in steps" :key="step.index">-->
-<!--              <Component :is="step.component" :current-step-key="step.key" type="express" class="pb-12" />-->
-<!--            </template>-->
-<!--          </slot>-->
         </div>
         <div :class="rightColumnClasses">
           <slot name="summary">
