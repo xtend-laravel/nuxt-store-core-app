@@ -33,6 +33,10 @@ watch([() => form.shippingAddressId, () => form.billingAddressId], () => {
     data: form,
     exclude: ['separateBillingAddress'],
   })
+
+  if (form.shippingAddressId && checkoutStore.checkoutType === 'express') {
+    checkoutStore.markStepAsCompleted('shipping_address')
+  }
 })
 
 function toggleBillingStep() {

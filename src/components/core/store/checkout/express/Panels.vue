@@ -11,7 +11,7 @@ const { steps, currentStep } = storeToRefs(checkoutStore)
   <div>
     <pre>{{ checkoutStore._orderSummary }}</pre>
 
-    <template v-for="step in steps" :key="step.index">
+    <template v-for="step in steps" :key="step.id">
       <div v-if="!step.hidden">
         <div class="flex-col rounded-t-xl bg-white">
           <slot name="panel-content" :step="step" :current-step="currentStep">
