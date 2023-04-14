@@ -65,4 +65,11 @@ export default defineNuxtConfig({
       },
     },
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ['vue/server-renderer'],
+      },
+    },
+  },
 })
