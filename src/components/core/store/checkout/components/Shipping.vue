@@ -9,10 +9,12 @@ const { shippingMethods, checkoutType } = storeToRefs(checkoutStore)
 const form: any = reactive({
   shippingAddressId: 0,
 })
+
+console.log('shipping methods', shippingMethods.value)
 </script>
 
 <template>
-  <div :class="{ 'grid grid-cols-3 space-x-6': checkoutType === 'express' }">
+  <div :class="{ 'grid grid-cols-3 space-x-6': checkoutType === 'standard' }">
     <div v-for="shippingMethod in shippingMethods" :key="shippingMethod.identifier">
       <section class="shadow-3xl border-base group my-4 rounded bg-gray-50 hover:bg-white">
         <div class="relative p-4 text-sm not-italic">

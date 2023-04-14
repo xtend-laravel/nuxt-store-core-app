@@ -9,6 +9,8 @@ const { steps, currentStep } = storeToRefs(checkoutStore)
 
 <template>
   <div>
+    <pre>{{ checkoutStore._orderSummary }}</pre>
+
     <template v-for="step in steps" :key="step.index">
       <div v-if="!step.hidden">
         <div class="flex-col rounded-t-xl bg-white">
