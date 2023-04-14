@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { useAuthStore } from "~/store/auth";
 import Panels from "./express/Panels.vue";
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
@@ -47,7 +48,7 @@ const props = withDefaults(
         description: 'Enter your billing address',
         component: Addresses,
         // @todo hide this step if billing address is the same as shipping address
-        hidden: true,
+        hidden: true
       },
       {
         index: 3,

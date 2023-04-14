@@ -31,6 +31,11 @@ async function fetchAuthCheck() {
       checkoutStore.markStepAsCompleted('connection')
       checkoutStore.setCurrentStep(1)
     }, 2000)
+
+    if (checkoutStore.checkoutType === 'express') {
+      // display other steps
+
+    }
   }
 }
 async function loginRequest() {
