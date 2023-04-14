@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { CoreLayoutContainer } from '#components'
+
 const props = defineProps<{
   widget: any
 }>()

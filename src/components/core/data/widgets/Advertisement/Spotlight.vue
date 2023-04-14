@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CoreLayoutContainer } from '#components'
 import IconAngleRight from '~icons/carbon/chevron-right'
 
 const props = defineProps<{
