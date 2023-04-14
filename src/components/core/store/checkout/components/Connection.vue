@@ -3,10 +3,6 @@ import { debounce } from 'throttle-debounce'
 import { useAuthStore } from '#nuxt-store-core/store/auth'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
-const {type} = defineProps<{
-  type: 'standard' | 'express'
-}>()
-
 const checkoutStore = useCheckoutStore()
 const hasAccount = ref(false)
 const emailIsValid = ref(false)
