@@ -34,8 +34,8 @@ const iconsClasses = computed(() => {
         <!-- icons -->
         <button type="button" :class="`absolute top-0 border rounded-full p-3 flex items-center justify-center flex-col ${iconsClasses}`">
           <component class="w-6 h-6" :is="icons[step.key]" />
-          {{ step.key }}
-          {{ step.completed }}
+<!--          {{ step.key }}-->
+<!--          {{ step.completed }}-->
         </button>
       </div>
     </div>

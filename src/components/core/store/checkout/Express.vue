@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import Panels from "./express/Panels.vue";
-import ProgressBar from './elements/ProgressBar.vue'
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
 import Connection from './components/Connection.vue'
