@@ -4,7 +4,7 @@ import Panels from "./express/Panels.vue";
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
 import Connection from './components/Connection.vue'
-import Addresses from './components/Addresses.vue'
+import Addresses from './express/Addresses.vue'
 import Shipping from './components/Shipping.vue'
 import Payment from './components/Payment.vue'
 import Summary from './components/Summary.vue'
