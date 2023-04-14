@@ -21,7 +21,7 @@ const props = withDefaults(
   }>(),
   {
     progressBarClasses: 'col-span-2',
-    leftColumnClasses: 'col-span-7 overflow-hidden px-10',
+    leftColumnClasses: 'col-span-9 overflow-hidden px-10',
     rightColumnClasses: 'col-span-3',
     steps: [
       {
@@ -89,7 +89,7 @@ checkoutStore.setCurrentStep(0)
       <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
         <!-- progress bar -->
         <slot name="progress-bar" :progress-bar-classes="progressBarClasses">
-          <ProgressBar direction="vertical" :class="progressBarClasses" />
+<!--          <ProgressBar direction="vertical" :class="progressBarClasses" />-->
         </slot>
         <div :class="leftColumnClasses">
           <slot name="panels">

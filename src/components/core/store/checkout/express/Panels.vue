@@ -13,7 +13,7 @@ const { steps, currentStep } = storeToRefs(checkoutStore)
       <div v-if="!step.hidden">
         <div class="flex-col rounded-t-xl bg-white">
           <slot name="panel-content" :step="step" :current-step="currentStep">
-            <PanelContent :step="step" :current-step="currentStep" class="border border-rose-500" />
+            <PanelContent :step="step" :current-step="currentStep"/>
           </slot>
         </div>
       </div>
