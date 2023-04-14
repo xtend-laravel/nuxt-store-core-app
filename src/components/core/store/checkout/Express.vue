@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import Panels from "./express/Panels.vue";
 import ProgressBar from './elements/ProgressBar.vue'
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
@@ -47,7 +48,7 @@ const props = withDefaults(
         description: 'Enter your billing address',
         component: Addresses,
         // @todo hide this step if billing address is the same as shipping address
-        hidden: false,
+        hidden: true,
       },
       {
         index: 3,
@@ -91,11 +92,14 @@ checkoutStore.setCurrentStep(0)
           <ProgressBar direction="vertical" :class="progressBarClasses" />
         </slot>
         <div :class="leftColumnClasses">
-          <slot name="components" v-bind="{ steps, currentStep }">
-            <template v-for="step in steps" :key="step.index">
-              <Component :is="step.component" :current-step-key="step.key" type="express" class="pb-12" />
-            </template>
+          <slot name="panels">
+            <Panels />
           </slot>
+<!--          <slot name="components" v-bind="{ steps, currentStep }">-->
+<!--            <template v-for="step in steps" :key="step.index">-->
+<!--              <Component :is="step.component" :current-step-key="step.key" type="express" class="pb-12" />-->
+<!--            </template>-->
+<!--          </slot>-->
         </div>
         <div :class="rightColumnClasses">
           <slot name="summary">
