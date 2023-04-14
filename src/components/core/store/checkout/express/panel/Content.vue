@@ -15,6 +15,7 @@ const { steps, currentStep } = storeToRefs(checkoutStore)
 const icons = {
   'connection': IconUser,
   'shipping_address': IconBookmark,
+  'billing_address': IconBookmark,
   'shipping_method': IconTruck,
   'payment_method': IconCreditCard,
 }
