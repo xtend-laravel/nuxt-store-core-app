@@ -5,7 +5,6 @@ import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
 import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '~/types/checkout'
 
-const cartStore = useCartStore()
 export const useCheckoutStore = defineStore({
   id: 'checkout',
 
@@ -61,11 +60,11 @@ export const useCheckoutStore = defineStore({
     init(): void {
       this.setOrderSummary({
         ...this._orderSummary,
-        subtotal: cartStore.totals.sub_total,
-        shipping: cartStore.totals.shipping_total,
-        tax: cartStore.totals.tax_total,
-        discount: cartStore.totals.discount_total,
-        total: cartStore.totals.total,
+        subtotal: useCartStore().totals.sub_total,
+        shipping: useCartStore().totals.shipping_total,
+        tax: useCartStore().totals.tax_total,
+        discount: useCartStore().totals.discount_total,
+        total: useCartStore().totals.total,
       })
     },
     async fetch(): Promise<void> {
