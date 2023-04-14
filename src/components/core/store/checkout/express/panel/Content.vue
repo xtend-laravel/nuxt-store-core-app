@@ -35,8 +35,8 @@ const icons = {
       </div>
     </div>
     <!-- content -->
-    <div class="grow px-12 pb-16">
-      <Component :is="step.component" :key="step.key" :current-step-key="step.key" />
+    <div class="grow pb-16 px-12 w-full overflow-x-auto">
+      <component :is="step.component" :key="step.key" :current-step-key="step.key" />
     </div>
   </div>
 </template>
