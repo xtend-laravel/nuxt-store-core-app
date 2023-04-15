@@ -27,7 +27,7 @@ const iconsClasses = computed(() => {
 <template>
   <div class="w-full flex item-center">
     <!-- step indicator -->
-    <div class="w-28 shrink-0 grow-0">
+    <div class="w-12 md:w-20 lg:w-28 shrink-0 grow-0">
       <div class="relative w-full h-full flex items-center justify-center">
         <!-- line -->
         <div v-if="step.key !== 'payment_method'" class="absolute top-0 h-full w-px bg-transparent border-gray-200 border-l border-dashed" />
@@ -35,8 +35,6 @@ const iconsClasses = computed(() => {
         <!-- icons -->
         <button type="button" :class="`absolute top-0 border rounded-full p-3 flex items-center justify-center flex-col ${iconsClasses}`">
           <component class="w-6 h-6" :is="icons[step.key] ?? null" />
-<!--          {{ step.key }}-->
-<!--          {{ step.completed }}-->
         </button>
       </div>
     </div>

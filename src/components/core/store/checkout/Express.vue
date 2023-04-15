@@ -21,7 +21,7 @@ const props = withDefaults(
   }>(),
   {
     progressBarClasses: 'col-span-2',
-    leftColumnClasses: 'col-span-9 overflow-hidden px-10',
+    leftColumnClasses: 'col-span-9 overflow-hidden lg:px-10',
     rightColumnClasses: 'col-span-3',
     steps: [
       {
@@ -77,10 +77,12 @@ const { isCartEmpty } = useCartStore()
 checkoutStore.setType('express')
 checkoutStore.setSteps(props.steps)
 checkoutStore.setCurrentStep(0)
+
+console.log('is cart empty', isCartEmpty)
 </script>
 
 <template>
-  <section class="relative overflow-hidden p-8">
+  <section class="relative overflow-hidden p-4 lg:p-8">
     <div v-if="!isCartEmpty">
       <slot name="header">
         <Header class="text-center" heading="Checkout faster" />
