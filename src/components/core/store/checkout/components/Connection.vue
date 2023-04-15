@@ -131,7 +131,7 @@ watch([() => form.email, () => form.password], ([email, password]) => {
     <!-- authenticated -->
     <div v-if="isAuthenticated && useAuthStore().user"
          class="text-center"
-         :class="checkoutStore.checkoutType === 'express' ?  'flex items-center justify-between' : ''">
+         :class="checkoutStore.checkoutType === 'express' ?  'flex flex-col md:flex-row items-center justify-between' : ''">
       <h2 class="text-base">Connected as <span class="text-brand-500" v-text="useAuthStore().user.name" /></h2>
       <p class="mt-2 text-gray-500">
         If this is not you, please
