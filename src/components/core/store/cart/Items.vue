@@ -1,34 +1,32 @@
 <script setup lang="ts">
-interface BlockProps {
-  classes: {
-    wrapper: string
-    innerWrapper: string
-    contentWrapper: string
-  }
-}
-
-withDefaults(defineProps<BlockProps>(), {
-  classes: () => ({
-    wrapper: 'cart-block-wrapper',
-    innerWrapper: 'flex h-screen flex-col divide-y divide-gray-200 bg-white shadow-xl',
-    contentWrapper: 'flex-1 overflow-y-auto',
-  }),
-})
+import { useCartStore } from "~/store/cart";
+const { items} = useCartStore()
 </script>
 
 <template>
-  <div :class="classes.wrapper">
-    <div :class="classes.innerWrapper">
-      <div :class="classes.contentWrapper">
-        <slot name="override-header">
-          <Header heading="Cart summary" />
-        </slot>
-        <slot name="override-content">
-          <CoreStoreCartBlockContent />
+  <div>
+    <div class="px-4 py-6 sm:px-8 sm:py-10">
+      <div class="flow-root">
+        <ul class="-my-8">
+          <li
+            v-for="item in items"
+            :key="item.id"
+            class="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0"
+          >
+            <slot :key="item.id" name="override-items-line" :item="item">
+              <CoreStoreCartItemsLineItem :key="item.id" :item="item" />
+            </slot>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <slot name="override-items-summary">
+          <CoreStoreCartItemsSummary />
         </slot>
       </div>
-      <slot name="override-footer">
-        <CoreStoreCartBlockFooter />
+      <slot name="override-footer-actions">
+        <CoreStoreCartItemsFooterActions />
       </slot>
     </div>
   </div>
