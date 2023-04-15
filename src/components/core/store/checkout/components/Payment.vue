@@ -61,12 +61,12 @@ onMounted(() => {
   <div>
 <!--    <div id="payment-element"></div>-->
     <!-- paypal, apple pay, google pay as image which is checkabke,  paypal default checked -->
-    <div class="flex items-center gap-4 items-stretch">
+    <div class="flex flex-col md:flex-row items-center gap-4 items-stretch">
       <template v-for="paymentMethod in paymentMethods" :key="paymentMethod.name">
         <label class="relative border border-gray-200 flex-1 items-center justify-center py-4 px-6 cursor-pointer hover:border-gray-400 transition">
           <input type="radio" name="payment_method" :value="paymentMethod.value" v-model="paymentMethod.value" class="hidden peer" />
           <IconCheck class="w-6 h-6 hidden peer-checked:block peer-checked:text-brand-500 top-0 right-0 absolute mt-2 mr-2" />
-          <img :src="paymentMethod.image" alt="paymentMethod.name" class="w-full h-full max-h-[100px] object-contain" />
+          <img :src="paymentMethod.image" alt="paymentMethod.name" class="w-full h-[50px] lg:h-[100px] object-contain" />
         </label>
       </template>
     </div>
