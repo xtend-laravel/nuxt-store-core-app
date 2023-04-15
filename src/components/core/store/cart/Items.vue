@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCartStore } from "~/store/cart";
-const { items} = useCartStore()
+const { items } = useCartStore()
 </script>
 
 <template>
