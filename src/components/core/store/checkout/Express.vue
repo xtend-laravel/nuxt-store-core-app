@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useAuthStore } from "~/store/auth";
-import Panels from "./express/Panels.vue";
+import Panels from './express/Panels.vue'
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
 import Connection from './components/Connection.vue'
@@ -48,7 +47,7 @@ const props = withDefaults(
         description: 'Enter your billing address',
         component: Addresses,
         // @todo hide this step if billing address is the same as shipping address
-        hidden: true
+        hidden: true,
       },
       {
         index: 3,
@@ -83,10 +82,10 @@ console.log('is cart empty', isCartEmpty)
 
 <template>
   <section class="relative overflow-hidden p-4 lg:p-8">
-    <div v-if="!isCartEmpty">
+    <template v-if="!isCartEmpty">
       <slot name="header">
         <Header class="text-center" heading="Checkout faster" />
-        <p class="text-center text-lg text-gray-400 font-light">You are almost there...</p>
+        <p class="text-center text-lg font-light text-gray-400">You are almost there...</p>
       </slot>
       <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
         <div :class="leftColumnClasses">
@@ -100,9 +99,11 @@ console.log('is cart empty', isCartEmpty)
           </slot>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <EmptyCart />
-    </div>
+    </template>
+    <template v-else>
+      <div>
+        <EmptyCart />
+      </div>
+    </template>
   </section>
 </template>
