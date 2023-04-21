@@ -37,7 +37,7 @@ export const useProductStore = defineStore({
     products: (state: ProductState) => state.items,
     countProducts: (state: ProductState) => state.items.length,
     list(): Product[] {
-      return this.ids.map(i => this.items[i])
+      return this.ids.map((i) => this.items[i])
     },
     loaded(): boolean {
       return this.ids.length > 0
@@ -47,9 +47,9 @@ export const useProductStore = defineStore({
   actions: {
     async fetchAll() {
       if (this.loaded)
-        return
+return
 
-      const data: any = await fetch('https://fakestoreapi.com/products').then(res => res.json())
+      const data: any = await fetch('https://fakestoreapi.com/products').then((res) => res.json())
       this.ids = data.map((product: any) => {
         product.hasFlag = true
         product.flag = this.getRandomFlag()

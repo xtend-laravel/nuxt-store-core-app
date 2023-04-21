@@ -24,7 +24,7 @@ const data = computed(() => props.widget.data) as Ref<AdsWidget['data']>
   <div v-if="data" class="group relative">
     <img :src="data.image" :alt="data.title" class="w-full" />
     <div
-      class="absolute top-0 left-0 h-full w-full bg-neutral-50/20 transition duration-1000 group-hover:bg-neutral-900/30"
+      class="absolute left-0 top-0 h-full w-full bg-neutral-50/20 transition duration-1000 group-hover:bg-neutral-900/30"
     >
       <div class="absolute bottom-0 left-0 w-full pb-5 text-center">
         <slot name="header" :data="data">

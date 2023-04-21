@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { StripeCardElement } from '@stripe/stripe-js'
+import type { StripeCardElement } from '@stripe/stripe-js'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 import IconCheck from '~icons/carbon/checkmark-filled'
 
@@ -36,18 +36,18 @@ const paymentMethods = [
   {
     name: 'Paypal',
     value: 'paypal',
-    image: '/paypal.png'
+    image: '/paypal.png',
   },
   {
     name: 'Apple pay',
     value: 'apple_pay',
-    image: '/apple_pay.png'
+    image: '/apple_pay.png',
   },
   {
     name: 'Google pay',
     value: 'google_pay',
     image: '/google_pay.png',
-  }
+  },
 ]
 
 onMounted(() => {
@@ -59,19 +59,31 @@ onMounted(() => {
 
 <template>
   <div>
-<!--    <div id="payment-element"></div>-->
+    <!--    <div id="payment-element"></div> -->
     <!-- paypal, apple pay, google pay as image which is checkabke,  paypal default checked -->
-    <div class="flex flex-col md:flex-row items-center gap-4 items-stretch">
+    <div class="flex flex-col items-center items-stretch gap-4 md:flex-row">
       <template v-for="paymentMethod in paymentMethods" :key="paymentMethod.name">
-        <label class="relative border border-gray-200 flex-1 items-center justify-center py-4 px-6 cursor-pointer hover:border-gray-400 transition">
-          <input type="radio" name="payment_method" :value="paymentMethod.value" v-model="paymentMethod.value" class="hidden peer" />
-          <IconCheck class="w-6 h-6 hidden peer-checked:block peer-checked:text-brand-500 top-0 right-0 absolute mt-2 mr-2" />
-          <img :src="paymentMethod.image" alt="paymentMethod.name" class="w-full h-[50px] lg:h-[100px] object-contain" />
+        <label
+          class="relative flex-1 cursor-pointer items-center justify-center border border-gray-200 px-6 py-4 transition hover:border-gray-400"
+        >
+          <input
+            v-model="paymentMethod.value"
+            type="radio"
+            name="payment_method"
+            :value="paymentMethod.value"
+            class="peer hidden"
+          />
+          <IconCheck
+            class="peer-checked:text-brand-500 absolute right-0 top-0 mr-2 mt-2 hidden h-6 w-6 peer-checked:block"
+          />
+          <img
+            :src="paymentMethod.image"
+            alt="paymentMethod.name"
+            class="h-[50px] w-full object-contain lg:h-[100px]"
+          />
         </label>
       </template>
     </div>
-    <button @click="submitPayment">
-      Submit Payment
-    </button>
+    <button @click="submitPayment">Submit Payment</button>
   </div>
 </template>

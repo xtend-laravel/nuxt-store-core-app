@@ -56,16 +56,16 @@ function toggleBillingStep() {
     :navigation="true"
     :pagination="true"
     :breakpoints="{
-        360: {
-          slidesPerView: 1,
-        },
-        768: {
-          slidesPerView: 2,
-        },
-        1536: {
-          slidesPerView: 3,
-        },
-      }"
+      360: {
+        slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 2,
+      },
+      1536: {
+        slidesPerView: 3,
+      },
+    }"
   >
     <SwiperSlide v-for="address in addresses" :key="address.id">
       <section class="shadow-3xl border-base group rounded bg-gray-50 hover:bg-white">

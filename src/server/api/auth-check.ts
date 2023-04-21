@@ -1,4 +1,5 @@
-import { H3Event, getCookie } from 'h3'
+import type { H3Event } from 'h3'
+import { getCookie } from 'h3'
 
 export default defineEventHandler((event: H3Event) => {
   const token = getCookie(event, 'token')
