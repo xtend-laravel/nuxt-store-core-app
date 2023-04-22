@@ -33,10 +33,6 @@ watch([() => form.shippingAddressId, () => form.billingAddressId], () => {
     data: form,
     exclude: ['separateBillingAddress'],
   })
-
-  if (form.shippingAddressId && checkoutStore.checkoutType === 'express') {
-    checkoutStore.markStepAsCompleted('shipping_address')
-  }
 })
 
 function toggleBillingStep() {
@@ -101,6 +97,7 @@ function toggleBillingStep() {
       </section>
     </SwiperSlide>
   </Swiper>
+  <strong>{{ currentStepKey }}</strong>
   <div class="flex hidden">
     <div class="relative mx-auto mt-20 text-center">
       <div v-if="currentStepKey === 'shipping_address'" class="flex items-center justify-center gap-2">
