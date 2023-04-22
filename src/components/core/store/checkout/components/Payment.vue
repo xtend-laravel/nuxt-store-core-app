@@ -59,8 +59,6 @@ onMounted(() => {
 
 <template>
   <div>
-    <!--    <div id="payment-element"></div> -->
-    <!-- paypal, apple pay, google pay as image which is checkabke,  paypal default checked -->
     <div class="group flex flex-col items-center items-stretch gap-4 md:flex-row">
       <template v-for="paymentMethod in paymentMethods" :key="paymentMethod.name">
         <label
@@ -81,12 +79,13 @@ onMounted(() => {
       </template>
     </div>
     <div class="mt-10 flex flex-col-reverse gap-4 md:flex-row md:justify-end">
+      <div id="payment-element"></div>
       <button
         type="button"
         class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-6 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none"
         @click="submitPayment"
       >
-        Confirm Order
+        Place Order
       </button>
     </div>
   </div>
