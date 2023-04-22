@@ -80,7 +80,7 @@ function toggleBillingStep() {
           />
           <label :for="`address_${address.id}`" class="absolute inset-0" />
           <IconCheck
-            class="pointer-events-none absolute right-4 top-8 box-content block h-6 w-6 -translate-y-1/2 rounded-full border-4 border-gray-300 bg-white text-white group-hover:border-gray-400 peer-checked:border-gray-300 peer-checked:text-black"
+            class="peer-checked:text-brand-500 pointer-events-none absolute right-4 top-8 box-content block h-6 w-6 -translate-y-1/2 rounded-full border-4 border-gray-300 bg-white text-white group-hover:border-gray-400 peer-checked:border-gray-200"
           />
           <div>
             <span>{{ address.first_name }}</span>
@@ -101,7 +101,7 @@ function toggleBillingStep() {
       </section>
     </SwiperSlide>
   </Swiper>
-  <div class="flex">
+  <div class="flex hidden">
     <div class="relative mx-auto mt-20 text-center">
       <div v-if="currentStepKey === 'shipping_address'" class="flex items-center justify-center gap-2">
         <input

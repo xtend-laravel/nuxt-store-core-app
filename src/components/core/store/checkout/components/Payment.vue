@@ -61,10 +61,10 @@ onMounted(() => {
   <div>
     <!--    <div id="payment-element"></div> -->
     <!-- paypal, apple pay, google pay as image which is checkabke,  paypal default checked -->
-    <div class="flex flex-col items-center items-stretch gap-4 md:flex-row">
+    <div class="group flex flex-col items-center items-stretch gap-4 md:flex-row">
       <template v-for="paymentMethod in paymentMethods" :key="paymentMethod.name">
         <label
-          class="relative flex-1 cursor-pointer items-center justify-center border border-gray-200 px-6 py-4 transition hover:border-gray-400"
+          class="relative flex-1 cursor-pointer items-center justify-center border border-gray-200 px-6 py-8 transition hover:border-gray-400"
         >
           <input
             v-model="paymentMethod.value"
@@ -74,16 +74,20 @@ onMounted(() => {
             class="peer hidden"
           />
           <IconCheck
-            class="peer-checked:text-brand-500 absolute right-0 top-0 mr-2 mt-2 hidden h-6 w-6 peer-checked:block"
+            class="peer-checked:text-brand-500 pointer-events-none absolute right-4 top-8 box-content block h-6 w-6 -translate-y-1/2 rounded-full border-4 border-gray-300 bg-white text-white group-hover:border-gray-400 peer-checked:border-gray-200"
           />
-          <img
-            :src="paymentMethod.image"
-            alt="paymentMethod.name"
-            class="h-[50px] w-full object-contain lg:h-[100px]"
-          />
+          <img :src="paymentMethod.image" alt="paymentMethod.name" class="h-[50px] w-full object-contain" />
         </label>
       </template>
     </div>
-    <button @click="submitPayment">Submit Payment</button>
+    <div class="mt-10 flex flex-col-reverse gap-4 md:flex-row md:justify-end">
+      <button
+        type="button"
+        class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-6 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none"
+        @click="submitPayment"
+      >
+        Confirm Order
+      </button>
+    </div>
   </div>
 </template>

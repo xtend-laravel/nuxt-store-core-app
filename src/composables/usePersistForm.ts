@@ -1,7 +1,12 @@
-import type { IEntity } from '../types/repository'
 import { useGlobalStore } from '../store/global'
 
-export default async function usePersistForm(options: IEntity) {
+export default async function usePersistForm(options: {
+  method: string
+  data: any
+  action: string
+  exclude: string[]
+  repository: string
+}) {
   const { data, exclude = [] } = options
 
   const filteredData: Record<string, unknown> = Object.keys(data).reduce(

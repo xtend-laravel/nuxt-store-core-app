@@ -19,7 +19,7 @@
               class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 relative h-10 w-px flex-1 flex-auto flex-shrink flex-grow rounded-l-md border px-3 text-xs leading-normal focus:outline-none focus:ring-0"
             />
             <div class="-mr-px flex">
-              <!-- Apply button -->
+              <!-- Apply discount -->
               <button
                 type="button"
                 class="focus:shadow-outline-brand bg-brand-500 hover:bg-brand-600 focus:border-brand-700 active:bg-brand-700 flex items-center justify-center rounded-r-md border border-transparent px-4 text-xs font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none"

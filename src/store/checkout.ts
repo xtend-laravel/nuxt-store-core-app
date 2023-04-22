@@ -104,6 +104,10 @@ export const useCheckoutStore = defineStore({
         step.completed = true
       }
     },
+    isStepCompleted(stepKey: string): boolean {
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
+      return step.completed
+    },
     toggleStep(stepKey: string): void {
       const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
       step.hidden = !step.hidden
