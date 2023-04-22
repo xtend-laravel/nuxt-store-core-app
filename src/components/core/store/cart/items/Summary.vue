@@ -17,18 +17,18 @@ function getFormattedPrice(price: Ref<number> | number): string {
 </script>
 
 <template>
-  <div class="mt-6 space-y-3 border-b border-t py-8">
-    <div class="flex items-center justify-between">
-      <p class="text-gray-400" v-text="labels.subTotal" />
-      <p class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.sub_total)" />
+  <div class="bg-white py-10">
+    <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
+      <span v-text="labels.subTotal" />
+      <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.sub_total)" />
     </div>
-    <div class="flex items-center justify-between">
-      <p class="text-gray-400" v-text="labels.shippingTotal" />
-      <p class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.shipping_total)" />
+    <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
+      <span v-text="labels.shippingTotal" />
+      <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.shipping_total)" />
     </div>
-  </div>
-  <div class="mt-6 flex items-center justify-between">
-    <p class="text-sm font-medium text-gray-900" v-text="labels.total" />
-    <p class="text-2xl font-semibold text-gray-900" v-text="getFormattedPrice(totals.total)" />
+    <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
+      <span class="font-medium text-gray-900" v-text="labels.total" />
+      <span class="text-brand-600 flex items-center text-lg" v-text="getFormattedPrice(totals.total)" />
+    </div>
   </div>
 </template>
