@@ -16,6 +16,11 @@ const form = reactive({
   billingAddressId: null,
 });
 
+const confirmed = reactive ({
+  shipping: false,
+  billing: false,
+});
+
 function confirmAddress(type: AddressType) {
   if (type === "Shipping") {
     checkoutStore.markStepAsCompleted("shipping_address");
@@ -24,9 +29,11 @@ function confirmAddress(type: AddressType) {
       form.billingAddressId = form.shippingAddressId;
     }
 
+    confirmed.shipping = true;
     addressType.value = 'Billing';
   } else {
     checkoutStore.markStepAsCompleted("billing_address")
+    confirmed.billing = true;
   }
 
   persistAddressIds()
@@ -35,6 +42,22 @@ function confirmAddress(type: AddressType) {
 function changeTab(type: AddressType) {
   addressType.value = type;
 }
+
+watch(() => form.shippingAddressId, () => {
+  confirmed.shipping = false;
+})
+watch(() => form.billingAddressId, () => {
+  confirmed.billing = false;
+})
+
+
+const confirmButtonDisabled = computed(() => {
+  if (addressType.value === "Shipping") {
+    return confirmed.shipping
+  } else {
+    return confirmed.billing
+  }
+});
 
 function persistAddressIds() {
   usePersistForm({
@@ -50,7 +73,6 @@ function persistAddressIds() {
 
 <template>
   <div>
-    <strong>{{ form.shippingAddressId }} -  {{ form.billingAddressId}}</strong>
     <!-- tab navigation -->
     <div class="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
       <div class="flex items-center gap-6 font-medium">
@@ -75,7 +97,9 @@ function persistAddressIds() {
         <button
           type="button"
           @click="confirmAddress(addressType)"
-          class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-4 text-xs font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none"
+          :disabled="confirmButtonDisabled"
+          class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-4 text-xs font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none
+disabled:bg-gray-200"
         >
           Confirm {{ addressType }} Address
         </button>
