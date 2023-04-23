@@ -76,8 +76,8 @@ const { addresses, separateBillingAddress } = storeToRefs(checkoutStore)
         <footer
           class="border-base flex items-center justify-start gap-4 border-b-0 border-l-0 border-r-0 px-4 py-4 text-sm font-medium text-neutral-600"
         >
-          <a href="#" class="flex items-center gap-2"> <IconEdit class="h-4 w-4" /> Edit </a>
-          <a href="#" class="flex items-center gap-2"> <IconTrash class="h-4 w-4" /> Delete </a>
+          <a href="#" class="flex items-center gap-2 text-neutral-400"> <IconEdit class="h-4 w-4" /> Edit </a>
+          <a href="#" class="flex items-center gap-2 text-neutral-400"> <IconTrash class="h-4 w-4" /> Delete </a>
         </footer>
       </section>
     </SwiperSlide>
