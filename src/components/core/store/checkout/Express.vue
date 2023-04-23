@@ -46,6 +46,7 @@ const props = withDefaults(
         title: 'Billing address',
         description: 'Enter your billing address',
         component: Addresses,
+        hidden: true
         // @todo hide this step if billing address is the same as shipping address
       },
       {

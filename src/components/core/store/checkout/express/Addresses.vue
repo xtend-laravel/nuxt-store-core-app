@@ -1,33 +1,57 @@
 <script setup lang="ts">
-import Addresses from "../components/Addresses.vue";
+import AddressesSlide from "~/components/core/store/checkout/express/AddressesSlide.vue";
 import { useCheckoutStore } from "#nuxt-store-core/store/checkout";
 import IconCheck from "~icons/carbon/checkmark-filled";
 import IconLocation from "~icons/carbon/location-filled";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 
 const checkoutStore = useCheckoutStore();
 const shippingCompleted = computed(() => checkoutStore.isStepCompleted("shipping_address"));
 const billingCompleted = computed(() => checkoutStore.isStepCompleted("billing_address"));
-type AddressType = "Shipping" | "Billing"
-const addressType: AddressType = "Shipping";
-const currentTab = ref<AddressType>("Shipping");
+type AddressType = "Shipping" | "Billing";
+const addressType = ref<AddressType>("Shipping");
+
+const form = reactive({
+  shippingAddressId: null,
+  billingAddressId: null,
+});
 
 function confirmAddress(type: AddressType) {
   if (type === "Shipping") {
     checkoutStore.markStepAsCompleted("shipping_address");
+
+    if (form.billingAddressId === null) {
+      form.billingAddressId = form.shippingAddressId;
+    }
+
+    addressType.value = 'Billing';
   } else {
-    checkoutStore.markStepAsCompleted("billing_address");
+    checkoutStore.markStepAsCompleted("billing_address")
   }
+
+  persistAddressIds()
 }
 
 function changeTab(type: AddressType) {
-  currentTab.value = type;
-  console.log("current tab is", currentTab.value);
+  addressType.value = type;
 }
+
+function persistAddressIds() {
+  usePersistForm({
+    repository: 'carts',
+    action: 'update',
+    method: 'POST',
+    data: form,
+    exclude: ['separateBillingAddress'],
+  })
+}
+
 </script>
 
 <template>
   <div>
+    <strong>{{ form.shippingAddressId }} -  {{ form.billingAddressId}}</strong>
+    <!-- tab navigation -->
     <div class="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
       <div class="flex items-center gap-6 font-medium">
         <button
@@ -35,16 +59,16 @@ function changeTab(type: AddressType) {
           class="flex items-center gap-1 text-gray-300"
           @click="changeTab('Shipping')"
         >
-          <IconCheck class="h-4 w-4" :class="{ 'text-brand-500': shippingCompleted }" />
-          <span :class="currentTab === 'Shipping' ? 'text-brand-500' : 'text-gray-300'">Shipping address</span>
+          <IconCheck class="h-6 w-6" :class="{ 'text-brand-500': shippingCompleted }" />
+          <span :class="addressType === 'Shipping' ? 'text-brand-500' : 'text-gray-300'">Shipping address</span>
         </button>
         <button
           type="button"
           class="flex items-center gap-1 text-gray-300"
           @click="changeTab('Billing')"
         >
-          <IconCheck class="h-4 w-4" :class="{ 'text-brand-500': billingCompleted }" />
-          <span :class="currentTab === 'Billing' ? 'text-brand-500' : 'text-gray-300'">Billing address</span>
+          <IconCheck class="h-6 w-6" :class="{ 'text-brand-500': billingCompleted }" />
+          <span :class="addressType === 'Billing' ? 'text-brand-500' : 'text-gray-300'">Billing address</span>
         </button>
       </div>
       <div class="flex gap-2">
@@ -65,8 +89,14 @@ function changeTab(type: AddressType) {
       </div>
     </div>
 
-      <Addresses class="flex" current-step-key="shipping_address" type="express" key="shipping_address_content" />
+    <!-- shipping tab -->
+    <div v-show="addressType === 'Shipping'">
+      <AddressesSlide class="flex" v-model="form.shippingAddressId" current-step-key="shipping_address" type="express" key="shipping_address_content" />
+    </div>
 
-      <Addresses v-show="currentTab === 'Billing'" current-step-key="billing_address" type="express" key="billing_address_content" />
+    <!-- billing tab -->
+    <div v-show="addressType === 'Billing'">
+      <AddressesSlide v-model="form.billingAddressId" current-step-key="billing_address" type="express" key="billing_address_content" />
+    </div>
   </div>
 </template>

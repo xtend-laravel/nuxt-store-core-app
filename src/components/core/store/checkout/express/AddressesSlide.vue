@@ -1,46 +1,31 @@
-<script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
-import usePersistForm from '#nuxt-store-core/composables/usePersistForm'
+<script lang="ts" setup>
+import { storeToRefs } from "pinia";
+import { useCheckoutStore } from "#nuxt-store-core/store/checkout";
+import { computed } from "vue";
 import IconEdit from '~icons/carbon/edit'
 import IconTrash from '~icons/carbon/trash-can'
 import IconCheck from '~icons/carbon/checkmark-filled'
 
-const props = defineProps({
-  currentStepKey: {
-    type: String,
-    required: true,
+
+const props = defineProps<{
+  currentStepKey: string;
+  modelValue: string;
+}>()
+
+const emit = defineEmits(["update:modelValue"]);
+
+const value = computed({
+  get() {
+    return props.modelValue;
   },
-  type: {
-    type: String,
-    required: false,
+  set(value) {
+    emit("update:modelValue", value);
   },
-})
+});
+
 const checkoutStore = useCheckoutStore()
 const { addresses, separateBillingAddress } = storeToRefs(checkoutStore)
 
-const form: any = reactive({
-  separateBillingAddress: separateBillingAddress.value,
-  shippingAddressId: 0,
-  billingAddressId: 0,
-})
-
-watch([() => form.shippingAddressId, () => form.billingAddressId], () => {
-  usePersistForm({
-    repository: 'carts',
-    action: 'update',
-    method: 'POST',
-    data: form,
-    exclude: ['separateBillingAddress'],
-  })
-})
-
-function toggleBillingStep() {
-  checkoutStore.toggleBillingAddress()
-  if (separateBillingAddress.value) {
-    checkoutStore.setCurrentStep(2)
-  }
-}
 </script>
 
 <template>
@@ -69,7 +54,7 @@ function toggleBillingStep() {
           <h4 class="mb-4 font-medium">Address {{ address.id }}</h4>
           <input
             :id="`${currentStepKey}_${address.id}`"
-            v-model="form.shippingAddressId"
+            v-model="value"
             :value="address.id"
             class="peer hidden"
             type="radio"
@@ -97,24 +82,6 @@ function toggleBillingStep() {
       </section>
     </SwiperSlide>
   </Swiper>
-  <div class="flex hidden">
-    <div class="relative mx-auto mt-20 text-center">
-      <div v-if="currentStepKey === 'shipping_address'" class="flex items-center justify-center gap-2">
-        <input
-          id="use_different_billing_address"
-          v-model="form.separateBillingAddress"
-          class="peer hidden"
-          type="checkbox"
-        />
-        <label for="use_different_billing_address" class="absolute inset-0 z-50" @click="toggleBillingStep" />
-        <IconCheck
-          class="pointer-events-none relative top-3 box-content h-5 w-5 -translate-y-1/2 rounded-full border-2 border-gray-300 bg-white text-white"
-          :class="{ 'border-gray-300 text-black': form.separateBillingAddress }"
-        />
-        <span class="text-sm font-medium">Use an alternative billing address</span>
-      </div>
-    </div>
-  </div>
 </template>
 
 <style>
