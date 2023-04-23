@@ -50,7 +50,6 @@ watch(() => form.billingAddressId, () => {
   confirmed.billing = false;
 })
 
-
 const confirmButtonDisabled = computed(() => {
   if (addressType.value === "Shipping") {
     return confirmed.shipping
