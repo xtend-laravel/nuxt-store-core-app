@@ -6,7 +6,6 @@ import IconEdit from '~icons/carbon/edit'
 import IconTrash from '~icons/carbon/trash-can'
 import IconCheck from '~icons/carbon/checkmark-filled'
 
-
 const props = defineProps<{
   currentStepKey: string;
   modelValue: string;
