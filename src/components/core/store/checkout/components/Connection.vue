@@ -167,6 +167,11 @@ watch([() => form.email, () => form.password], ([email, password]) => {
       <!-- email doesn't exist -->
       <div v-if="!hasAccount && emailIsValid">
         <div class="flex justify-between space-x-4">
+          <select
+            class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 w-full rounded-lg border border-2 px-3 py-2 font-medium placeholder:font-normal focus:outline-none focus:ring-0 md:px-4 md:py-3"
+          >
+            <option>Social title</option>
+          </select>
           <input
             type="text"
             placeholder="First name"

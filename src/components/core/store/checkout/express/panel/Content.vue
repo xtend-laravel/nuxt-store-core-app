@@ -45,7 +45,7 @@ const iconsClasses = computed(() => {
       </div>
     </div>
     <!-- content -->
-    <div class="w-full grow overflow-x-auto px-4 pb-16 lg:px-8 2xl:px-12">
+    <div class="w-full grow overflow-x-auto px-4 pb-12 lg:px-8 2xl:px-12">
       <component :is="step.component" :key="step.key" :current-step-key="step.key" />
     </div>
   </div>

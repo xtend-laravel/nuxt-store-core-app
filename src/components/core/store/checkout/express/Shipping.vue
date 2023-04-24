@@ -3,5 +3,5 @@ import Shipping from '../components/Shipping.vue'
 </script>
 
 <template>
-  <Shipping :enable-filter="true" />
+  <Shipping :enable-filter="false" />
 </template>

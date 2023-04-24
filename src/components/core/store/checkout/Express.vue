@@ -4,7 +4,7 @@ import Panels from './express/Panels.vue'
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
 import Connection from './components/Connection.vue'
-import Addresses from './express/Addresses.vue'
+import Addresses from './components/Addresses.vue'
 import Shipping from './express/Shipping.vue'
 import Payment from './components/Payment.vue'
 import Summary from './components/Summary.vue'
@@ -46,7 +46,7 @@ const props = withDefaults(
         title: 'Billing address',
         description: 'Enter your billing address',
         component: Addresses,
-        hidden: true
+        hidden: true,
         // @todo hide this step if billing address is the same as shipping address
       },
       {
