@@ -98,10 +98,25 @@ export const useCheckoutStore = defineStore({
     setSeparateBillingAddress(separateBillingAddress: boolean): void {
       this._orderSummary.separateBillingAddress = separateBillingAddress
     },
-    markStepAsCompleted(stepKey: string): void {
+    markStepAsIncomplete(stepKey: any): void {
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
+      step.completed = false
+    },
+    markStepAsCompleted(stepKey: any): void {
       const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
       if (!step.completed) {
         step.completed = true
+        step.locked = false
+        this.handleNextStep(step)
+      }
+    },
+    handleNextStep(step: any): void {
+      const nextStep: any = this._steps[this._steps.indexOf(step) + 1]
+      if (nextStep) {
+        if (nextStep.hidden) {
+          this.markStepAsCompleted(nextStep.key)
+        }
+        nextStep.locked = false
       }
     },
     isStepCompleted(stepKey: string): boolean {
@@ -113,8 +128,11 @@ export const useCheckoutStore = defineStore({
       step.hidden = !step.hidden
     },
     toggleBillingAddress(): void {
+      this.markStepAsIncomplete('billing_address')
       this.toggleStep('billing_address')
       this.markStepAsCompleted('shipping_address')
+      const step: any = this._steps.find((step: CheckoutStep) => step.key === 'billing_address')
+      step.completed = false
       this.setSeparateBillingAddress(!this._orderSummary.separateBillingAddress)
     },
   },

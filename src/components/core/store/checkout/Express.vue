@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import Panels from './express/Panels.vue'
 import Header from './elements/Header.vue'
 import EmptyCart from './elements/EmptyCart.vue'
@@ -27,6 +26,7 @@ const props = withDefaults(
         index: 0,
         key: 'connection',
         completed: false,
+        locked: true,
         title: 'Connection',
         description: 'Enter your billing address',
         component: Connection,
@@ -35,14 +35,16 @@ const props = withDefaults(
         index: 1,
         key: 'shipping_address',
         completed: false,
+        locked: true,
         title: 'Shipping address',
-        description: 'Enter your billing address',
+        description: 'Enter your shipping address',
         component: Addresses,
       },
       {
         index: 2,
         key: 'billing_address',
         completed: false,
+        locked: true,
         title: 'Billing address',
         description: 'Enter your billing address',
         component: Addresses,
@@ -53,6 +55,7 @@ const props = withDefaults(
         index: 3,
         key: 'shipping_method',
         completed: false,
+        locked: true,
         title: 'Shipping method',
         description: 'Select your shipping method',
         component: Shipping,
@@ -61,6 +64,7 @@ const props = withDefaults(
         index: 4,
         key: 'payment_method',
         completed: false,
+        locked: true,
         title: 'Payment',
         description: 'Enter your payment information',
         component: Payment,
@@ -70,14 +74,10 @@ const props = withDefaults(
 )
 
 const checkoutStore = useCheckoutStore()
-const { steps, currentStep } = storeToRefs(checkoutStore)
-
 const { isCartEmpty } = useCartStore()
 checkoutStore.setType('express')
 checkoutStore.setSteps(props.steps)
 checkoutStore.setCurrentStep(0)
-
-console.log('is cart empty', isCartEmpty)
 </script>
 
 <template>

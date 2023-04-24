@@ -27,6 +27,7 @@ const form: any = reactive({
 })
 
 watch([() => form.shippingAddressId, () => form.billingAddressId], () => {
+  checkoutStore.markStepAsCompleted(props.currentStepKey)
   usePersistForm({
     repository: 'carts',
     action: 'update',
@@ -42,6 +43,13 @@ function toggleBillingStep() {
     checkoutStore.setCurrentStep(2)
   }
 }
+
+const stepTitle = computed(() =>
+  props.currentStepKey
+    .toLowerCase()
+    .replace('_', ' ')
+    .replace(/^\w/, (c) => c.toUpperCase()),
+)
 </script>
 
 <template>
@@ -49,7 +57,7 @@ function toggleBillingStep() {
     class="text-center"
     :class="checkoutStore.checkoutType === 'express' ? 'flex flex-col items-center justify-between md:flex-row' : ''"
   >
-    <h2 class="mb-4 text-base">Shipping address</h2>
+    <h2 class="mb-4 text-base" v-text="stepTitle" />
   </div>
   <div class="md:-ml-10 md:flex">
     <div class="px-3 md:w-4/5 md:overflow-hidden md:px-10">
@@ -125,9 +133,9 @@ function toggleBillingStep() {
       <span class="animate-pulse">Add Address</span>
     </button>
   </div>
-  <div class="flex">
+  <div v-if="currentStepKey === 'shipping_address' && form.shippingAddressId" class="flex">
     <div class="relative mx-auto mt-4 md:mt-10">
-      <div v-if="currentStepKey === 'shipping_address'" class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-2">
         <input
           id="use_different_billing_address"
           v-model="form.separateBillingAddress"

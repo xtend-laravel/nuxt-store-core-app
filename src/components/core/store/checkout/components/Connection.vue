@@ -26,7 +26,7 @@ async function fetchAuthCheck() {
   useAuthStore().check(loggedIn)
 
   if (loggedIn) {
-    checkoutStore.fetch()
+    await checkoutStore.fetch()
     setTimeout(() => {
       checkoutStore.markStepAsCompleted('connection')
       checkoutStore.setCurrentStep(1)
@@ -98,8 +98,9 @@ const update = debounce(1000, () => {
 })
 
 const disableAction = computed(() => {
-  if (!hasAccount.value)
-return !form.toc
+  if (!hasAccount.value) {
+    return !form.toc
+  }
   return !form.email || !form.password || !!form.errors.email
 })
 
