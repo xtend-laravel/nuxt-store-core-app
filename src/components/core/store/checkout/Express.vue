@@ -26,7 +26,7 @@ const props = withDefaults(
         index: 0,
         key: 'connection',
         completed: false,
-        locked: true,
+        locked: false,
         title: 'Connection',
         description: 'Enter your billing address',
         component: Connection,
