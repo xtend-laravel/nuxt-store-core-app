@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import AddressesSlide from "~/components/core/store/checkout/express/AddressesSlide.vue";
 import { useCheckoutStore } from "#nuxt-store-core/store/checkout";
 import IconCheck from "~icons/carbon/checkmark-filled";
@@ -8,18 +9,22 @@ import { ref, reactive } from "vue";
 const checkoutStore = useCheckoutStore();
 const shippingCompleted = computed(() => checkoutStore.isStepCompleted("shipping_address"));
 const billingCompleted = computed(() => checkoutStore.isStepCompleted("billing_address"));
+const { addresses } = storeToRefs(checkoutStore)
+
 type AddressType = "Shipping" | "Billing";
 const addressType = ref<AddressType>("Shipping");
 
 const form = reactive({
   shippingAddressId: null,
-  billingAddressId: null,
+  billingAddressId: null
 });
 
-const confirmed = reactive ({
+const confirmed = reactive({
   shipping: false,
-  billing: false,
+  billing: false
 });
+
+const billingStartIndex = ref(0)
 
 function confirmAddress(type: AddressType) {
   if (type === "Shipping") {
@@ -30,13 +35,14 @@ function confirmAddress(type: AddressType) {
     }
 
     confirmed.shipping = true;
-    addressType.value = 'Billing';
+    addressType.value = "Billing";
+    billingStartIndex.value = addresses.value.findIndex((address: any) => address.id === form.billingAddressId);
   } else {
-    checkoutStore.markStepAsCompleted("billing_address")
+    checkoutStore.markStepAsCompleted("billing_address");
     confirmed.billing = true;
   }
 
-  persistAddressIds()
+  persistAddressIds();
 }
 
 function changeTab(type: AddressType) {
@@ -45,27 +51,27 @@ function changeTab(type: AddressType) {
 
 watch(() => form.shippingAddressId, () => {
   confirmed.shipping = false;
-})
+});
 watch(() => form.billingAddressId, () => {
   confirmed.billing = false;
-})
+});
 
 const confirmButtonDisabled = computed(() => {
   if (addressType.value === "Shipping") {
-    return confirmed.shipping
+    return confirmed.shipping;
   } else {
-    return confirmed.billing
+    return confirmed.billing;
   }
 });
 
 function persistAddressIds() {
   usePersistForm({
-    repository: 'carts',
-    action: 'update',
-    method: 'POST',
+    repository: "carts",
+    action: "update",
+    method: "POST",
     data: form,
-    exclude: ['separateBillingAddress'],
-  })
+    exclude: ["separateBillingAddress"]
+  });
 }
 </script>
 
@@ -113,12 +119,20 @@ disabled:bg-gray-200"
 
     <!-- shipping tab -->
     <div v-show="addressType === 'Shipping'">
-      <AddressesSlide class="flex" v-model="form.shippingAddressId" current-step-key="shipping_address" type="express" key="shipping_address_content" />
+      <AddressesSlide class="flex"
+                      v-model="form.shippingAddressId"
+                      current-step-key="shipping_address"
+                      key="shipping_address_content"
+      />
     </div>
 
     <!-- billing tab -->
     <div v-show="addressType === 'Billing'">
-      <AddressesSlide v-model="form.billingAddressId" current-step-key="billing_address" type="express" key="billing_address_content" />
+      <AddressesSlide v-model="form.billingAddressId"
+                      current-step-key="billing_address"
+                      key="billing_address_content"
+                      :initial-index="billingStartIndex"
+      />
     </div>
   </div>
 </template>

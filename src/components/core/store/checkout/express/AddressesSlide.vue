@@ -9,9 +9,12 @@ import IconCheck from '~icons/carbon/checkmark-filled'
 const props = defineProps<{
   currentStepKey: string;
   modelValue: string;
+  initialIndex: number;
 }>()
 
 const emit = defineEmits(["update:modelValue"]);
+
+const swiper = ref<SwiperInstance | null>(null);
 
 const value = computed({
   get() {
@@ -23,13 +26,19 @@ const value = computed({
 });
 
 const checkoutStore = useCheckoutStore()
-const { addresses, separateBillingAddress } = storeToRefs(checkoutStore)
+const { addresses } = storeToRefs(checkoutStore)
 
+watchEffect(() => {
+  if (swiper.value) {
+    swiper.value.slideTo(props.initialIndex || 0);
+  }
+})
 </script>
 
 <template>
   <Swiper
     class="swiper-cards"
+    @swiper="swiper = $event"
     :modules="[SwiperAutoplay, SwiperNavigation, SwiperEffectCards, SwiperPagination]"
     :slides-per-view="1"
     :space-between="30"
