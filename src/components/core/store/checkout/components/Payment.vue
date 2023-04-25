@@ -36,20 +36,35 @@ async function submitPayment() {
 
 const paymentMethods = [
   {
+    name: 'Payzen',
+    value: 'payzen',
+    image: '/payzen.webp',
+  },
+  {
+    name: 'Bank wire',
+    value: 'bank_wire',
+    image: '/bank_wire.png',
+  },
+  {
     name: 'Paypal',
     value: 'paypal',
     image: '/paypal.png',
   },
   {
-    name: 'Apple pay',
-    value: 'apple_pay',
-    image: '/apple_pay.png',
+    name: 'Paypal',
+    value: 'paypal',
+    image: '/paypal.png',
   },
-  {
-    name: 'Google pay',
-    value: 'google_pay',
-    image: '/google_pay.png',
-  },
+  // {
+  //   name: 'Apple pay',
+  //   value: 'apple_pay',
+  //   image: '/apple_pay.png',
+  // },
+  // {
+  //   name: 'Google pay',
+  //   value: 'google_pay',
+  //   image: '/google_pay.png',
+  // },
 ]
 
 const form: any = reactive({
@@ -75,7 +90,9 @@ watch(
 <template>
   <div>
     <h2 class="mb-4 text-base">Payment method</h2>
-    <div class="group flex flex-col items-center items-stretch gap-4 md:flex-row">
+    <div
+      class="group grid grid-cols-4 items-center items-center items-stretch items-stretch gap-4 gap-4 md:grid-cols-4 md:flex-row"
+    >
       <template v-for="paymentMethod in paymentMethods" :key="paymentMethod.name">
         <label
           class="relative flex-1 cursor-pointer items-center justify-center border border-gray-200 px-6 py-8 transition hover:border-gray-400"
@@ -95,21 +112,21 @@ watch(
           <IconCheck
             class="peer-checked:text-brand-500 pointer-events-none absolute right-4 top-8 box-content block h-6 w-6 -translate-y-1/2 rounded-full border-4 border-gray-300 bg-white text-white group-hover:border-gray-400 peer-checked:border-gray-200"
           />
-          <img :src="paymentMethod.image" alt="paymentMethod.name" class="h-[50px] w-full object-contain" />
+          <img :src="paymentMethod.image" alt="paymentMethod.name" class="h-[100px] w-full object-contain" />
         </label>
       </template>
     </div>
-    <div class="mt-10 flex flex-col-reverse gap-4 md:flex-row md:justify-end">
-      <div id="payment-element"></div>
-      <button
-        :disabled="!form.paymentGatewayId"
-        type="button"
-        class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-6 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none"
-        :class="{ 'hover:!bg-brand-500 cursor-not-allowed opacity-40': !form.paymentGatewayId }"
-        @click="submitPayment"
-      >
-        Place Order
-      </button>
-    </div>
+    <!--    <div class="mt-10 flex flex-col-reverse gap-4 md:flex-row md:justify-end"> -->
+    <!--      <div id="payment-element"></div> -->
+    <!--      <button -->
+    <!--        :disabled="!form.paymentGatewayId" -->
+    <!--        type="button" -->
+    <!--        class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-6 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none" -->
+    <!--        :class="{ 'hover:!bg-brand-500 cursor-not-allowed opacity-40': !form.paymentGatewayId }" -->
+    <!--        @click="submitPayment" -->
+    <!--      > -->
+    <!--        Place Order -->
+    <!--      </button> -->
+    <!--    </div> -->
   </div>
 </template>

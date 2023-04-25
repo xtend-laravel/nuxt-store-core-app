@@ -38,6 +38,9 @@ watch([() => form.shippingAddressId, () => form.billingAddressId], () => {
 })
 
 function toggleBillingStep() {
+  if (form.shippingAddressId === 0) {
+    return
+  }
   checkoutStore.toggleBillingAddress()
   if (separateBillingAddress.value) {
     checkoutStore.setCurrentStep(2)
@@ -157,19 +160,23 @@ function handleOk() {
       </template>
     </a-modal>
   </div>
-  <div v-if="currentStepKey === 'shipping_address' && form.shippingAddressId" class="flex">
+  <div v-if="currentStepKey === 'shipping_address'" class="flex">
     <div class="relative mx-auto mt-4 md:mt-10">
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-2" :class="{ 'opacity-50': !form.shippingAddressId }">
         <input
           id="use_different_billing_address"
           v-model="form.separateBillingAddress"
           class="peer hidden"
+          :disabled="!form.shippingAddressId"
           type="checkbox"
         />
         <label for="use_different_billing_address" class="absolute inset-0 z-50" @click="toggleBillingStep" />
         <IconCheck
           class="pointer-events-none relative top-3 box-content h-5 w-5 -translate-y-1/2 rounded-full border-2 border-gray-300 bg-white text-white"
-          :class="{ 'peer-checked:text-brand-500 border-gray-300 text-black': form.separateBillingAddress }"
+          :class="{
+            'peer-checked:text-brand-500 border-gray-300 text-black':
+              form.separateBillingAddress && form.shippingAddressId,
+          }"
         />
         <span class="text-sm font-medium">Use an alternative billing address</span>
       </div>

@@ -20,7 +20,7 @@ const props = withDefaults(
   {
     progressBarClasses: 'col-span-2',
     leftColumnClasses: 'col-span-9 overflow-hidden lg:px-10',
-    rightColumnClasses: 'col-span-3',
+    rightColumnClasses: 'col-span-3 flex items-center',
     steps: [
       {
         index: 0,

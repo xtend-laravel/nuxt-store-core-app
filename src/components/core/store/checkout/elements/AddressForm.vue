@@ -1,5 +1,4 @@
 <script lang="ts">
-// All country data from https://restcountries.eu/rest/v2/all
 const countryData = ['United States', 'Canada', 'United Kingdom', 'France', 'Italy', 'Spain', 'Germany']
 const stateData = {
   'United States': [
@@ -169,6 +168,7 @@ export default defineComponent({
 
     const formState = reactive({
       address: {
+        title: '',
         firstName: '',
         lastName: '',
         company: '',
@@ -176,7 +176,7 @@ export default defineComponent({
         addressLine1: '',
         addressLine2: '',
         city: '',
-        zipCode: '',
+        postcode: '',
         country: '',
         state: '',
       },
@@ -194,10 +194,10 @@ export default defineComponent({
       state: stateData[country][0],
     })
     const states = computed(() => {
-      return stateData[state.country]
+      return stateData[formState.address.country] || []
     })
     watch(
-      () => state.country,
+      () => formState.address.country,
       (val) => {
         state.state = state.stateData[val][0]
       },
@@ -222,8 +222,14 @@ export default defineComponent({
     @finish="onFinish"
   >
     <div class="flex justify-between space-x-4">
+      <a-form-item :name="['address', 'title']" label="Alias" :label-col="{ span: 24, offset: 0 }" class="w-full">
+        <a-input v-model:value="formState.address.title" />
+      </a-form-item>
+    </div>
+    <div class="flex justify-between space-x-4">
       <a-form-item
-        :name="['user', 'firstName']"
+        :has-feedback="true"
+        :name="['address', 'firstName']"
         :rules="[{ required: true }]"
         label="First name"
         :label-col="{ span: 24, offset: 0 }"
@@ -232,52 +238,85 @@ export default defineComponent({
         <a-input v-model:value="formState.address.firstName" />
       </a-form-item>
       <a-form-item
-        :name="['user', 'lastName']"
-        :rules="[{ type: 'email' }]"
+        :name="['address', 'lastName']"
         label="Last name"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.email" />
-      </a-form-item>
-    </div>
-    <div class="flex justify-between space-x-4">
-      <a-form-item :name="['user', 'lastName']" label="Company" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="formState.address.email" />
-      </a-form-item>
-      <a-form-item :name="['user', 'lastName']" label="Vat number" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="formState.address.email" />
+        <a-input v-model:value="formState.address.lastName" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
       <a-form-item
-        :name="['user', 'lastName']"
+        :has-feedback="true"
+        :name="['address', 'firstName']"
+        label="Contact email"
+        :label-col="{ span: 24, offset: 0 }"
+        class="w-full"
+      >
+        <a-input v-model:value="formState.address.firstName" />
+      </a-form-item>
+      <a-form-item
+        :name="['address', 'lastName']"
+        label="Contact phone"
+        :label-col="{ span: 24, offset: 0 }"
+        class="w-full"
+      >
+        <a-input v-model:value="formState.address.lastName" />
+      </a-form-item>
+    </div>
+    <div class="flex justify-between space-x-4">
+      <a-form-item :name="['address', 'company']" label="Company" :label-col="{ span: 24, offset: 0 }" class="w-full">
+        <a-input v-model:value="formState.address.email" />
+      </a-form-item>
+      <a-form-item
+        :name="['address', 'vatNumber']"
+        label="Vat number"
+        :label-col="{ span: 24, offset: 0 }"
+        class="w-full"
+      >
+        <a-input v-model:value="formState.address.vatNumber" />
+      </a-form-item>
+    </div>
+    <div class="flex justify-between space-x-4">
+      <a-form-item
+        :name="['address', 'addressLine1']"
         label="Address line 1"
         :label-col="{ span: 24, offset: 0 }"
         :rules="[{ required: true }]"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.email" />
+        <a-input v-model:value="formState.address.addressLine1" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
       <a-form-item
-        :name="['user', 'website']"
+        :name="['address', 'addressLine2']"
         label="Address line 2"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.website" />
+        <a-input v-model:value="formState.address.addressLine2" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
-      <a-form-item :name="['user', 'website']" label="City" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="formState.address.website" />
+      <a-form-item
+        :name="['address', 'city']"
+        label="City"
+        :label-col="{ span: 24, offset: 0 }"
+        :rules="[{ required: true }]"
+        class="w-full"
+      >
+        <a-input v-model:value="formState.address.city" />
       </a-form-item>
-    </div>
-    <div class="flex justify-between space-x-4">
-      <a-form-item :name="['user', 'website']" label="Zip code" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="formState.address.website" />
+      <a-form-item
+        :name="['address', 'postcode']"
+        label="Zip / Postal Code"
+        :label-col="{ span: 24, offset: 0 }"
+        :rules="[{ required: true }]"
+        class="w-full"
+      >
+        <a-input v-model:value="formState.address.postcode" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -290,15 +329,13 @@ export default defineComponent({
         class="w-full"
       >
         <a-select
-          v-model:value="country"
-          :options="countryData.map((pro) => ({ value: pro }))"
+          v-model:value="formState.address.country"
+          :options="countryData.map((state) => ({ value: state }))"
           placeholder="Please select a country"
         ></a-select>
       </a-form-item>
-    </div>
-    <div class="flex justify-between space-x-4">
-      <a-form-item :name="['user', 'website']" label="State" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-select v-model:value="state" :options="states.map((city) => ({ value: city }))"></a-select>
+      <a-form-item :name="['address', 'state']" label="State" :label-col="{ span: 24, offset: 0 }" class="w-full">
+        <a-select v-model:value="formState.address.state" :options="states.map((city) => ({ value: city }))"></a-select>
       </a-form-item>
     </div>
   </a-form>
