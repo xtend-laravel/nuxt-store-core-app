@@ -50,6 +50,21 @@ const stepTitle = computed(() =>
     .replace('_', ' ')
     .replace(/^\w/, (c) => c.toUpperCase()),
 )
+
+const modalText = ref<string>('Content of the modal')
+const visible = ref<boolean>(false)
+const confirmLoading = ref<boolean>(false)
+function showModal() {
+  visible.value = true
+}
+function handleOk() {
+  modalText.value = 'The modal will be closed after two seconds'
+  confirmLoading.value = true
+  setTimeout(() => {
+    visible.value = false
+    confirmLoading.value = false
+  }, 2000)
+}
 </script>
 
 <template>
@@ -59,8 +74,8 @@ const stepTitle = computed(() =>
   >
     <h2 class="mb-4 text-base" v-text="stepTitle" />
   </div>
-  <div class="md:-ml-10 md:flex">
-    <div class="px-3 md:w-4/5 md:overflow-hidden md:px-10">
+  <div :class="{ 'md:-ml-10 md:flex': addresses.length }">
+    <div v-if="addresses.length" class="px-3 md:w-4/5 md:overflow-hidden md:px-10">
       <Swiper
         class="swiper-cards"
         :modules="[SwiperAutoplay, SwiperNavigation, SwiperEffectCards, SwiperPagination]"
@@ -127,11 +142,20 @@ const stepTitle = computed(() =>
       </button>
     </div>
     <button
-      class="height group hidden h-[228px] flex-col items-center justify-center border-2 border-gray-200 bg-gray-100 transition-all hover:bg-gray-200 md:flex md:w-1/5"
+      class="height group block hidden h-[228px] w-full flex-col items-center justify-center border-2 border-gray-200 bg-gray-100 transition-all hover:bg-gray-200 md:flex"
+      :class="{ 'md:flex md:w-1/5': addresses.length }"
+      @click="showModal"
     >
       <IconAdd class="h-6 w-6 group-hover:animate-bounce" />
       <span class="animate-pulse">Add Address</span>
     </button>
+    <a-modal v-model:visible="visible" title="Add address" centered :confirm-loading="confirmLoading" @ok="handleOk">
+      <CoreStoreCheckoutElementsAddressForm />
+      <template #footer>
+        <a-button key="back" @click="handleCancel">Return</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
+      </template>
+    </a-modal>
   </div>
   <div v-if="currentStepKey === 'shipping_address' && form.shippingAddressId" class="flex">
     <div class="relative mx-auto mt-4 md:mt-10">
