@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <div class="flow-root">
-    <ul class="-my-8">
+    <ul>
       <li
         v-for="item in items"
         :key="item.id"

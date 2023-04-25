@@ -17,7 +17,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
 </script>
 
 <template>
-  <div class="bg-white py-10">
+  <div class="bg-white pb-4 pt-10">
     <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
       <span v-text="labels.subTotal" />
       <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.sub_total)" />
