@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <section class="border-base mt-6 min-h-[700px] rounded shadow-lg">
+  <section class="border-base min-h-[700px] rounded shadow-lg">
     <h4 class="mb-4 px-4 pt-4 font-medium underline">Order summary</h4>
     <slot name="summary-header">
       <div class="p-10">
