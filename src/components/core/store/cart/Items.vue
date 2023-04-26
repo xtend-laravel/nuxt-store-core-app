@@ -6,7 +6,7 @@ const { items } = useCartStore()
 
 <template>
   <div>
-    <div class="px-4 py-6 sm:px-8 sm:py-10">
+    <div class="px-4 py-6 sm:py-6">
       <slot name="override-items-list" :items="items">
         <CoreStoreCartItemsList :items="items" />
       </slot>

@@ -1,15 +1,14 @@
 import type { H3Event } from 'h3'
 import { readBody } from 'h3'
-import useNitroApi from '../../../../composables/useNitroApi'
+import useNitroApi from '../../../composables/useNitroApi'
 
 export default defineEventHandler(async (event: H3Event) => {
   const body = await readBody(event)
-  // console.log(body, 'defineEventHandler')
   return await useNitroApi(
     {
       event,
-      endpoint: `/api/restify/carts/${body.cartId}/public-actions?action=update-cart-action`,
-      requiresAuth: false,
+      endpoint: `/api/restify/addresses`,
+      requiresAuth: true,
       method: 'POST',
     },
     body,

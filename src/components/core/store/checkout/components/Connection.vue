@@ -3,6 +3,10 @@ import { debounce } from 'throttle-debounce'
 import { useAuthStore } from '#nuxt-store-core/store/auth'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
+interface LoginResponseData {
+  user: any
+}
+
 const checkoutStore = useCheckoutStore()
 const hasAccount = ref(false)
 const emailIsValid = ref(false)
@@ -11,6 +15,9 @@ const form = reactive({
   email: '',
   password: '',
   toc: false,
+  title: '',
+  firstName: '',
+  lastName: '',
   errors: {
     email: '',
     password: '',
@@ -26,7 +33,7 @@ async function fetchAuthCheck() {
   useAuthStore().check(loggedIn)
 
   if (loggedIn) {
-    checkoutStore.fetch()
+    await checkoutStore.fetch()
     setTimeout(() => {
       checkoutStore.markStepAsCompleted('connection')
       checkoutStore.setCurrentStep(1)
@@ -34,19 +41,21 @@ async function fetchAuthCheck() {
   }
 }
 async function loginRequest() {
-  const { data, error } = (await useFetch('/api/login', {
-    method: 'POST',
-    body: {
-      email: form.email,
-      password: form.password,
-    },
-  })) as any
-  if (error.value && error.value.statusCode === 401) {
-    form.errors.password = 'Invalid password'
-    return
+  try {
+    const data: LoginResponseData = await $fetch('/api/login', {
+      method: 'POST',
+      body: {
+        email: form.email,
+        password: form.password,
+      },
+    })
+    useAuthStore().setUser(data.user)
+    await fetchAuthCheck()
+  } catch (error) {
+    if (error.statusCode === 401) {
+      form.errors.password = 'Invalid password'
+    }
   }
-  useAuthStore().setUser(data.value.user)
-  await fetchAuthCheck()
 }
 
 async function logout() {
@@ -98,12 +107,31 @@ const update = debounce(1000, () => {
 })
 
 const disableAction = computed(() => {
-  if (!hasAccount.value)
-return !form.toc
+  if (!hasAccount.value) {
+    return !form.toc || !form.email || !form.title || !form.firstName || !form.lastName || !!form.errors.email
+  }
   return !form.email || !form.password || !!form.errors.email
 })
 
-async function register() {}
+async function register() {
+  try {
+    const data: LoginResponseData = await $fetch('/api/register', {
+      method: 'POST',
+      body: {
+        email: form.email,
+        title: form.title,
+        first_name: form.firstName,
+        last_name: form.lastName,
+      },
+    })
+    useAuthStore().setUser(data.user)
+    await fetchAuthCheck()
+  } catch (error) {
+    if (error.statusCode === 401) {
+      form.errors.password = 'Invalid password'
+    }
+  }
+}
 
 async function onSubmit() {
   if (hasAccount.value) {
@@ -167,12 +195,22 @@ watch([() => form.email, () => form.password], ([email, password]) => {
       <!-- email doesn't exist -->
       <div v-if="!hasAccount && emailIsValid">
         <div class="flex justify-between space-x-4">
+          <select
+            v-model="form.title"
+            class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 w-full rounded-lg border border-2 px-3 py-2 font-medium placeholder:font-normal focus:outline-none focus:ring-0 md:px-4 md:py-3"
+          >
+            <option value="">Social title</option>
+            <option>Mr</option>
+            <option>Mrs</option>
+          </select>
           <input
+            v-model="form.firstName"
             type="text"
             placeholder="First name"
             class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 w-full rounded-lg border border-2 px-3 py-2 font-medium placeholder:font-normal focus:outline-none focus:ring-0 md:px-4 md:py-3"
           />
           <input
+            v-model="form.lastName"
             type="text"
             placeholder="Last name"
             class="focus:ring-shadow-none border-brand-500 focus:border-brand-500 w-full rounded-lg border border-2 px-3 py-2 font-medium placeholder:font-normal focus:outline-none focus:ring-0 md:px-4 md:py-3"
@@ -241,7 +279,6 @@ watch([() => form.email, () => form.password], ([email, password]) => {
         <button class="inline-flex items-center space-x-2 rounded bg-gray-700 p-2 font-semibold text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
             aria-hidden="true"
             role="img"
             class="w-5"
@@ -261,7 +298,6 @@ watch([() => form.email, () => form.password], ([email, password]) => {
         <button class="inline-flex items-center space-x-2 rounded bg-red-500 p-2 font-semibold text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
             aria-hidden="true"
             role="img"
             class="w-5"

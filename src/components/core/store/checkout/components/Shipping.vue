@@ -9,7 +9,6 @@ const props = defineProps<{
 }>()
 const enableFilter = props.enableFilter ?? true
 const selectedFilter = ref('express')
-console.log('selected filter', selectedFilter.value)
 const checkoutStore = useCheckoutStore()
 const { shippingMethods, checkoutType } = storeToRefs(checkoutStore)
 const form: any = reactive({
@@ -17,9 +16,10 @@ const form: any = reactive({
 })
 
 const methods = computed(() => {
-  return shippingMethods.value.filter((method: { name: string }) =>
-    method.name.toLowerCase().includes(selectedFilter.value.toLowerCase()),
-  )
+  return shippingMethods.value
+  // return shippingMethods.value.filter((method: { name: string }) =>
+  //   method.name.toLowerCase().includes(selectedFilter.value.toLowerCase()),
+  // )
 })
 
 watch(
@@ -52,9 +52,10 @@ watch(
       </div>
     </template>
 
-    <div class="flex flex-col items-center items-stretch gap-4" :class="{ 'md:flex-row': methods.length > 1 }">
+    <h2 class="mb-4 text-base">Shipping method</h2>
+    <div class="grid grid-cols-4 items-center items-stretch gap-4 md:grid-cols-3" :class="{ '': methods.length > 1 }">
       <div v-for="shippingMethod in methods" :key="shippingMethod.identifier">
-        <section class="shadow-3xl border-base group my-2 rounded bg-gray-50 hover:bg-white">
+        <section class="shadow-3xl border-base group my-0 rounded bg-gray-50 hover:bg-white">
           <div class="relative flex h-32 items-center p-4 text-sm not-italic">
             <div class="flex w-full flex-row items-center">
               <!-- seem legit -->
@@ -91,7 +92,10 @@ watch(
               class="peer hidden"
               type="radio"
             />
-            <label :for="`shippingMethod_${shippingMethod.identifier}`" class="absolute inset-0" />
+            <label
+              :for="`shippingMethod_${shippingMethod.identifier}`"
+              class="peer-checked:border-brand-500 absolute inset-0 border-2"
+            />
             <IconCheck
               class="peer-checked:text-brand-500 pointer-events-none absolute right-4 top-8 box-content block h-6 w-6 -translate-y-1/2 rounded-full border-4 border-gray-300 bg-white text-white group-hover:border-gray-400 peer-checked:border-gray-200"
             />

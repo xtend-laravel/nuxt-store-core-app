@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import StepLock from './StepLock.vue'
 import { useCheckoutStore } from '~/store/checkout'
 import IconUser from '~icons/carbon/user-admin'
 import IconBookmark from '~icons/carbon/bookmark'
@@ -45,7 +46,8 @@ const iconsClasses = computed(() => {
       </div>
     </div>
     <!-- content -->
-    <div class="w-full grow overflow-x-auto px-4 pb-16 lg:px-8 2xl:px-12">
+    <div class="relative w-full grow overflow-x-auto px-4 pb-12 lg:px-8 2xl:px-12">
+      <StepLock v-if="step.locked" :step="step" />
       <component :is="step.component" :key="step.key" :current-step-key="step.key" />
     </div>
   </div>

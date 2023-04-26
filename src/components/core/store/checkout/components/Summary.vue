@@ -1,16 +1,23 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CheckoutActionIcon from '../../cart/items/CheckoutActionIcon.vue'
+
+const notes = ref('')
+const giftWrap = ref(false)
+const giftMessage = ref('')
+</script>
 
 <template>
-  <section class="border-base mt-6 min-h-[700px] rounded shadow-lg">
+  <section class="border-base relative rounded shadow-lg">
     <h4 class="mb-4 px-4 pt-4 font-medium underline">Order summary</h4>
+    <slot name="summary-header"> </slot>
     <CoreStoreCartItems>
       <template #override-items-list="{ items }">
-        <div class="pt-6" :class="{ 'h-[520px] overflow-auto': Object.keys(items).length > 3 }">
+        <div class="px-4" :class="{ 'scrollbar h-[500px] overflow-y-scroll': Object.keys(items).length > 3 }">
           <CoreStoreCartItemsList :items="items" />
         </div>
       </template>
       <template #override-footer-actions>
-        <div class="mb-3">
+        <div>
           <label class="text-brand-500 mb-3 block text-sm">Apply promo code:</label>
           <div class="relative mb-4 flex w-full flex-wrap items-stretch">
             <input
@@ -29,7 +36,37 @@
             </div>
           </div>
         </div>
+        <a-form-item name="switch" label="Notes about your order" :label-col="{ span: 24, offset: 0 }">
+          <a-textarea v-model:value="notes" placeholder="Order notes" :rows="4" show-count :maxlength="200" />
+        </a-form-item>
+        <div class="mt-6">
+          <a-checkbox v-model:checked="giftWrap">I would like my order to be gift wrapped</a-checkbox>
+        </div>
+        <div class="mt-2">
+          <a-textarea
+            v-if="giftWrap"
+            v-model:value="giftMessage"
+            :rows="2"
+            :maxlength="100"
+            placeholder="Enter your message"
+          />
+        </div>
+        <div class="mt-10 w-full text-center">
+          <NuxtLink
+            to="checkout"
+            class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 x-6 inline-flex w-full items-center justify-center rounded-md py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out hover:bg-gray-800 hover:text-white focus:shadow"
+          >
+            <span>Place order</span>
+            <Component :is="CheckoutActionIcon" class="ml-4 h-6 w-6 transition-all group-hover:ml-8" />
+          </NuxtLink>
+        </div>
       </template>
     </CoreStoreCartItems>
   </section>
 </template>
+
+<style>
+.ant-form-item {
+  margin-bottom: 2px;
+}
+</style>
