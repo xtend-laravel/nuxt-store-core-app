@@ -1,4 +1,7 @@
-<script lang="ts">
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useAddressStore } from '#nuxt-store-core/store/address'
+
 const countryData = ['United States', 'Canada', 'United Kingdom', 'France', 'Italy', 'Spain', 'Germany']
 const stateData = {
   'United States': [
@@ -156,74 +159,23 @@ const stateData = {
     'Thuringia',
   ],
 }
-export default defineComponent({
-  setup() {
-    const validateMessages = {
-      required: '${label} is required!',
-      // types: {
-      //   email: '${label} is not a valid email!',
-      //   number: '${label} is not a valid number!',
-      // },
-    }
 
-    const formState = reactive({
-      address: {
-        title: '',
-        firstName: '',
-        lastName: '',
-        company: '',
-        vatNumber: '',
-        addressLine1: '',
-        addressLine2: '',
-        city: '',
-        postcode: '',
-        country: '',
-        state: '',
-      },
-    })
+const addressStore = useAddressStore()
+const { addressForm } = storeToRefs(addressStore)
+const states = computed(() => {
+  return stateData[addressStore.addressForm.country] || []
+})
 
-    const onFinish = (values: any) => {
-      console.log('Success:', values)
-    }
-
-    const country = countryData[0]
-    const state = reactive({
-      country,
-      countryData,
-      stateData,
-      state: stateData[country][0],
-    })
-    const states = computed(() => {
-      return stateData[formState.address.country] || []
-    })
-    watch(
-      () => formState.address.country,
-      (val) => {
-        state.state = state.stateData[val][0]
-      },
-    )
-    return {
-      ...toRefs(state),
-      states,
-      validateMessages,
-      formState,
-      onFinish,
-    }
-  },
+const formState = reactive({
+  address: addressForm,
 })
 </script>
 
 <template>
-  <a-form
-    :model="formState"
-    :label-wrap="true"
-    name="nest-messages"
-    :validate-messages="validateMessages"
-    @finish="onFinish"
-  >
+  <a-form :model="formState" :label-wrap="true" name="nest-messages">
     <div class="flex justify-between space-x-4">
       <a-form-item :name="['address', 'title']" label="Alias" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="formState.address.title" />
+        <a-input v-model:value="addressForm.title" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -235,7 +187,7 @@ export default defineComponent({
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.firstName" />
+        <a-input v-model:value="addressForm.firstName" />
       </a-form-item>
       <a-form-item
         :name="['address', 'lastName']"
@@ -243,7 +195,7 @@ export default defineComponent({
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.lastName" />
+        <a-input v-model:value="addressForm.lastName" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -254,7 +206,7 @@ export default defineComponent({
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.firstName" />
+        <a-input v-model:value="addressForm.firstName" />
       </a-form-item>
       <a-form-item
         :name="['address', 'lastName']"
@@ -262,12 +214,12 @@ export default defineComponent({
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.lastName" />
+        <a-input v-model:value="addressForm.lastName" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
       <a-form-item :name="['address', 'company']" label="Company" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="formState.address.email" />
+        <a-input v-model:value="addressForm.email" />
       </a-form-item>
       <a-form-item
         :name="['address', 'vatNumber']"
@@ -275,7 +227,7 @@ export default defineComponent({
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.vatNumber" />
+        <a-input v-model:value="addressForm.vatNumber" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -286,7 +238,7 @@ export default defineComponent({
         :rules="[{ required: true }]"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.addressLine1" />
+        <a-input v-model:value="addressForm.addressLine1" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -296,7 +248,7 @@ export default defineComponent({
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.addressLine2" />
+        <a-input v-model:value="addressForm.addressLine2" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -307,7 +259,7 @@ export default defineComponent({
         :rules="[{ required: true }]"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.city" />
+        <a-input v-model:value="addressForm.city" />
       </a-form-item>
       <a-form-item
         :name="['address', 'postcode']"
@@ -316,7 +268,7 @@ export default defineComponent({
         :rules="[{ required: true }]"
         class="w-full"
       >
-        <a-input v-model:value="formState.address.postcode" />
+        <a-input v-model:value="addressForm.postcode" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
@@ -329,13 +281,13 @@ export default defineComponent({
         class="w-full"
       >
         <a-select
-          v-model:value="formState.address.country"
+          v-model:value="addressForm.country"
           :options="countryData.map((state) => ({ value: state }))"
           placeholder="Please select a country"
         ></a-select>
       </a-form-item>
       <a-form-item :name="['address', 'state']" label="State" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-select v-model:value="formState.address.state" :options="states.map((city) => ({ value: city }))"></a-select>
+        <a-select v-model:value="addressForm.state" :options="states.map((city) => ({ value: city }))"></a-select>
       </a-form-item>
     </div>
   </a-form>

@@ -6,7 +6,7 @@ interface INitroApiOptions {
   event: H3Event
   endpoint: string
   requiresAuth?: boolean
-  method?: string
+  method?: any
   contentType?: string
   query?: any
 }

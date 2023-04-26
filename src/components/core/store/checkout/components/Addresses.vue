@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { useAddressStore } from '#nuxt-store-core/store/address'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 import usePersistForm from '#nuxt-store-core/composables/usePersistForm'
 import IconEdit from '~icons/carbon/edit'
@@ -60,13 +61,27 @@ const confirmLoading = ref<boolean>(false)
 function showModal() {
   visible.value = true
 }
-function handleOk() {
-  modalText.value = 'The modal will be closed after two seconds'
-  confirmLoading.value = true
-  setTimeout(() => {
-    visible.value = false
-    confirmLoading.value = false
-  }, 2000)
+async function handleOk() {
+  const addressStore = useAddressStore()
+  try {
+    await useApi({
+      endpoint: '/api/restify/addresses',
+      requireAuth: true,
+      action: 'create',
+      method: 'POST',
+      data: addressStore.addressForm,
+    })
+  } catch (error) {
+    if (error.statusCode === 401) {
+      // Handle unauthorized
+    }
+  }
+  // modalText.value = 'The modal will be closed after two seconds'
+  // confirmLoading.value = true
+  // setTimeout(() => {
+  //   visible.value = false
+  //   confirmLoading.value = false
+  // }, 2000)
 }
 </script>
 
