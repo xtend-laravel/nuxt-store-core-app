@@ -77,7 +77,7 @@ export const useCartStore = defineStore({
     setMeta(meta: Record<string, any>): void {
       this._meta = meta
     },
-    async persistCartData(productId: number, currentQuantity: number): Promise<any> {
+    async persistCartData(productId: number, currentQuantity: number, variants?: object): Promise<any> {
       return useGlobalStore().persistEntity({
         repository: 'carts',
         action: 'update',
@@ -87,12 +87,13 @@ export const useCartStore = defineStore({
           product: {
             id: productId,
             quantity: currentQuantity || 1,
+            variants: variants
           },
         },
       })
     },
-    async add(productId: number, quantity = 1): Promise<any> {
-      await this.persistCartData(productId, quantity)
+    async add(productId: number, quantity = 1, variants?: object): Promise<any> {
+      await this.persistCartData(productId, quantity, variants)
       await this.fetch()
     },
     async remove(productId: number): Promise<any> {
