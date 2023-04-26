@@ -66,7 +66,7 @@ async function handleOk() {
   try {
     await useApi({
       endpoint: '/api/restify/addresses',
-      requireAuth: true,
+      requiresAuth: true,
       action: 'create',
       method: 'POST',
       data: addressStore.addressForm,
@@ -74,14 +74,15 @@ async function handleOk() {
   } catch (error) {
     if (error.statusCode === 401) {
       // Handle unauthorized
+      console.info('Unauthorized')
     }
   }
-  // modalText.value = 'The modal will be closed after two seconds'
-  // confirmLoading.value = true
-  // setTimeout(() => {
-  //   visible.value = false
-  //   confirmLoading.value = false
-  // }, 2000)
+  modalText.value = 'The modal will be closed after two seconds'
+  confirmLoading.value = true
+  setTimeout(() => {
+    visible.value = false
+    confirmLoading.value = false
+  }, 2000)
 }
 </script>
 

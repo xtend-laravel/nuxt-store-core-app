@@ -181,74 +181,79 @@ const formState = reactive({
     <div class="flex justify-between space-x-4">
       <a-form-item
         :has-feedback="true"
-        :name="['address', 'firstName']"
+        :name="['address', 'first_name']"
         :rules="[{ required: true }]"
         label="First name"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.firstName" />
+        <a-input v-model:value="addressForm.first_name" />
       </a-form-item>
       <a-form-item
-        :name="['address', 'lastName']"
+        :name="['address', 'last_name']"
         label="Last name"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.lastName" />
+        <a-input v-model:value="addressForm.last_name" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
       <a-form-item
         :has-feedback="true"
-        :name="['address', 'firstName']"
+        :name="['address', 'contact_email']"
         label="Contact email"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.firstName" />
+        <a-input v-model:value="addressForm.contact_email" />
       </a-form-item>
       <a-form-item
-        :name="['address', 'lastName']"
+        :name="['address', 'contact_phone']"
         label="Contact phone"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.lastName" />
+        <a-input v-model:value="addressForm.contact_phone" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
-      <a-form-item :name="['address', 'company']" label="Company" :label-col="{ span: 24, offset: 0 }" class="w-full">
-        <a-input v-model:value="addressForm.email" />
+      <a-form-item
+        :name="['address', 'company_name']"
+        label="Company"
+        :label-col="{ span: 24, offset: 0 }"
+        class="w-full"
+      >
+        <a-input v-model:value="addressForm.company_name" />
       </a-form-item>
       <a-form-item
-        :name="['address', 'vatNumber']"
+        :name="['address', 'vat_number']"
         label="Vat number"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.vatNumber" />
+        <a-input v-model:value="addressForm.vat_number" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
       <a-form-item
-        :name="['address', 'addressLine1']"
+        :name="['address', 'line_one']"
         label="Address line 1"
         :label-col="{ span: 24, offset: 0 }"
         :rules="[{ required: true }]"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.addressLine1" />
+        <a-input v-model:value="addressForm.line_one" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">
       <a-form-item
-        :name="['address', 'addressLine2']"
+        :name="['address', 'line_two']"
         label="Address line 2"
         :label-col="{ span: 24, offset: 0 }"
         class="w-full"
       >
-        <a-input v-model:value="addressForm.addressLine2" />
+        <a-input v-model:value="addressForm.line_two" />
       </a-form-item>
     </div>
     <div class="flex justify-between space-x-4">

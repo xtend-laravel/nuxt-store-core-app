@@ -6,12 +6,14 @@ interface AddressState {
   _states: any[]
   _addressForm: {
     title: string
-    firstName: string
-    lastName: string
-    company: string
-    vatNumber: string
-    addressLine1: string
-    addressLine2: string
+    first_name: string
+    last_name: string
+    company_name: string
+    contact_email: string
+    contact_phone: string
+    vat_number: string
+    line_one: string
+    line_two: string
     city: string
     postcode: string
     country: string
@@ -25,14 +27,17 @@ export const useAddressStore = defineStore({
   state: (): AddressState => ({
     _countries: [],
     _states: [],
+    // @todo map fields via restify - quick workaround to match the API fields
     _addressForm: {
       title: '',
-      firstName: '',
-      lastName: '',
-      company: '',
-      vatNumber: '',
-      addressLine1: '',
-      addressLine2: '',
+      first_name: '',
+      last_name: '',
+      company_name: '',
+      contact_email: '',
+      contact_phone: '',
+      vat_number: '',
+      line_one: '',
+      line_two: '',
       city: '',
       postcode: '',
       country: '',

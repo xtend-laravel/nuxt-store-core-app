@@ -1,7 +1,7 @@
 interface IApiOptions {
   endpoint: string
   action: string
-  requireAuth?: boolean
+  requiresAuth?: boolean
   method?: any
   data?: any
 }

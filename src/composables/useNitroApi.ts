@@ -21,6 +21,9 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
   if (requiresAuth) {
     headers.Authorization = `Bearer ${getCookie(event, 'token') || ''}`
   }
+  console.log('useNitroApi', `${baseUrl}${endpoint}`)
+  console.log('options', options)
+  console.log('headers', headers)
 
   return $fetch(`${baseUrl}${endpoint}`, {
     method,
