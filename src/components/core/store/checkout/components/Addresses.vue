@@ -79,9 +79,11 @@ async function handleOk() {
   }
   modalText.value = 'The modal will be closed after two seconds'
   confirmLoading.value = true
-  setTimeout(() => {
+  setTimeout(async () => {
     visible.value = false
     confirmLoading.value = false
+    addressStore.$reset()
+    await checkoutStore.fetch()
   }, 2000)
 }
 </script>
