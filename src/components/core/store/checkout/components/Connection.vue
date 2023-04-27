@@ -73,16 +73,20 @@ async function logout() {
 }
 
 // Move to server-side node nitro later
-function checkEmailExists() {
-  // @todo Replace with env variable
-  // fetch(`http://jacques-loup.test/api/verify-email/${form.email}`, {
-  fetch(`http://jl-store.test/api/verify-email/${form.email}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  }).then((res: any) => (hasAccount.value = res.ok))
+async function checkEmailExists() {
+  try {
+    const data: any = await $fetch('/api/verify-email', {
+      method: 'POST',
+      body: {
+        email: form.email,
+      },
+    })
+    hasAccount.value = data.emailVerified
+  } catch (error) {
+    if (error.statusCode === 401) {
+      form.errors.password = 'Invalid password'
+    }
+  }
 }
 
 const buttonLabel = computed(() => (hasAccount.value ? 'Sign in' : 'Register'))

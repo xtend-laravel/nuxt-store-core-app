@@ -7,11 +7,16 @@ interface IApiOptions {
 }
 
 export default function useApi(options: IApiOptions): Promise<any> {
-  return $fetch(`api/v1/${options.endpoint}/${options.action}`, {
-    method: options.method || 'GET',
+  const opts: any = {
+    method: options.method,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: options ? JSON.stringify(options) : undefined,
-  })
+  }
+  if (!['GET', 'DELETE'].includes(options.method)) {
+    opts.body = options ? JSON.stringify(options) : undefined
+    return $fetch(`api/v1/restify/${options.endpoint}/${options.action}`, opts)
+  }
+
+  return $fetch(`api/v1/restify/${options.endpoint}/${options.action}?requiresAuth=${options.requiresAuth}`, opts)
 }

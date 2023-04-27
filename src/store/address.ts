@@ -2,9 +2,11 @@ import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
 
 interface AddressState {
+  _action: 'update' | 'create' | null
   _countries: any[]
   _states: any[]
   _addressForm: {
+    id?: number
     title: string
     first_name: string
     last_name: string
@@ -25,10 +27,12 @@ export const useAddressStore = defineStore({
   id: 'address',
 
   state: (): AddressState => ({
+    _action: null,
     _countries: [],
     _states: [],
     // @todo map fields via restify - quick workaround to match the API fields
     _addressForm: {
+      id: undefined,
       title: '',
       first_name: '',
       last_name: '',
@@ -46,6 +50,9 @@ export const useAddressStore = defineStore({
   }),
 
   getters: {
+    action(): AddressState['_action'] {
+      return this._action
+    },
     addressForm(): UnwrapRef<AddressState['_addressForm']> {
       return this._addressForm
     },
@@ -58,7 +65,21 @@ export const useAddressStore = defineStore({
   },
 
   actions: {
-    async fetch(): Promise<void> {},
+    setAddressForm(addressForm: any): void {
+      this._addressForm = addressForm
+    },
+    setAction(action: AddressState['_action']): void {
+      this._action = action
+    },
+    async fetch(id: number): Promise<void> {
+      // const { data } = await useStoreInventory({
+      //   type: 'brands',
+      //   routeMatch: '[id]',
+      //   params: { id: brandId },
+      // })
+      // this.setCurrentBrand(data)
+      // return data
+    },
     async create(formData: any): Promise<void> {
       this._addressForm = formData
     },
