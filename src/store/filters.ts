@@ -54,6 +54,9 @@ export const useFilterStore = defineStore({
     availableSizeIds(): Array<number> {
       return this._availableSizeIds
     },
+    filterQueryString(): string {
+      return this._filterQueryString
+    }
   },
 
   actions: {
