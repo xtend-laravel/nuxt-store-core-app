@@ -30,16 +30,17 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
   if (requiresAuth) {
     headers.Authorization = `Bearer ${getCookie(event, 'token') || ''}`
   }
-  console.log('useNitroApi', `${baseUrl}${endpoint}`)
-  console.log('options', options)
-  console.log('headers', headers)
+
+  // console.log('useNitroApi', `${baseUrl}${endpoint}`)
+  // console.log('options', options)
+  // console.log('headers', headers)
 
   const opts: any = {
     method,
     headers,
   }
 
-  if (!['show', 'index'].includes(action)) {
+  if (!['show', 'index', 'destroy'].includes(action)) {
     opts.body = data ? JSON.stringify(data) : undefined
     opts.query = query
   }

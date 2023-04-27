@@ -13,7 +13,7 @@ export default function useApi(options: IApiOptions): Promise<any> {
       'Content-Type': 'application/json',
     },
   }
-  if (options.method !== 'GET') {
+  if (!['GET', 'DELETE'].includes(options.method)) {
     opts.body = options ? JSON.stringify(options) : undefined
     return $fetch(`api/v1/restify/${options.endpoint}/${options.action}`, opts)
   }

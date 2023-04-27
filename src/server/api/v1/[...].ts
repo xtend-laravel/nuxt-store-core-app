@@ -16,7 +16,7 @@ export default defineEventHandler(async (event: H3Event): Promise<any> => {
   const routeParams = getRouterParam(event, '_').split('/')
   const action = routeParams.pop()
 
-  if (!['show', 'index'].includes(action)) {
+  if (!['show', 'index', 'destroy'].includes(action)) {
     const body = await readBody(<H3Event>event)
     const { method, endpoint, requiresAuth, data } = body
     return await useNitroApi(
@@ -24,14 +24,14 @@ export default defineEventHandler(async (event: H3Event): Promise<any> => {
         event,
         method,
         action,
-        endpoint,
         requiresAuth,
+        endpoint: `/api/restify/${endpoint}`,
       },
       data,
     )
   }
 
-  const method = queryParams.method || 'GET'
+  const method = action === 'destroy' ? 'DELETE' : 'GET'
   const endpoint = `/api/${routeParams.join('/')}`
   const requiresAuth = queryParams.requiresAuth === 'true'
 
