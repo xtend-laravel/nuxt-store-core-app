@@ -13,7 +13,7 @@ export interface Purchase {
 
 interface CartState {
   _cartId: number
-  _products: Record<number, Purchase>
+  _products: Purchase[],
   _totals: Record<string, number>
   _meta: Record<string, any>
 }
@@ -23,14 +23,14 @@ export const useCartStore = defineStore({
 
   state: (): CartState => ({
     _cartId: 0,
-    _products: {},
+    _products: [],
     _totals: {},
     _meta: {},
   }),
 
   getters: {
     isCartEmpty(): boolean {
-      return Object.keys(this._products).length === 0
+      return this._products.length === 0;
     },
     cartId(): UnwrapRef<CartState['_cartId']> {
       return this._cartId
@@ -39,7 +39,7 @@ export const useCartStore = defineStore({
       return this._products
     },
     cartCount(): number {
-      return Object.keys(this._products).length
+      return this._products.length;
     },
     totals(): UnwrapRef<CartState['_totals']> {
       return this._totals
@@ -51,24 +51,22 @@ export const useCartStore = defineStore({
 
   actions: {
     async fetch(): Promise<void> {
-      const {
-        data: { cart },
-      } = await useCart()
-      const products: Record<number, Purchase> = {}
-      cart.products.forEach((product: Purchase) => {
-        const id: number = product.id || product.productId
-        products[id] = product
-      })
+      const { data: { cart } } = await useCart()
+      // const products: Record<number, Purchase> = {}
+      // cart.products.forEach((product: Purchase) => {
+      //   const id: number = product.id || product.productId
+      //   products[id] = product
+      // })
 
       this.setCartId(cart.id)
-      this.setProducts(products)
+      this.setProducts(cart.products)
       this.setTotals(cart.totals)
       this.setMeta(cart.meta)
     },
     setCartId(cartId: number): void {
       this._cartId = cartId
     },
-    setProducts(products: Record<number, Purchase>): void {
+    setProducts(products: Purchase[]): void {
       this._products = products
     },
     setTotals(totals: Record<string, number>): void {
