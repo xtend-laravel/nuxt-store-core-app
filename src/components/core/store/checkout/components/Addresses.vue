@@ -55,36 +55,92 @@ const stepTitle = computed(() =>
     .replace(/^\w/, (c) => c.toUpperCase()),
 )
 
+const addressStore = useAddressStore()
+const modalTitle = ref<string>('Title of the modal')
 const modalText = ref<string>('Content of the modal')
+const loading = ref<boolean>(false)
 const visible = ref<boolean>(false)
 const confirmLoading = ref<boolean>(false)
-function showModal() {
+function addAddress() {
+  addressStore.$reset()
+  addressStore.setAction('create')
+  modalTitle.value = 'Add address'
   visible.value = true
 }
 async function handleOk() {
-  const addressStore = useAddressStore()
-  try {
-    await useApi({
-      endpoint: '/api/restify/addresses',
-      requiresAuth: true,
-      action: 'create',
-      method: 'POST',
-      data: addressStore.addressForm,
-    })
-  } catch (error) {
-    if (error.statusCode === 401) {
-      // Handle unauthorized
-      console.info('Unauthorized')
-    }
-  }
+  loading.value = true
+  addressStore.action === 'update' ? await updateAddress() : await createAddress()
   modalText.value = 'The modal will be closed after two seconds'
   confirmLoading.value = true
   setTimeout(async () => {
+    loading.value = false
     visible.value = false
     confirmLoading.value = false
     addressStore.$reset()
     await checkoutStore.fetch()
   }, 2000)
+}
+
+async function updateAddress() {
+  await useApi({
+    endpoint: `/api/restify/addresses/${addressStore.addressForm.id}`,
+    requiresAuth: true,
+    action: 'update',
+    method: 'PUT',
+    data: addressStore.addressForm,
+  })
+}
+
+async function createAddress() {
+  await useApi({
+    endpoint: '/api/restify/addresses',
+    requiresAuth: true,
+    action: 'create',
+    method: 'POST',
+    data: addressStore.addressForm,
+  })
+}
+
+async function editAddress(id: number) {
+  const { data } = await useApi({
+    endpoint: `addresses/${id}`,
+    requiresAuth: true,
+    action: 'show',
+    method: 'GET',
+  })
+  if (data.attributes) {
+    addressStore.setAction('update')
+    addressStore.setAddressForm(data.attributes)
+    modalTitle.value = `Edit ${addressStore.addressForm.title || `address ${addressStore.addressForm.id}`}`
+  }
+  visible.value = true
+}
+
+async function deleteAddress(id: number) {
+  alert(`Delete address ${id}`)
+  // try {
+  //   await useApi({
+  //     endpoint: `/api/restify/addresses/${id}`,
+  //     requiresAuth: true,
+  //     action: 'delete',
+  //     method: 'DELETE',
+  //   })
+  // } catch (error) {
+  //   if (error.statusCode === 401) {
+  //     // Handle unauthorized
+  //     console.info('Unauthorized')
+  //   }
+  // }
+  await checkoutStore.fetch()
+}
+
+function cancel(e: MouseEvent) {
+  console.log(e)
+  message.error('Click on No')
+}
+function handleCancel(e: MouseEvent) {
+  console.log(e)
+  visible.value = false
 }
 </script>
 
@@ -119,8 +175,9 @@ async function handleOk() {
         <SwiperSlide v-for="address in addresses" :key="address.id">
           <div class="group">
             <section class="shadow-3xl border-base group-hover:border-brand-500 rounded bg-white hover:bg-gray-50">
-              <address class="h-40 p-4 text-sm not-italic">
-                <h4 class="mb-4 font-medium">Address {{ address.id }}</h4>
+              <address class="h-52 p-4 text-sm not-italic">
+                <h4 v-if="address.title" class="mb-4 font-medium" v-text="address.title" />
+                <h4 v-else class="mb-4 font-medium" v-text="`Address ${address.id}`" />
                 <input
                   :id="`${currentStepKey}_${address.id}`"
                   v-model="form.shippingAddressId"
@@ -136,20 +193,38 @@ async function handleOk() {
                   class="peer-checked:text-brand-500 pointer-events-none absolute right-4 top-8 box-content block h-6 w-6 -translate-y-1/2 rounded-full border-4 border-gray-300 bg-white text-white group-hover:border-gray-400 peer-checked:border-gray-200"
                 />
                 <div>
-                  <span>{{ address.first_name }}</span>
-                  <span v-if="address.last_name">&nbsp;{{ address.last_name }}</span>
+                  <span class="font-semibold">{{ address.first_name }}</span>
+                  <span v-if="address.last_name" class="font-semibold">&nbsp;{{ address.last_name }}</span>
+                  <div v-if="address.company_name">{{ address.company_name }}</div>
                 </div>
-                <div v-text="address.address_line_1" />
-                <div v-text="address.address_line_2" />
-                <div v-text="address.city" />
-                <div v-text="address.state" />
-                <div v-text="address.zip_code" />
+                <div v-if="address.contact_email" v-text="address.contact_email" />
+                <div v-if="address.contact_phone" v-text="address.contact_phone" />
+                <div v-if="address.line_one" v-text="address.line_one" />
+                <div v-if="address.line_two" v-text="address.line_two" />
+                <div v-if="address.city" v-text="address.city" />
+                <div v-if="address.postcode" v-text="address.postcode" />
+                <div v-if="address.country" v-text="address.country" />
+                <div v-if="address.state" v-text="address.state" />
               </address>
               <footer
-                class="border-base flex items-center justify-start gap-4 border-b-0 border-l-0 border-r-0 px-4 py-4 text-sm font-medium text-neutral-600"
+                class="border-base relative z-50 flex items-center justify-start gap-4 border-b-0 border-l-0 border-r-0 px-4 py-4 text-sm font-medium text-neutral-600"
               >
-                <a href="#" class="flex items-center gap-2 text-neutral-400"> <IconEdit class="h-4 w-4" /> Edit </a>
-                <a href="#" class="flex items-center gap-2 text-neutral-400"> <IconTrash class="h-4 w-4" /> Delete </a>
+                <button
+                  class="flex items-center gap-2 text-neutral-400 hover:text-black"
+                  @click="editAddress(address.id)"
+                >
+                  <IconEdit class="h-4 w-4" /> Edit
+                </button>
+                <a-popconfirm
+                  class="flex cursor-pointer items-center gap-2 text-neutral-400 hover:text-red-800"
+                  title="Are you sure delete this task?"
+                  ok-text="Yes"
+                  cancel-text="No"
+                  @confirm="deleteAddress(address.id)"
+                  @cancel="cancel"
+                >
+                  <IconTrash class="h-4 w-4" /> Delete
+                </a-popconfirm>
               </footer>
             </section>
           </div>
@@ -163,17 +238,17 @@ async function handleOk() {
       </button>
     </div>
     <button
-      class="height group block hidden h-[228px] w-full flex-col items-center justify-center border-2 border-gray-200 bg-gray-100 transition-all hover:bg-gray-200 md:flex"
+      class="height h-68 group block hidden w-full flex-col items-center justify-center border-2 border-gray-200 bg-gray-100 transition-all hover:bg-gray-200 md:flex"
       :class="{ 'md:flex md:w-1/5': addresses.length }"
-      @click="showModal"
+      @click="addAddress"
     >
       <IconAdd class="h-6 w-6 group-hover:animate-bounce" />
       <span class="animate-pulse">Add Address</span>
     </button>
-    <a-modal v-model:visible="visible" title="Add address" centered :confirm-loading="confirmLoading" @ok="handleOk">
+    <a-modal v-model:visible="visible" :title="modalTitle" centered :confirm-loading="confirmLoading" @ok="handleOk">
       <CoreStoreCheckoutElementsAddressForm />
       <template #footer>
-        <a-button key="back" @click="handleCancel">Return</a-button>
+        <a-button key="back" @click="handleCancel">Cancel</a-button>
         <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
       </template>
     </a-modal>

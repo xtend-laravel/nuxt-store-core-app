@@ -5,6 +5,7 @@ const baseUrl = process.env.NUXT_APP_HUB_BASE_URL
 interface INitroApiOptions {
   event: H3Event
   endpoint: string
+  action: string
   requiresAuth?: boolean
   method?: any
   contentType?: string
@@ -12,7 +13,15 @@ interface INitroApiOptions {
 }
 
 export default function useNitroApi(options: INitroApiOptions, data?: any): Promise<any> {
-  const { event, endpoint, requiresAuth = false, method = 'GET', contentType = 'application/json', query } = options
+  const {
+    event,
+    endpoint,
+    action,
+    requiresAuth = false,
+    method = 'GET',
+    contentType = 'application/json',
+    query = {},
+  } = options
   const headers: any = {
     Accept: contentType,
     'Language-Locale': getCookie(event, 'i18n_redirected'),
@@ -25,10 +34,15 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
   console.log('options', options)
   console.log('headers', headers)
 
-  return $fetch(`${baseUrl}${endpoint}`, {
+  const opts: any = {
     method,
     headers,
-    body: data ? JSON.stringify(data) : undefined,
-    query,
-  })
+  }
+
+  if (!['show', 'index'].includes(action)) {
+    opts.body = data ? JSON.stringify(data) : undefined
+    opts.query = query
+  }
+
+  return $fetch(`${baseUrl}${endpoint}`, opts)
 }
