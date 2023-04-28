@@ -15,6 +15,14 @@ export default defineEventHandler(async (event: H3Event): Promise<any> => {
   const queryParams = getQuery(event)
   const routeParams = getRouterParam(event, '_').split('/')
   const action = routeParams.pop()
+  const apiKey = getHeader(event, 'API-Server-Route-Key')
+  if (!apiKey && useRuntimeConfig().public.apiKey !== apiKey) {
+    return {
+      statusCode: 401,
+      body: 'Unauthorized',
+      key: useRuntimeConfig().apiKey,
+    }
+  }
 
   if (!['show', 'index', 'destroy'].includes(action)) {
     const body = await readBody(<H3Event>event)
