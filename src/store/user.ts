@@ -11,10 +11,12 @@ interface UserState {
     first_name: string
     last_name: string
     company_name?: string
+    current_password?: string
+    new_password?: string
     meta: {
-      birth_date: string
+      birth_date?: string
       newsletter: boolean
-      terms: boolean
+      toc: boolean
     }
   }
 }
@@ -32,10 +34,12 @@ export const useUserStore = defineStore({
       first_name: '',
       last_name: '',
       company_name: '',
+      current_password: '',
+      new_password: '',
       meta: {
         birth_date: '',
         newsletter: false,
-        terms: false,
+        toc: false,
       },
     },
   }),
