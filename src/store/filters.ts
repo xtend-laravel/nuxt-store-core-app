@@ -3,6 +3,7 @@ import useFilter from '../composables/useFilter'
 import { useProductListStore } from './productList'
 
 export interface FilterState {
+  _initialCategoryId: number | null
   _brandIds: Array<number>
   _categoryIds: Array<number>
   _keyword: string
@@ -26,6 +27,7 @@ export const useFilterStore = defineStore({
   id: 'filters',
 
   state: (): FilterState => ({
+    _initialCategoryId: null,
     _brandIds: [],
     _categoryIds: [],
     _keyword: '',
@@ -36,6 +38,9 @@ export const useFilterStore = defineStore({
   }),
 
   getters: {
+    initialCategoryId(): number | null {
+      return this._initialCategoryId
+    },
     brandIds(): Array<number> {
       return this._brandIds
     },
@@ -56,7 +61,7 @@ export const useFilterStore = defineStore({
     },
     filterQueryString(): string {
       return this._filterQueryString
-    }
+    },
   },
 
   actions: {
@@ -103,7 +108,14 @@ export const useFilterStore = defineStore({
     setBrandIds(ids: Array<number>) {
       this._brandIds = ids
     },
+    setInitialCategoryId(id: number) {
+      this._initialCategoryId = id
+    },
     setCategoryIds(ids: Array<number>) {
+      if (ids.length === 0 && this._initialCategoryId) {
+        this._categoryIds = [this._initialCategoryId]
+        return
+      }
       this._categoryIds = ids
     },
     setKeyword(keyword: string) {
