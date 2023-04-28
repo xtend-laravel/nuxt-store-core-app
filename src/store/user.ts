@@ -11,7 +11,6 @@ interface UserState {
     first_name: string
     last_name: string
     company_name?: string
-    password: string
     meta: {
       birth_date: string
       newsletter: boolean
@@ -33,7 +32,6 @@ export const useUserStore = defineStore({
       first_name: '',
       last_name: '',
       company_name: '',
-      password: '',
       meta: {
         birth_date: '',
         newsletter: false,
@@ -55,6 +53,21 @@ export const useUserStore = defineStore({
   },
 
   actions: {
+    async fetch(): Promise<void> {
+      if (process.server) {
+        return
+      }
+      const user = JSON.parse(<string>localStorage.getItem('user'))
+      if (user && user.id) {
+        const { data } = await useApi({
+          endpoint: `users/${user.id}`,
+          requiresAuth: true,
+          action: 'show',
+          method: 'GET',
+        })
+        this._userForm = data.attributes
+      }
+    },
     setUserForm(userForm: any): void {
       this._userForm = userForm
     },
