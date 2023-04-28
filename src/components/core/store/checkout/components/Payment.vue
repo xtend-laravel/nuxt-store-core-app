@@ -38,22 +38,22 @@ const paymentMethods = [
   {
     name: 'Payzen',
     value: 'payzen',
-    image: '/payzen.webp',
+    image: '/payzen-cb-payment-v-big.svg',
   },
   {
     name: 'Bank wire',
     value: 'bank_wire',
-    image: '/bank_wire.png',
+    image: '/bank-transfer-en.svg',
   },
   {
     name: 'Paypal',
     value: 'paypal',
-    image: '/paypal.png',
+    image: '/paypal.svg',
   },
   {
-    name: 'Paypal',
-    value: 'paypal',
-    image: '/paypal.png',
+    name: 'Paypal-x-times',
+    value: 'paypal-x-times',
+    image: '/paypal-x-times-en.svg',
   },
   // {
   //   name: 'Apple pay',
