@@ -4,7 +4,7 @@ import { useProductListStore } from './productList'
 
 export interface FilterState {
   _filterGroups: any
-  _currentFilterGroup: string | null
+  _currentGroup: string | null
   _initialCategoryId: number | null
   _brandIds: Array<number>
   _categoryIds: Array<number>
@@ -30,7 +30,7 @@ export const useFilterStore = defineStore({
 
   state: (): FilterState => ({
     _filterGroups: {},
-    _currentFilterGroup: null,
+    _currentGroup: null,
     _initialCategoryId: null,
     _brandIds: [],
     _categoryIds: [],
@@ -45,8 +45,8 @@ export const useFilterStore = defineStore({
     filterGroups(): any {
       return this._filterGroups
     },
-    currentFilterGroup(): string | null {
-      return this._currentFilterGroup
+    currentGroup(): string | null {
+      return this._currentGroup
     },
     initialCategoryId(): number | null {
       return this._initialCategoryId
@@ -106,8 +106,8 @@ export const useFilterStore = defineStore({
         .map((criteria: FilterCriteria) => `&${criteria.param}=${criteria.values.join(',')}`)
         .join('')
 
-      if (this.currentFilterGroup) {
-        this._filterQueryString = `&current_filter_group=${this.currentFilterGroup}${this._filterQueryString}`
+      if (this.currentGroup) {
+        this._filterQueryString = `&currentGroup=${this.currentGroup}${this._filterQueryString}`
       }
 
       const currentPage = useProductListStore().currentPage
@@ -128,8 +128,8 @@ export const useFilterStore = defineStore({
     setFilterGroups(groups: any) {
       this._filterGroups = groups
     },
-    setCurrentFilterGroup(group: any) {
-      this._currentFilterGroup = group
+    setCurrentGroup(group: any) {
+      this._currentGroup = group
     },
     setBrandIds(ids: Array<number>) {
       this._brandIds = ids
@@ -143,22 +143,22 @@ export const useFilterStore = defineStore({
         return
       }
       this._categoryIds = ids
-      this.setCurrentFilterGroup('categories')
+      this.setCurrentGroup(ids.length > 0 ? 'categories' : null)
     },
     setKeyword(keyword: string) {
       this._keyword = keyword
     },
     setPriceRange(range: Array<number>) {
       this._priceRange = range
-      this.setCurrentFilterGroup('price')
+      this.setCurrentGroup('price')
     },
     setAvailableColorIds(ids: Array<number>) {
       this._availableColorIds = ids
-      this.setCurrentFilterGroup('colors')
+      this.setCurrentGroup(ids.length > 0 ? 'colors' : null)
     },
     setAvailableSizeIds(ids: Array<number>) {
       this._availableSizeIds = ids
-      this.setCurrentFilterGroup('sizes')
+      this.setCurrentGroup(ids.length > 0 ? 'sizes' : null)
     },
   },
 })
