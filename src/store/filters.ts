@@ -131,11 +131,12 @@ export const useFilterStore = defineStore({
     setCurrentGroup(group: any) {
       this._currentGroup = group
     },
-    setBrandIds(ids: Array<number>) {
-      this._brandIds = ids
-    },
     setInitialCategoryId(id: number) {
       this._initialCategoryId = id
+    },
+    setBrandIds(ids: Array<number>) {
+      this._brandIds = ids
+      this.setCurrentGroup(ids.length > 0 ? 'brands' : null)
     },
     setCategoryIds(ids: Array<number>) {
       if (ids.length === 0 && this._initialCategoryId) {
@@ -147,6 +148,7 @@ export const useFilterStore = defineStore({
     },
     setKeyword(keyword: string) {
       this._keyword = keyword
+      this.setCurrentGroup(ids.length > 0 ? 'keyword' : null)
     },
     setPriceRange(range: Array<number>) {
       this._priceRange = range
