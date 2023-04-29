@@ -116,7 +116,7 @@ export const useFilterStore = defineStore({
       }
 
       const sortBy = useProductListStore().sortBy
-      if (sortBy !== 'default') {
+      if (sortBy !== 'new') {
         this._filterQueryString = `&sort=${sortBy}${this._filterQueryString}`
       }
     },
@@ -148,7 +148,7 @@ export const useFilterStore = defineStore({
     },
     setKeyword(keyword: string) {
       this._keyword = keyword
-      this.setCurrentGroup(ids.length > 0 ? 'keyword' : null)
+      this.setCurrentGroup(keyword.length ? 'keyword' : null)
     },
     setPriceRange(range: Array<number>) {
       this._priceRange = range

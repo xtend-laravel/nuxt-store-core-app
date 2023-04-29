@@ -21,7 +21,7 @@ export const useProductListStore = defineStore({
   state: (): ProductListState => ({
     _page: 1,
     _meta: {},
-    _sortBy: 'default',
+    _sortBy: 'new',
     _initialItems: [],
     _items: [],
     _ids: [],
