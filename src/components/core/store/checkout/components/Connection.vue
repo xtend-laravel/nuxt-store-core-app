@@ -7,6 +7,17 @@ interface LoginResponseData {
   user: any
 }
 
+const props = withDefaults(
+  defineProps<{
+    mode?: 'login' | 'register' | 'checkout'
+  }>(),
+  {
+    mode: 'checkout',
+  },
+)
+
+const emit = defineEmits(['closeModal'])
+
 const checkoutStore = useCheckoutStore()
 const hasAccount = ref(false)
 const emailIsValid = ref(false)
@@ -32,12 +43,18 @@ async function fetchAuthCheck() {
   isAuthenticated.value = loggedIn
   useAuthStore().check(loggedIn)
 
-  if (loggedIn) {
+  if (loggedIn && props.mode === 'checkout') {
     await checkoutStore.fetch()
     setTimeout(() => {
       checkoutStore.markStepAsCompleted('connection')
       checkoutStore.setCurrentStep(1)
     }, 2000)
+    return
+  }
+
+  if (loggedIn) {
+    emit('closeModal')
+    await navigateTo('/account')
   }
 }
 async function loginRequest() {
@@ -162,7 +179,7 @@ watch([() => form.email, () => form.password], ([email, password]) => {
   <div class="flex flex-1 flex-col justify-center space-y-5">
     <!-- authenticated -->
     <div
-      v-if="isAuthenticated && useAuthStore().user"
+      v-if="isAuthenticated && useAuthStore().user && mode === 'checkout'"
       class="text-center"
       :class="checkoutStore.checkoutType === 'express' ? 'flex flex-col items-center justify-between md:flex-row' : ''"
     >
@@ -186,7 +203,7 @@ watch([() => form.email, () => form.password], ([email, password]) => {
         <div v-if="form.errors.email" class="mt-1 text-red-600" v-text="form.errors.email" />
       </div>
       <!-- password input in case email exists -->
-      <div v-if="hasAccount">
+      <div v-if="(hasAccount && mode === 'checkout') || mode === 'login'">
         <input
           v-model="form.password"
           type="password"
@@ -197,7 +214,7 @@ watch([() => form.email, () => form.password], ([email, password]) => {
       </div>
 
       <!-- email doesn't exist -->
-      <div v-if="!hasAccount && emailIsValid">
+      <div v-if="(!hasAccount && emailIsValid && mode === 'checkout') || mode === 'register'">
         <div class="flex justify-between space-x-4">
           <select
             v-model="form.title"
@@ -221,7 +238,10 @@ watch([() => form.email, () => form.password], ([email, password]) => {
           />
         </div>
       </div>
-      <div v-if="!hasAccount && emailIsValid" class="flex items-center justify-center space-x-2">
+      <div
+        v-if="(!hasAccount && emailIsValid && mode === 'checkout') || mode === 'register'"
+        class="flex items-center justify-center space-x-2"
+      >
         <input
           :id="form.toc"
           v-model="form.toc"
