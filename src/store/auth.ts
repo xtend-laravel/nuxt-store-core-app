@@ -11,7 +11,7 @@ export const useAuthStore = defineStore({
 
   state: (): AuthState => ({
     loggedIn: false,
-    user: process.client ? JSON.parse(<any>localStorage.getItem('user')) : null,
+    user: null,
   }),
 
   getters: {
@@ -19,16 +19,25 @@ export const useAuthStore = defineStore({
       return this.user
     },
     isAuthenticated(): boolean {
-      return this.loggedIn && this.user
+      if (process.server) {
+        return false
+      }
+      useAuthStore().getUser()
+      return this.loggedIn
     },
   },
 
   actions: {
     setUser(user: any) {
       this.user = user
-      this.loggedIn = true
       if (process.client) {
         localStorage.setItem('user', JSON.stringify(user))
+      }
+    },
+    getUser(): void {
+      if (process.client) {
+        this.user = JSON.parse(<any>localStorage.getItem('user'))
+        this.loggedIn = !!this.user
       }
     },
     check(state: boolean) {
@@ -38,9 +47,9 @@ export const useAuthStore = defineStore({
       }
     },
     logout() {
-      this.user = null
-      this.loggedIn = false
       if (process.client) {
+        this.user = null
+        this.loggedIn = false
         localStorage.removeItem('user')
       }
     },
