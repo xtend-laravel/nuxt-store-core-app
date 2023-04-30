@@ -19,8 +19,8 @@ const props = withDefaults(
 <template>
   <div class="mt-6 text-center">
     <NuxtLink
-      to="checkout"
-      class="inline-flex w-full items-center justify-center rounded-md px-6 py-4 text-lg font-semibold transition-all duration-200 ease-in-out hover:bg-gray-800 focus:shadow"
+      to="/checkout"
+      class="inline-flex w-full items-center justify-center rounded-md px-6 py-4 text-lg font-semibold transition-all duration-200 ease-in-out hover:bg-gray-800 focus:text-white focus:shadow"
       :class="checkoutActionClasses"
     >
       <span v-text="checkoutActionLabel" />
