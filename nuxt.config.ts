@@ -4,8 +4,6 @@ import { dirname, join } from 'node:path'
 const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
-  debug: true,
-  dev: true,
   alias: { '#nuxt-store-core': join(currentDir, './src/') },
   routeRules: {
     '/_nuxt/**': { headers: { 'Cache-Control': 's-maxage=0' } },
