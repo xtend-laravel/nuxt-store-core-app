@@ -146,6 +146,7 @@ function handleCancel(e: MouseEvent) {
   <div :class="{ 'md:-ml-10 md:flex': addresses.length }">
     <div v-if="addresses.length" class="px-3 md:w-4/5 md:overflow-hidden md:px-10">
       <Swiper
+        id="addressSwiper"
         class="swiper-cards"
         :modules="[SwiperAutoplay, SwiperNavigation, SwiperEffectCards, SwiperPagination]"
         :slides-per-view="1"
@@ -281,7 +282,7 @@ function handleCancel(e: MouseEvent) {
   --swiper-navigation-color: var(--swiper-theme-color);
   --swiper-pagination-bottom: -40px;
 }
-.swiper-slide {
+#addressSwiper .swiper-slide {
   opacity: 0.1;
 }
 .swiper-slide-active,

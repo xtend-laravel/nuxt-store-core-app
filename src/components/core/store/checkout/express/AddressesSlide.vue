@@ -1,44 +1,44 @@
 <script lang="ts" setup>
-import { storeToRefs } from "pinia";
-import { useCheckoutStore } from "#nuxt-store-core/store/checkout";
-import { computed } from "vue";
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 import IconEdit from '~icons/carbon/edit'
 import IconTrash from '~icons/carbon/trash-can'
 import IconCheck from '~icons/carbon/checkmark-filled'
 
 const props = defineProps<{
-  currentStepKey: string;
-  modelValue: string;
-  initialIndex: number;
+  currentStepKey: string
+  modelValue: string
+  initialIndex: number
 }>()
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 
-const swiper = ref<SwiperInstance | null>(null);
+const swiper = ref<SwiperInstance | null>(null)
 
 const value = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(value) {
-    emit("update:modelValue", value);
+    emit('update:modelValue', value)
   },
-});
+})
 
 const checkoutStore = useCheckoutStore()
 const { addresses } = storeToRefs(checkoutStore)
 
 watchEffect(() => {
   if (swiper.value) {
-    swiper.value.slideTo(props.initialIndex || 0);
+    swiper.value.slideTo(props.initialIndex || 0)
   }
 })
 </script>
 
 <template>
   <Swiper
+    id="addressSwiper"
     class="swiper-cards"
-    @swiper="swiper = $event"
     :modules="[SwiperAutoplay, SwiperNavigation, SwiperEffectCards, SwiperPagination]"
     :slides-per-view="1"
     :space-between="30"
@@ -55,6 +55,7 @@ watchEffect(() => {
         slidesPerView: 3,
       },
     }"
+    @swiper="swiper = $event"
   >
     <SwiperSlide v-for="address in addresses" :key="address.id">
       <section class="shadow-3xl border-base group rounded bg-gray-50 hover:bg-white">
@@ -101,7 +102,7 @@ watchEffect(() => {
   --swiper-navigation-color: var(--swiper-theme-color);
   --swiper-pagination-bottom: -40px;
 }
-.swiper-slide {
+#addressSwiper .swiper-slide {
   opacity: 0.1;
 }
 .swiper-slide-active,
