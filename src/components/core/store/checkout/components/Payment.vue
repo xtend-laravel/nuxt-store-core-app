@@ -1,38 +1,37 @@
 <script setup lang="ts">
-import type { StripeCardElement } from '@stripe/stripe-js'
-import { useCartStore } from '#nuxt-store-core/store/cart'
+// import { useCartStore } from '#nuxt-store-core/store/cart'
 import IconCheck from '~icons/carbon/checkmark-filled'
 import { useCheckoutStore } from '~/store/checkout'
 
-const cartStore = useCartStore()
+// const cartStore = useCartStore()
 const checkoutStore = useCheckoutStore()
-const { $stripe } = useNuxtApp()
-const clientSecret = cartStore.meta?.stripe_client_secret || ''
-let cardElement: StripeCardElement
+// const { $stripe } = useNuxtApp()
+// const clientSecret = cartStore.meta?.stripe_client_secret || ''
+// let cardElement: StripeCardElement
 
-async function initStripe() {
-  const stripe: any = await $stripe
-  const elements: any = stripe.elements({
-    clientSecret,
-  })
-  const paymentElement = elements.create('payment', {
-    layout: 'tabs',
-  })
-  paymentElement.mount('#payment-element')
-}
-
-async function submitPayment() {
-  const stripe = await $stripe
-  const paymentElement = elements.create('payment')
-  const { error, paymentIntent } = await stripe.confirmCardPayment('{{ client_secret }}', {
-    payment_method: {
-      card: cardElement,
-      billing_details: {
-        name: 'Jenny Rosen',
-      },
-    },
-  })
-}
+// async function initStripe() {
+//   const stripe: any = await $stripe
+//   const elements: any = stripe.elements({
+//     clientSecret,
+//   })
+//   const paymentElement = elements.create('payment', {
+//     layout: 'tabs',
+//   })
+//   paymentElement.mount('#payment-element')
+// }
+//
+// async function submitPayment() {
+//   const stripe = await $stripe
+//   const paymentElement = elements.create('payment')
+//   const { error, paymentIntent } = await stripe.confirmCardPayment('{{ client_secret }}', {
+//     payment_method: {
+//       card: cardElement,
+//       billing_details: {
+//         name: 'Jenny Rosen',
+//       },
+//     },
+//   })
+// }
 
 const paymentMethods = [
   {
@@ -71,11 +70,11 @@ const form: any = reactive({
   paymentGatewayId: 0,
 })
 
-onMounted(() => {
-  if (clientSecret) {
-    initStripe()
-  }
-})
+// onMounted(() => {
+//   if (clientSecret) {
+//     initStripe()
+//   }
+// })
 
 watch(
   () => form.paymentGatewayId,
@@ -117,7 +116,6 @@ watch(
       </template>
     </div>
     <!--    <div class="mt-10 flex flex-col-reverse gap-4 md:flex-row md:justify-end"> -->
-    <!--      <div id="payment-element"></div> -->
     <!--      <button -->
     <!--        :disabled="!form.paymentGatewayId" -->
     <!--        type="button" -->
