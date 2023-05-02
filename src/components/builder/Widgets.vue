@@ -9,6 +9,8 @@ const props = defineProps<{
   params?: any
 }>()
 
+const { locale } = useI18n()
+
 const splitTestingOptions = {
   version: props.version,
   params: props.params,

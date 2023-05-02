@@ -2,9 +2,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import IconCheck from '~icons/feather/check'
 
+const router = useRouter()
 const { locale, locales, setLocale } = useI18n()
+// const switchLocalePath = useSwitchLocalePath()
 const availableLocales = computed(() => {
-  return locales.value.filter((i) => i.code !== locale.value)
+  return locales.value
 })
 const open = ref(false)
 </script>
