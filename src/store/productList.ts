@@ -36,7 +36,7 @@ export const useProductListStore = defineStore({
     layout: (state: ProductListState) => state._layout,
   },
   actions: {
-    async fetch(entity: string, id: number, queryParams: iQueryParams): Promise<void> {
+    async fetch(entity: string, id?: number, queryParams?: iQueryParams): Promise<void> {
       const { data } = await useStoreInventory({
         type: entity,
         routeMatch: '[id]',

@@ -12,6 +12,8 @@ export interface FilterState {
   _priceRange: Array<number>
   _availableColorIds: Array<number>
   _availableSizeIds: Array<number>
+  _filterNewestOnly: boolean
+  _filterSaleOnly: boolean
   _filterQueryString: string
 }
 
@@ -38,6 +40,8 @@ export const useFilterStore = defineStore({
     _priceRange: [],
     _availableColorIds: [],
     _availableSizeIds: [],
+    _filterNewestOnly: false,
+    _filterSaleOnly: false,
     _filterQueryString: '',
   }),
 
@@ -75,6 +79,12 @@ export const useFilterStore = defineStore({
     availableSizeIds(): Array<number> {
       return this._availableSizeIds
     },
+    filterNewestOnly(): boolean {
+      return this._filterNewestOnly
+    },
+    filterSaleOnly(): boolean {
+      return this._filterSaleOnly
+    },
     filterQueryString(): string {
       return this._filterQueryString
     },
@@ -108,6 +118,14 @@ export const useFilterStore = defineStore({
 
       if (this.currentGroup) {
         this._filterQueryString = `&currentGroup=${this.currentGroup}${this._filterQueryString}`
+      }
+
+      if (this.filterNewestOnly) {
+        this._filterQueryString = `&newestOnly=1${this._filterQueryString}`
+      }
+
+      if (this.filterSaleOnly) {
+        this._filterQueryString = `&saleOnly=1${this._filterQueryString}`
       }
 
       const currentPage = useProductListStore().currentPage
@@ -161,6 +179,14 @@ export const useFilterStore = defineStore({
     setAvailableSizeIds(ids: Array<number>) {
       this._availableSizeIds = ids
       this.setCurrentGroup(ids.length > 0 ? 'sizes' : null)
+    },
+    setFilterNewestOnly() {
+      this._filterSaleOnly = false
+      this._filterNewestOnly = true
+    },
+    setFilterSaleOnly() {
+      this._filterNewestOnly = false
+      this._filterSaleOnly = true
     },
   },
 })
