@@ -31,11 +31,12 @@ export const useCategoryStore = defineStore({
   },
 
   actions: {
-    async fetch(categoryId: number): Promise<Category> {
+    async fetch(categoryId: number, queryString?: string): Promise<Category> {
       const { data } = await useStoreInventory({
         type: 'categories',
         routeMatch: '[id]',
         params: { id: categoryId },
+        query: queryString,
       })
       this.setCurrentCategory(data)
       return data
