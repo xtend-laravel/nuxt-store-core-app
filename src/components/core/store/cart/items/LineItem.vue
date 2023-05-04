@@ -1,14 +1,18 @@
 <script setup lang="ts">
-defineProps<{
-  item: Record<string, any>
-}>()
+import Multilingual from "~/components/core/store/Multilingual.vue";
 
-const { formatPrice } = useFormattedPrice('EUR')
+const props = defineProps<{
+  item: Record<string, any>
+}>();
+
+const { formatPrice } = useFormattedPrice("EUR");
 
 function getFormattedPrice(price: Ref<number> | number): string {
-  const priceValue = isRef(price) ? price.value : price
-  return formatPrice(priceValue, 0, 1000).value
+  const priceValue = isRef(price) ? price.value : price;
+  return formatPrice(priceValue, 0, 1000).value;
 }
+
+const purchasable = computed(() => props.item.purchasable);
 </script>
 
 <template>
@@ -29,6 +33,15 @@ function getFormattedPrice(price: Ref<number> | number): string {
     <div class="sm:col-gap-5 sm:grid sm:grid-cols-2">
       <div class="pr-8 sm:pr-5">
         <p class="text-base font-semibold text-gray-900" v-text="item.product.name" />
+        <div>
+          <!-- variant options -->
+          <ul class="flex gap-2 text-xs">
+            <li v-for="optionValue in purchasable.values" :key="optionValue.id">
+              <span><Multilingual :value="optionValue.option.name" />: </span>
+              <span><Multilingual :value="optionValue.name" /></span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
@@ -38,6 +51,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
       </div>
     </div>
 
+    <!-- remove cart line button -->
     <div class="absolute right-0 top-0 flex sm:bottom-0 sm:top-auto">
       <button
         type="button"
