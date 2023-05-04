@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useCartStore } from '~/store/cart'
 
-const { items } = useCartStore()
+const cartStore = useCartStore()
+
+const { items } = storeToRefs(cartStore)
 </script>
 
 <template>

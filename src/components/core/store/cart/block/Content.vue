@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCartStore } from '#nuxt-store-core/store/cart'
 
-const { isCartEmpty } = useCartStore()
+const cartStore = useCartStore()
 const { formatPrice } = useFormattedPrice('EUR')
 
 function getFormattedPrice(price: Ref<number> | number): string {
@@ -12,7 +12,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
 
 <template>
   <section class="py-12 sm:py-16 lg:py-6">
-    <slot v-if="isCartEmpty" name="empty">
+    <slot v-if="cartStore.isCartEmpty" name="empty">
       <div class="flex h-full flex-col items-center justify-center">
         <p class="mt-4 text-sm text-gray-500">Your cart is empty slot.</p>
       </div>
