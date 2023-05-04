@@ -6,7 +6,7 @@ export default defineEventHandler(async (event: H3Event) => {
   return await useNitroApi({
     event,
     action: 'GET',
-    endpoint: `/api/restify/sale`,
+    endpoint: `/api/restify/sales`,
     query,
   })
 })
