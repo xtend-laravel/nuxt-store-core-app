@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import Multilingual from "~/components/core/store/Multilingual.vue";
+import { Popconfirm } from "ant-design-vue"
+import { useCartStore } from "~/store/cart";
 
 const props = defineProps<{
   item: Record<string, any>
 }>();
 
+const cartStore = useCartStore();
+
 const { formatPrice } = useFormattedPrice("EUR");
+
+const purchasable = computed(() => props.item.purchasable);
 
 function getFormattedPrice(price: Ref<number> | number): string {
   const priceValue = isRef(price) ? price.value : price;
   return formatPrice(priceValue, 0, 1000).value;
 }
 
-const purchasable = computed(() => props.item.purchasable);
+async function removeLine(item: any) {
+  await cartStore.removeLine(item.id)
+}
 </script>
 
 <template>
@@ -53,14 +61,21 @@ const purchasable = computed(() => props.item.purchasable);
 
     <!-- remove cart line button -->
     <div class="absolute right-0 top-0 flex sm:bottom-0 sm:top-auto">
-      <button
-        type="button"
-        class="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out hover:text-gray-900 focus:shadow"
+      <Popconfirm
+        placement="topRight"
+        title="Delete this product?"
+        @confirm.stop="removeLine(item)"
+        description="Are you sure want to delete this product?"
       >
-        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" class="" />
-        </svg>
-      </button>
+        <button
+          type="button"
+          class="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out hover:text-gray-900 focus:shadow"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" class="" />
+          </svg>
+        </button>
+      </Popconfirm>
     </div>
   </div>
 </template>
