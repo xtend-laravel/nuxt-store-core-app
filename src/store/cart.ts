@@ -77,6 +77,7 @@ export const useCartStore = defineStore({
     setMeta(meta: Record<string, any>): void {
       this._meta = meta
     },
+    // @todo Later this should be changed to lineId and the API updated to match
     async persistCartData(productId: number, currentQuantity: number, variants?: object): Promise<any> {
       return useGlobalStore().persistEntity({
         repository: 'carts',
@@ -107,6 +108,14 @@ export const useCartStore = defineStore({
       await useFetch(`/api/carts/remove-line`, {
         method: 'POST',
         body: { cartId: this._cartId, lineId },
+      })
+
+      await this.fetch()
+    },
+    async updateQuantity(lineId: number, quantity: number): Promise<any> {
+      await useFetch(`/api/carts/update-line-quantity`, {
+        method: 'POST',
+        body: { cartId: this._cartId, lineId, quantity },
       })
 
       await this.fetch()
