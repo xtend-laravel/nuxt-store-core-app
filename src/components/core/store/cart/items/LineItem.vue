@@ -52,7 +52,7 @@ async function removeLine(item: any) {
         </div>
       </div>
 
-      <div class="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
+      <div class="mt-4 pt-10 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
         <p class="w-20 shrink-0 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
           {{ getFormattedPrice(item.total) }}
         </p>
@@ -60,7 +60,7 @@ async function removeLine(item: any) {
     </div>
 
     <!-- remove cart line button -->
-    <div class="absolute right-0 top-0 flex sm:bottom-0 sm:top-auto">
+    <div class="absolute right-0 top-0 flex sm:bottom-0 sm:top-0">
       <Popconfirm
         placement="topRight"
         title="Delete this product?"
