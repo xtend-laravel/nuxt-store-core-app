@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { Widget, WidgetSlot } from '../types/Widget'
 import useWidgetSlot from '../composables/useWidgetSlot'
+import type { Widget, WidgetSlot } from '~/types/Widget'
 
 interface BuilderState {
   route: string

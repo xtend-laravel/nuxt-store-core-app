@@ -7,6 +7,6 @@ export default defineEventHandler(async (event: H3Event) => {
   return await useNitroApi({
     event,
     endpoint: `/api/restify/brands/${params.id}`,
-    query
+    query,
   })
 })

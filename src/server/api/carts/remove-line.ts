@@ -7,10 +7,10 @@ export default defineEventHandler(async (event: H3Event) => {
   return await useNitroApi(
     {
       event,
-      action: "",
+      action: '',
       endpoint: `/api/restify/carts/${body.cartId}/public-actions?action=remove-line-action`,
       requiresAuth: false,
-      method: 'POST'
+      method: 'POST',
     },
     body,
   )

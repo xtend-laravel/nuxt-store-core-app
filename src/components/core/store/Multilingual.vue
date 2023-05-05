@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
-const {locale} = useI18n()
-
 const props = defineProps<{
-  value: Object,
+  value: Object
   defaultLocale?: string
 }>()
+
+const { locale } = useI18n()
 </script>
 
 <template>
