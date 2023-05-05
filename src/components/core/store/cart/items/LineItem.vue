@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import Multilingual from "~/components/core/store/Multilingual.vue";
-import { Popconfirm } from "ant-design-vue"
-import { useCartStore } from "~/store/cart";
+import { Popconfirm } from 'ant-design-vue'
+import Multilingual from '~/components/core/store/Multilingual.vue'
+import { useCartStore } from '~/store/cart'
 
 const props = defineProps<{
   item: Record<string, any>
-}>();
+}>()
 
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
-const { formatPrice } = useFormattedPrice("EUR");
+const { formatPrice } = useFormattedPrice('EUR')
 
-const purchasable = computed(() => props.item.purchasable);
+const purchasable = computed(() => props.item.purchasable)
 
 function getFormattedPrice(price: Ref<number> | number): string {
-  const priceValue = isRef(price) ? price.value : price;
-  return formatPrice(priceValue, 0, 1000).value;
+  const priceValue = isRef(price) ? price.value : price
+  return formatPrice(priceValue, 0, 1000).value
 }
 
 async function removeLine(item: any) {
@@ -52,7 +52,7 @@ async function removeLine(item: any) {
         </div>
       </div>
 
-      <div class="mt-4 pt-10 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
+      <div class="mt-4 flex items-end justify-between pt-10 sm:mt-0 sm:items-start sm:justify-end">
         <p class="w-20 shrink-0 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
           {{ getFormattedPrice(item.total) }}
         </p>
@@ -64,8 +64,8 @@ async function removeLine(item: any) {
       <Popconfirm
         placement="topRight"
         title="Delete this product?"
-        @confirm.stop="removeLine(item)"
         description="Are you sure want to delete this product?"
+        @confirm.stop="removeLine(item)"
       >
         <button
           type="button"
