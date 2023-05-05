@@ -15,7 +15,7 @@ const labels = ref({
 
 function getFormattedPrice(price: Ref<number> | number): string {
   const priceValue = isRef(price) ? price.value : price
-  return formatPrice(priceValue, 0, 1000).value
+  return formatPrice(priceValue, 0, 100).value
 }
 </script>
 
