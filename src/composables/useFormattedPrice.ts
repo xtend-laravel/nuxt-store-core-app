@@ -5,7 +5,7 @@ interface FormattedPrice {
   formatPrice: (price: Ref<number> | number, discountPercentage?: number, priceDivisor?: number) => ComputedRef<string>
 }
 
-export default function useFormattedPrice(currencyCode: string): FormattedPrice {
+export default function useFormattedPrice(currencyCode?: string): FormattedPrice {
   const formatPrice = (price: Ref<number> | number, discountPercentage = 0, priceDivisor = 1): ComputedRef<string> => {
     let priceValue = isRef(price) ? price.value : price
     if (discountPercentage) {
@@ -14,7 +14,7 @@ export default function useFormattedPrice(currencyCode: string): FormattedPrice 
     return computed(() =>
       new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: currencyCode,
+        currency: currencyCode || 'USD',
       }).format(priceValue / priceDivisor),
     )
   }

@@ -5,7 +5,7 @@ import { useCartStore } from '#nuxt-store-core/store/cart'
 
 const { totals } = storeToRefs(useCartStore())
 // @todo need to set the currency based on the store perhaps env for now later currency via API and ability to switch
-const { formatPrice } = useFormattedPrice('EUR')
+const { formatPrice } = useFormattedPrice()
 
 const labels = ref({
   subTotal: 'Subtotal',

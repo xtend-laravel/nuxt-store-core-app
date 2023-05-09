@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const cartStore = useCartStore()
 
-const { formatPrice } = useFormattedPrice('EUR')
+const { formatPrice } = useFormattedPrice()
 
 const purchasable = computed(() => props.item.purchasable)
 
