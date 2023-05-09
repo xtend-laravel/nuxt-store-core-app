@@ -151,6 +151,7 @@ async function register() {
     if (error.statusCode === 401) {
       form.errors.password = 'Invalid password'
     }
+    hasAccount.value = false
   }
 }
 
