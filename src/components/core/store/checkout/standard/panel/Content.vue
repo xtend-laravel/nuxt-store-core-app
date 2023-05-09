@@ -9,14 +9,7 @@ defineProps<{
   currentStep: number
 }>()
 const checkoutStore = useCheckoutStore()
-const { steps, currentStep } = storeToRefs(checkoutStore)
-function handleAccordion(step: any): void {
-  const lessThanCurrentStep: boolean = step.index < currentStep.value
-  const connectedNextStep: boolean = currentStep.value === 0 && step.index === 1
-  if (checkoutStore.isAuthenticated && (step.completed || lessThanCurrentStep || connectedNextStep)) {
-    checkoutStore.setCurrentStep(step.index)
-  }
-}
+const { currentStep } = storeToRefs(checkoutStore)
 </script>
 
 <template>

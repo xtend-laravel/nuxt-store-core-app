@@ -4,12 +4,9 @@ import ProgressBar from './elements/ProgressBar.vue'
 import Header from './elements/Header.vue'
 import Panels from './standard/Panels.vue'
 import EmptyCart from './elements/EmptyCart.vue'
-import Connection from './components/Connection.vue'
-import Addresses from './components/Addresses.vue'
-import Shipping from './components/Shipping.vue'
-import Payment from './components/Payment.vue'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
+import useCheckoutComponent from '#nuxt-store-core/composables/useCheckoutComponent'
 
 const props = withDefaults(
   defineProps<{
@@ -29,7 +26,6 @@ const props = withDefaults(
         completed: false,
         title: 'Connection',
         description: 'Enter your billing address',
-        component: Connection,
       },
       {
         index: 1,
@@ -37,7 +33,6 @@ const props = withDefaults(
         completed: false,
         title: 'Shipping address',
         description: 'Enter your billing address',
-        component: Addresses,
       },
       {
         index: 2,
@@ -45,7 +40,6 @@ const props = withDefaults(
         completed: false,
         title: 'Billing address',
         description: 'Enter your billing address',
-        component: Addresses,
         // @todo hide this step if billing address is the same as shipping address
         hidden: false,
       },
@@ -55,7 +49,6 @@ const props = withDefaults(
         completed: false,
         title: 'Shipping method',
         description: 'Select your shipping method',
-        component: Shipping,
       },
       {
         index: 4,
@@ -63,15 +56,29 @@ const props = withDefaults(
         completed: false,
         title: 'Payment',
         description: 'Enter your payment information',
-        component: Payment,
       },
     ],
   },
 )
+
+const steps = reactive(props.steps)
+
+const components = {
+  connection: useCheckoutComponent('Connection'),
+  shipping_address: useCheckoutComponent('Addresses'),
+  billing_address: useCheckoutComponent('Addresses'),
+  shipping_method: useCheckoutComponent('Shipping'),
+  payment_method: useCheckoutComponent('Payment'),
+}
+
+steps.forEach((step) => {
+  step.component = components[step.key] || null
+})
+
 const { isCartEmpty } = useCartStore()
 const checkoutStore = useCheckoutStore()
 checkoutStore.setType('standard')
-checkoutStore.setSteps(props.steps)
+checkoutStore.setSteps(steps)
 checkoutStore.setCurrentStep(0)
 </script>
 

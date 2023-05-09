@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // import { useCartStore } from '#nuxt-store-core/store/cart'
 import IconCheck from '~icons/carbon/checkmark-filled'
-import { useCheckoutStore } from '~/store/checkout'
+import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
 // const cartStore = useCartStore()
 const checkoutStore = useCheckoutStore()
