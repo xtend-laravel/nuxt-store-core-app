@@ -14,7 +14,7 @@ export default function useFormattedPrice(currencyCode?: string): FormattedPrice
     return computed(() =>
       new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: currencyCode || 'USD',
+        currency: currencyCode || useRuntimeConfig().public.defaultCurrencyCode || 'USD',
       }).format(priceValue / priceDivisor),
     )
   }
