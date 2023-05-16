@@ -20,7 +20,7 @@ const emit = defineEmits<{
 const cartStore = useCartStore()
 const { lastAddedItem } = storeToRefs(cartStore)
 const images = lastAddedItem.value?.product.images || []
-const thumbnail = images?.thumbnail.replace('conversions/', '').replace('-medium', '') || ''
+const thumbnail = images?.thumbnail?.replace('conversions/', '').replace('-medium', '') || ''
 const purchasable = computed(() => lastAddedItem.value?.purchasable)
 
 function closeModal() {
@@ -50,7 +50,7 @@ function closeModal() {
             <div class="text-lg font-semibold">
               <span v-text="lastAddedItem?.quantity" />x {{ lastAddedItem?.product.name }}
               <ul class="flex gap-2 text-xs">
-                <li v-for="optionValue in purchasable.values" :key="optionValue.id">
+                <li v-for="optionValue in purchasable?.values" :key="optionValue.id">
                   <span><Multilingual :value="optionValue.option.name" />: </span>
                   <span><Multilingual :value="optionValue.name" /></span>
                 </li>

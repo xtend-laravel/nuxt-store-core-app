@@ -16,8 +16,10 @@ export const useGlobalStore = defineStore({
       const { data } = await useRepositoryAction(options)
       return data
     },
-    addToFavorite(id: number) {
-      this.favorites = [...this.favorites, id]
+    toggleFavorite(id: number) {
+      this.favorites = this.favorites.includes(id)
+        ? this.favorites.filter((item) => item !== id)
+        : [...this.favorites, id]
     },
   },
 })
