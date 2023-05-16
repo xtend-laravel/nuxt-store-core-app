@@ -105,9 +105,10 @@ watchEffect(() => {
 #addressSwiper .swiper-slide {
   opacity: 0.1;
 }
-.swiper-slide-active,
-.swiper-slide-next,
-.swiper-slide-next + div {
+
+#addressSwiper .swiper-slide-active,
+#addressSwiper .swiper-slide-next,
+#addressSwiper .swiper-slide-next + div {
   opacity: 1;
 }
 </style>
