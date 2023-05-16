@@ -4,6 +4,7 @@ import IconMinus from '~icons/carbon/subtract'
 import IconAdd from '~icons/carbon/add'
 import Multilingual from '~/components/core/store/Multilingual.vue'
 import { useCartStore } from '~/store/cart'
+import useProductRoute from '~/composables/useProductRoute'
 
 const props = defineProps<{
   item: Record<string, any>
@@ -14,6 +15,8 @@ const cartStore = useCartStore()
 const { formatPrice } = useFormattedPrice()
 
 const purchasable = computed(() => props.item.purchasable)
+
+const { url } = useProductRoute(props.item.product)
 
 function getFormattedPrice(price: Ref<number> | number): string {
   const priceValue = isRef(price) ? price.value : price
@@ -56,7 +59,7 @@ async function decreaseQuantity(item: any) {
   <div class="relative flex flex-1 flex-col justify-between">
     <div class="sm:col-gap-5 sm:flex">
       <div class="pr-4 sm:pr-2">
-        <p class="text-base font-semibold text-gray-900" v-text="item.product.name" />
+        <NuxtLink :to="url" class="text-base font-semibold text-gray-900" v-text="item.product.name" />
         <div>
           <!-- variant options -->
           <ul class="flex gap-2 text-xs">
