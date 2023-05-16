@@ -13,6 +13,7 @@ export interface Purchase {
 
 interface CartState {
   _cartId: number
+  _lastAddedLineId: number
   _products: Purchase[]
   _totals: Record<string, number>
   _meta: Record<string, any>
@@ -23,6 +24,7 @@ export const useCartStore = defineStore({
 
   state: (): CartState => ({
     _cartId: 0,
+    _lastAddedLineId: 0,
     _products: [],
     _totals: {},
     _meta: {},
@@ -37,6 +39,9 @@ export const useCartStore = defineStore({
     },
     items(): UnwrapRef<CartState['_products']> {
       return this._products
+    },
+    lastAddedLineId(): UnwrapRef<CartState['_lastAddedLineId']> {
+      return this._lastAddedLineId
     },
     cartCount(): number {
       return this._products.length
@@ -54,13 +59,8 @@ export const useCartStore = defineStore({
       const {
         data: { cart },
       } = await useCart()
-      // const products: Record<number, Purchase> = {}
-      // cart.products.forEach((product: Purchase) => {
-      //   const id: number = product.id || product.productId
-      //   products[id] = product
-      // })
-
       this.setCartId(cart.id)
+      this.setLastAddedLineId(cart.lastAddedLineId)
       this.setProducts(cart.products)
       this.setTotals(cart.totals)
       this.setMeta(cart.meta)
@@ -70,6 +70,9 @@ export const useCartStore = defineStore({
     },
     setProducts(products: Purchase[]): void {
       this._products = products
+    },
+    setLastAddedLineId(lineId: number): void {
+      this._lastAddedLineId = lineId
     },
     setTotals(totals: Record<string, number>): void {
       this._totals = totals
