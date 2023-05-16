@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useCartStore } from '~/store/cart'
+import Multilingual from '~/components/core/store/Multilingual.vue'
+
 const props = withDefaults(
   defineProps<{
     infoText: string
@@ -13,8 +17,11 @@ const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
-const images = props.item.attributes.images || []
+const cartStore = useCartStore()
+const { lastAddedItem } = storeToRefs(cartStore)
+const images = lastAddedItem.value?.product.images || []
 const thumbnail = images?.thumbnail.replace('conversions/', '').replace('-medium', '') || ''
+const purchasable = computed(() => lastAddedItem.value?.purchasable)
 
 function closeModal() {
   emit('closeModal')
@@ -22,7 +29,6 @@ function closeModal() {
 </script>
 
 <template>
-  {{ thumbnail }}
   <div class="modal" :class="{ 'modal-open': modalCartVisible }">
     <div class="modal-box relative max-w-5xl p-0">
       <div class="bg-brand-400 w-full p-4 text-lg font-semibold text-white">
@@ -37,13 +43,18 @@ function closeModal() {
       </label>
       <div class="card lg:card-side bg-base-100 shadow-xl">
         <figure class="m-0 w-96">
-          <img :src="thumbnail" :alt="item.attributes.name" />
+          <img :src="thumbnail" :alt="lastAddedItem?.product.name" />
         </figure>
         <div class="card-body">
           <div class="flex justify-between gap-6">
             <div class="text-lg font-semibold">
-              {{ item.attributes.name }}
-              <!-- <p class="mt-2 font-normal"><span>Size</span> 40 | <span>Color</span> Red</p> -->
+              <span v-text="lastAddedItem?.quantity" />x {{ lastAddedItem?.product.name }}
+              <ul class="flex gap-2 text-xs">
+                <li v-for="optionValue in purchasable.values" :key="optionValue.id">
+                  <span><Multilingual :value="optionValue.option.name" />: </span>
+                  <span><Multilingual :value="optionValue.name" /></span>
+                </li>
+              </ul>
             </div>
             <span class="text-brand-500 text-lg font-semibold">&euro; 380.00</span>
           </div>

@@ -7,6 +7,7 @@ export interface Purchase {
   id: number
   productId: number
   quantity: number
+  product?: any
   purchasable?: any
   total?: number
 }
@@ -40,8 +41,8 @@ export const useCartStore = defineStore({
     items(): UnwrapRef<CartState['_products']> {
       return this._products
     },
-    lastAddedLineId(): UnwrapRef<CartState['_lastAddedLineId']> {
-      return this._lastAddedLineId
+    lastAddedItem(): UnwrapRef<Purchase> | undefined {
+      return this._products.find((item) => item.id === this._lastAddedLineId)
     },
     cartCount(): number {
       return this._products.length
