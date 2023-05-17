@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useCartStore } from '~/store/cart'
-import Multilingual from '~/components/core/store/Multilingual.vue'
+import { useCartStore } from '#nuxt-store-core/store/cart'
 
 const props = withDefaults(
   defineProps<{
@@ -51,8 +50,8 @@ function closeModal() {
               <span v-text="lastAddedItem?.quantity" />x {{ lastAddedItem?.product.name }}
               <ul class="flex gap-2 text-xs">
                 <li v-for="optionValue in purchasable?.values" :key="optionValue.id">
-                  <span><Multilingual :value="optionValue.option.name" />: </span>
-                  <span><Multilingual :value="optionValue.name" /></span>
+                  <span><CoreStoreMultilingual :value="optionValue.option.name" />: </span>
+                  <span><CoreStoreMultilingual :value="optionValue.name" /></span>
                 </li>
               </ul>
             </div>

@@ -2,7 +2,6 @@
 import { Popconfirm } from 'ant-design-vue'
 import IconMinus from '~icons/carbon/subtract'
 import IconAdd from '~icons/carbon/add'
-import Multilingual from '~/components/core/store/Multilingual.vue'
 import { useCartStore } from '~/store/cart'
 import useProductRoute from '~/composables/useProductRoute'
 
@@ -64,8 +63,8 @@ async function decreaseQuantity(item: any) {
           <!-- variant options -->
           <ul class="flex gap-2 text-xs">
             <li v-for="optionValue in purchasable.values" :key="optionValue.id">
-              <span><Multilingual :value="optionValue.option.name" />: </span>
-              <span><Multilingual :value="optionValue.name" /></span>
+              <span><CoreStoreMultilingual :value="optionValue.option.name" />: </span>
+              <span><CoreStoreMultilingual :value="optionValue.name" /></span>
             </li>
           </ul>
         </div>
