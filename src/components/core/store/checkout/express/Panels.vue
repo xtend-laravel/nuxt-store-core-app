@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import PanelContent from './panel/Content.vue'
-import { useAuthStore } from '~/store/auth'
-import { useCheckoutStore } from '~/store/checkout'
+import { useAuthStore } from '#nuxt-store-core/store/auth'
+import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
 const checkoutStore = useCheckoutStore()
 const { steps, currentStep } = storeToRefs(checkoutStore)

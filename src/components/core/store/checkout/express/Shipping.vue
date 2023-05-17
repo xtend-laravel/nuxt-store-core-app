@@ -1,7 +1,5 @@
-<script setup lang="ts">
-import Shipping from '../components/Shipping.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <Shipping :enable-filter="false" />
+  <CoreStoreCheckoutExpressShipping :enable-filter="false" />
 </template>
