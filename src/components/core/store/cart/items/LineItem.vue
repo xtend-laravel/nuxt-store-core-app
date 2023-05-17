@@ -2,8 +2,8 @@
 import { Popconfirm } from 'ant-design-vue'
 import IconMinus from '~icons/carbon/subtract'
 import IconAdd from '~icons/carbon/add'
-import { useCartStore } from '~/store/cart'
-import useProductRoute from '~/composables/useProductRoute'
+import { useCartStore } from '#nuxt-store-core/store/cart'
+import useProductRoute from '#nuxt-store-core/composables/useProductRoute'
 
 const props = defineProps<{
   item: Record<string, any>

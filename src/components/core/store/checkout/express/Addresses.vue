@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import AddressesSlide from '~/components/core/store/checkout/express/AddressesSlide.vue'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
 const checkoutStore = useCheckoutStore()
@@ -86,7 +85,7 @@ function persistAddressIds() {
 
     <!-- shipping tab -->
     <div v-show="addressType === 'Shipping'">
-      <AddressesSlide
+      <CoreStoreCheckoutExpressAddressesSlide
         key="shipping_address_content"
         v-model="form.shippingAddressId"
         class="flex"
@@ -97,7 +96,7 @@ function persistAddressIds() {
 
     <!-- billing tab -->
     <div v-show="addressType === 'Billing'">
-      <AddressesSlide
+      <CoreStoreCheckoutExpressAddressesSlide
         key="billing_address_content"
         v-model="form.billingAddressId"
         current-step-key="billing_address"
