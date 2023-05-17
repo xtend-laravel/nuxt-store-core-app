@@ -5,6 +5,6 @@ export default function useCheckoutComponent(componentName: string): Component |
   const canResolveComponent = (name: any) => typeof resolveDynamicComponent(name) !== 'string'
   const component = `CoreStoreCheckoutComponents${componentName}` as string
   const themeComponent = component.substring(4) as string
-  console.log(themeComponent, canResolveComponent(themeComponent), component.substring(4))
+  console.log(themeComponent, canResolveComponent(themeComponent))
   return (canResolveComponent(themeComponent) ? themeComponent : component) as Component | string
 }

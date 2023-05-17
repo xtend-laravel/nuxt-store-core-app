@@ -4,10 +4,11 @@ import useNitroApi from '../../../../composables/useNitroApi'
 
 export default defineEventHandler(async (event: H3Event) => {
   const body = await readBody(event)
-  // console.log(body, 'defineEventHandler')
+  console.log(body, 'defineEventHandler')
   return await useNitroApi(
     {
       event,
+      action: 'update-cart-action',
       endpoint: `/api/restify/carts/${body.cartId}/public-actions?action=update-cart-action`,
       requiresAuth: false,
       method: 'POST',
