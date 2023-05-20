@@ -13,6 +13,7 @@ const props = withDefaults(
     item: Record<string, any>
   }>(),
   {
+    variantContentClasses: 'sm:col-gap-5 sm:flex',
     variantOptionsListClasses: 'variant-options-list flex gap-2 text-xs',
     variantWrapClasses: 'variant-wrap mt-1 text-xs text-gray-500',
     rightColumnWrapClasses: 'right-column mt-4 flex flex-col justify-between pt-10 sm:mt-0',
@@ -54,7 +55,7 @@ async function removeLine(item: any) {
   </div>
 
   <div class="relative flex flex-1 flex-col justify-between">
-    <div class="sm:col-gap-5 sm:flex">
+    <div :class="variantContentClasses">
       <div class="pr-4 sm:pr-2">
         <NuxtLink :to="url" class="text-base font-semibold text-gray-900" v-text="item.product.name" />
         <div :class="variantWrapClasses">
