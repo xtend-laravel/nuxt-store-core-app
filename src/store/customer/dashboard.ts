@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
-import useApi from '../composables/useApi'
+import useApi from '#nuxt-store-core/composables/useApi'
 
 interface Product {
   id: number
@@ -10,7 +10,7 @@ interface Product {
   purchasable: string
 }
 
-interface LatestOrder {
+export interface LatestOrder {
   products: Product[]
 }
 

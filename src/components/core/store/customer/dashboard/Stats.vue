@@ -19,7 +19,7 @@ withDefaults(
 
 <template>
   <div :class="containerClasses">
-    <CoreStoreCustomerAccountDashboardStatsColumn
+    <CoreStoreCustomerDashboardStatsColumn
       title="Orders"
       :value="stats.orders"
       :wrapper-classes="columnClasses"
@@ -41,9 +41,9 @@ withDefaults(
           ></path>
         </svg>
       </template>
-    </CoreStoreCustomerAccountDashboardStatsColumn>
+    </CoreStoreCustomerDashboardStatsColumn>
 
-    <CoreStoreCustomerAccountDashboardStatsColumn
+    <CoreStoreCustomerDashboardStatsColumn
       title="Total Spent"
       :value="stats.total_spent"
       :wrapper-classes="columnClasses"
@@ -65,9 +65,9 @@ withDefaults(
           ></path>
         </svg>
       </template>
-    </CoreStoreCustomerAccountDashboardStatsColumn>
+    </CoreStoreCustomerDashboardStatsColumn>
 
-    <CoreStoreCustomerAccountDashboardStatsColumn
+    <CoreStoreCustomerDashboardStatsColumn
       title="Points Earned"
       :value="stats.points_earned"
       :wrapper-classes="columnClasses"
@@ -89,6 +89,6 @@ withDefaults(
           ></path>
         </svg>
       </template>
-    </CoreStoreCustomerAccountDashboardStatsColumn>
+    </CoreStoreCustomerDashboardStatsColumn>
   </div>
 </template>

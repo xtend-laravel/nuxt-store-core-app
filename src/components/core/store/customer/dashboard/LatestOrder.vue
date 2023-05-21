@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LatestOrder } from '~/store/accountDashboard'
+import type { LatestOrder } from '#nuxt-store-core/store/customer/dashboard'
 
 const props = withDefaults(
   defineProps<{
@@ -12,14 +12,14 @@ const props = withDefaults(
 <template>
   <div class="card card-side bg-base-100 mt-10 shadow-xl">
     <figure class="m-0">
-      <img src="https://jacquesloup.fra1.digitaloceanspaces.com/images/8887/16496.jpeg" class="w-60" alt="..." />
+      <img src="https://picsum.photos/seed/picsum/200/300" class="w-60" alt="..." />
     </figure>
     <div class="card-body">
       <h2 class="card-title flex justify-between">
         Latest order
         <span class="text-brand-600">&euro;100.50</span>
       </h2>
-      <p class="text-base text-gray-600">High-heeled leather mules with asymmetrical design 50</p>
+      <p class="text-base text-gray-600">Product name</p>
       <ul class="flex gap-2">
         <li>
           <span><span>Color</span>: </span><span><span>Red</span></span>
