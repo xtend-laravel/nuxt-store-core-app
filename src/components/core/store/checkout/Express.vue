@@ -9,6 +9,7 @@ import Payment from './components/Payment.vue'
 import Summary from './components/Summary.vue'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
+import useCheckoutComponent from '#nuxt-store-core/composables/useCheckoutComponent'
 
 const props = withDefaults(
   defineProps<{
@@ -72,6 +73,20 @@ const props = withDefaults(
     ],
   },
 )
+
+const steps = reactive(props.steps)
+
+const components = {
+  connection: useCheckoutComponent('Connection'),
+  shipping_address: useCheckoutComponent('Addresses'),
+  billing_address: useCheckoutComponent('Addresses'),
+  shipping_method: useCheckoutComponent('Shipping'),
+  payment_method: useCheckoutComponent('Payment'),
+}
+
+steps.forEach((step) => {
+  step.component = components[step.key] || null
+})
 
 const checkoutStore = useCheckoutStore()
 const { isCartEmpty } = useCartStore()
