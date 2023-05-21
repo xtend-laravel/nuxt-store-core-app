@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import type { LatestOrder, Stats } from '~/store/accountDashboard'
+import type { LatestOrder, Stats } from '#nuxt-store-core/store/customer/dashboard'
+
+// @todo this must be dynamic the number of blocks to be configurable by the theme including setting labels icons etc
 
 withDefaults(
   defineProps<{

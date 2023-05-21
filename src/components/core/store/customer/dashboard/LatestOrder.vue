@@ -7,6 +7,7 @@ const props = withDefaults(
   }>(),
   {},
 )
+// @todo Dynamic should include all products in an order stacked - use your judgement on the design based on daisyUI
 </script>
 
 <template>
