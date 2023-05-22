@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { LatestOrder, Stats } from '#nuxt-store-core/store/customer/dashboard'
-
 interface Item {
   title: string
   value: string | number
@@ -11,8 +9,6 @@ interface Item {
 withDefaults(
   defineProps<{
     items: Item[]
-    stats: Stats
-    latestOrder: LatestOrder
     containerClasses?: string
     columnClasses?: string
     columnIconWrapperClasses?: string

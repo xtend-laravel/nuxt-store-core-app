@@ -2,7 +2,7 @@
 import { fromNow } from '#nuxt-store-core/utils/fromNow'
 import type { LatestOrder } from '#nuxt-store-core/store/customer/dashboard'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     latestOrder: LatestOrder
   }>(),
