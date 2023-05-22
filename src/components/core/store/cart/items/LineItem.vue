@@ -30,9 +30,9 @@ const purchasable = computed(() => props.item.purchasable)
 
 const { url } = useProductRoute(props.item.product)
 
+// @todo make 100 the default value and use `formatPrice` directly instead?
 function getFormattedPrice(price: Ref<number> | number): string {
-  const priceValue = isRef(price) ? price.value : price
-  return formatPrice(priceValue, 0, 100).value
+  return formatPrice(unref(price), 0, 100).value
 }
 
 async function removeLine(item: any) {

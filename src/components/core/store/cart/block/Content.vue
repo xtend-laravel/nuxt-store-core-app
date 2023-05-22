@@ -2,12 +2,6 @@
 import { useCartStore } from '#nuxt-store-core/store/cart'
 
 const cartStore = useCartStore()
-const { formatPrice } = useFormattedPrice()
-
-function getFormattedPrice(price: Ref<number> | number): string {
-  const priceValue = isRef(price) ? price.value : price
-  return formatPrice(priceValue, 0, 100).value
-}
 </script>
 
 <template>
