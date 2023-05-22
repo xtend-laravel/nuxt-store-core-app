@@ -11,12 +11,18 @@ interface Product {
 }
 
 export interface LatestOrder {
+  id: number
+  created_at: string
+  total: number
   products: Product[]
 }
 
 export interface Stats {
   orders: number
-  points_earned: number
+  wishlist: {
+    added_total: number
+    added_recently: number
+  }
   total_spent: number
 }
 
@@ -31,7 +37,10 @@ export const useAccountDashboardStore = defineStore({
   state: (): CartState => ({
     _stats: {
       orders: 0,
-      points_earned: 0,
+      wishlist: {
+        added_total: 0,
+        added_recently: 0,
+      },
       total_spent: 0,
     },
     _latest_order: null,

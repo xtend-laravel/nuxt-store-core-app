@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import type { LatestOrder, Stats } from '#nuxt-store-core/store/customer/dashboard'
 
-// @todo this must be dynamic the number of blocks to be configurable by the theme including setting labels icons etc
+interface Item {
+  title: string
+  value: string | number
+  description: string
+  icon: any
+}
 
 withDefaults(
   defineProps<{
+    items: Item[]
     stats: Stats
     latestOrder: LatestOrder
-    containerClasses: string
-    columnClasses: string
-    columnIconWrapperClasses: string
+    containerClasses?: string
+    columnClasses?: string
+    columnIconWrapperClasses?: string
   }>(),
   {
     containerClasses: 'stats mt-10 w-full shadow',
@@ -21,76 +27,20 @@ withDefaults(
 
 <template>
   <div :class="containerClasses">
-    <CoreStoreCustomerDashboardStatsColumn
-      title="Orders"
-      :value="stats.orders"
-      :wrapper-classes="columnClasses"
-      :icon-wrapper-classes="columnIconWrapperClasses"
-      description="Last order 2 days ago"
-    >
-      <template #icon>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block h-8 w-8 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-      </template>
-    </CoreStoreCustomerDashboardStatsColumn>
-
-    <CoreStoreCustomerDashboardStatsColumn
-      title="Total Spent"
-      :value="stats.total_spent"
-      :wrapper-classes="columnClasses"
-      :icon-wrapper-classes="columnIconWrapperClasses"
-      description="↘︎ Last order &euro;100.50"
-    >
-      <template #icon>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block h-8 w-8 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-      </template>
-    </CoreStoreCustomerDashboardStatsColumn>
-
-    <CoreStoreCustomerDashboardStatsColumn
-      title="Points Earned"
-      :value="stats.points_earned"
-      :wrapper-classes="columnClasses"
-      :icon-wrapper-classes="columnIconWrapperClasses"
-      description="↗︎ Last order 50 points earned"
-    >
-      <template #icon>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block h-8 w-8 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-      </template>
-    </CoreStoreCustomerDashboardStatsColumn>
+    <slot>
+      <CoreStoreCustomerDashboardStatsColumn
+        v-for="(item, index) in items"
+        :key="index"
+        :title="item.title"
+        :value="item.value"
+        :description="item.description"
+        :wrapper-classes="columnClasses"
+        :icon-wrapper-classes="columnIconWrapperClasses"
+      >
+        <template #icon>
+          <component :is="item.icon" />
+        </template>
+      </CoreStoreCustomerDashboardStatsColumn>
+    </slot>
   </div>
 </template>
