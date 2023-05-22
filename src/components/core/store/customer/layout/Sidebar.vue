@@ -1,10 +1,15 @@
 <script setup lang="ts">
 defineProps<{
   navigation: {
-    name: string
-    href: string
+    title: string
+    href?: string
+    icon?: string
+    action?: CallableFunction
   }[]
   title: string
+  navigationListClasses?: string
+  navigationListItemClasses?: string
+  navigationListItemIconClasses?: string
 }>()
 </script>
 
@@ -13,7 +18,12 @@ defineProps<{
     <div class="flex w-full flex-col gap-4 lg:flex-row">
       <!-- sidebar -->
       <div class="w-full lg:w-1/4">
-        <CoreStoreCustomerLayoutSidebarNav :items="navigation" />
+        <CoreStoreCustomerLayoutSidebarNav
+          :items="navigation"
+          :list-classes="navigationListClasses"
+          :list-item-classes="navigationListItemClasses"
+          :list-item-icon-classes="navigationListItemIconClasses"
+        />
       </div>
       <div class="h-full w-full grow">
         <h1 class="mb-12 text-2xl font-bold">
