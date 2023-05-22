@@ -24,11 +24,11 @@ const props = withDefaults(
 
 const cartStore = useCartStore()
 
-const { formatPrice } = useFormattedPrice()
-
 const purchasable = computed(() => props.item.purchasable)
 
 const { url } = useProductRoute(props.item.product)
+
+const { formatPrice } = useFormattedPrice()
 
 // @todo make 100 the default value and use `formatPrice` directly instead?
 function getFormattedPrice(price: Ref<number> | number): string {

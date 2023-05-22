@@ -27,6 +27,7 @@ export default defineEventHandler(async (event: H3Event): Promise<any> => {
   if (!['show', 'index', 'destroy', 'custom'].includes(action)) {
     const body = await readBody(<H3Event>event)
     const { method, endpoint, requiresAuth, data } = body
+
     return await useNitroApi(
       <INitroApiOptions>{
         event,
