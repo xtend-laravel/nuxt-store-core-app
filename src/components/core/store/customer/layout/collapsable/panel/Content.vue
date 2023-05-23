@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <Collapse :when="isActive" class="v-collapse overflow-hidden !px-10 !pb-10 !pt-4 text-sm text-gray-500">
+  <Collapse :when="isActive" class="v-collapse overflow-hidden !p-4 text-sm text-gray-500">
     <slot />
   </Collapse>
 </template>
