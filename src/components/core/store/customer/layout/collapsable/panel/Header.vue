@@ -2,40 +2,40 @@
 import HeadingIcon from './HeadingIcon.vue'
 import ChevronUpIcon from '~icons/carbon/chevron-up'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title: string
     isActive: boolean
     url: string
-    iconCompletedClasses?: string
-    completedStepClasses?: string
-    activePanelClasses?: string
-    inactivePanelClasses?: string
-    panelIconClasses?: string
+    wrapperClasses?: string
+    activeWrapperClasses?: string
+    inactiveWrapperClasses?: string
+    contentClasses?: string
+    titleClasses?: string
+    activeTitleClasses?: string
+    inactiveTitleClasses?: string
   }>(),
   {
-    iconCompletedClasses: 'text-black',
-    completedStepClasses: 'bg-slate-300 text-white',
-    activePanelClasses: 'bg-black text-white',
-    inactivePanelClasses: 'border bg-slate-50',
-    panelIconClasses: 'text-slate-300',
+    wrapperClasses: 'flex w-full cursor-pointer items-center justify-between rounded-t-xl p-4',
+    activeWrapperClasses: 'bg-black text-white',
+    inactiveWrapperClasses: 'border bg-slate-50',
+    contentClasses: 'flex items-center',
+    titleClasses: 'ml-2 text-sm font-semibold',
+    inactiveTitleClasses: 'text-black',
+    activeTitleClasses: 'text-white',
   },
 )
 </script>
 
 <template>
-  <NuxtLink
-    class="flex w-full cursor-pointer items-center justify-between rounded-t-xl p-4"
-    :class="[isActive ? activePanelClasses : inactivePanelClasses]"
-    :to="url"
-  >
-    <span class="flex items-center">
+  <NuxtLink :class="[wrapperClasses, isActive ? activeWrapperClasses : inactiveWrapperClasses]" :to="url">
+    <span :class="contentClasses">
       <slot name="panel-header-icon">
         <HeadingIcon />
       </slot>
 
       <slot name="panel-header-heading">
-        <span class="ml-2 text-sm font-semibold text-black" :class="{ 'text-white': isActive }" v-text="title" />
+        <span :class="[titleClasses, isActive ? activeTitleClasses : inactiveTitleClasses]" v-text="title" />
       </slot>
     </span>
 

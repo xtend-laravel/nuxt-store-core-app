@@ -12,6 +12,9 @@ withDefaults(
     containerClasses?: string
     columnClasses?: string
     columnIconWrapperClasses?: string
+    columnTitleClasses?: string
+    columnValueClasses?: string
+    columnDescriptionClasses?: string
   }>(),
   {
     containerClasses: 'stats mt-10 w-full shadow',
@@ -32,6 +35,9 @@ withDefaults(
         :description="item.description"
         :wrapper-classes="columnClasses"
         :icon-wrapper-classes="columnIconWrapperClasses"
+        :title-classes="columnTitleClasses"
+        :value-classes="columnValueClasses"
+        :description-classes="columnDescriptionClasses"
       >
         <template #icon>
           <component :is="item.icon" />

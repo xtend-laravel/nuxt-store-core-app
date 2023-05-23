@@ -2,12 +2,24 @@
 import PanelHeader from './panel/Header.vue'
 import PanelContent from './panel/Content.vue'
 
-const props = defineProps<{
-  isActive: boolean
-  url: string
-  title: string
-  component: any
-}>()
+const props = withDefaults(
+  defineProps<{
+    url: string
+    title: string
+    component: any
+    wrapperClasses?: string
+    headerWrapperClasses?: string
+    headerActiveWrapperClasses?: string
+    headerInactiveWrapperClasses?: string
+    headerContentClasses?: string
+    headerTitleClasses?: string
+    headerActiveTitleClasses?: string
+    headerInactiveTitleClasses?: string
+  }>(),
+  {
+    wrapperClasses: 'my-3 flex-col !space-y-6 rounded-t-xl bg-white shadow sm:rounded-md',
+  },
+)
 
 const route = useRoute()
 
@@ -15,17 +27,26 @@ const isActive = computed(() => props.url === route.path)
 </script>
 
 <template>
-  <div class="shadow sm:rounded-md">
-    <div class="my-3 flex-col !space-y-6 rounded-t-xl bg-white">
-      <slot name="panel-header">
-        <PanelHeader :is-active="isActive" :url="url" :title="title" />
-      </slot>
+  <div :class="wrapperClasses">
+    <slot name="panel-header">
+      <PanelHeader
+        :is-active="isActive"
+        :url="url"
+        :title="title"
+        :wrapper-classes="headerWrapperClasses"
+        :active-wrapper-classes="headerActiveWrapperClasses"
+        :inactive-wrapper-classes="headerInactiveWrapperClasses"
+        :content-classes="headerContentClasses"
+        :title-classes="headerTitleClasses"
+        :active-title-classes="headerActiveTitleClasses"
+        :inactive-title-classes="headerInactiveTitleClasses"
+      />
+    </slot>
 
-      <slot name="panel-content">
-        <PanelContent :is-active="isActive">
-          <component :is="component" />
-        </PanelContent>
-      </slot>
-    </div>
+    <slot name="panel-content">
+      <PanelContent :is-active="isActive">
+        <component :is="component" />
+      </PanelContent>
+    </slot>
   </div>
 </template>

@@ -4,7 +4,7 @@ import type { LatestOrder } from '#nuxt-store-core/store/customer/dashboard'
 
 withDefaults(
   defineProps<{
-    latestOrder: LatestOrder
+    latestOrder: LatestOrder | null
   }>(),
   {},
 )
