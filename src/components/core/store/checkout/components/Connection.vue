@@ -54,7 +54,7 @@ async function fetchAuthCheck() {
 
   if (loggedIn) {
     emit('closeModal')
-    return navigateTo('/account')
+    return navigateTo('/customer/dashboard')
   }
 }
 async function loginRequest() {
