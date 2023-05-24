@@ -14,7 +14,7 @@ specifiers:
   '@vueuse/core': ^10.1.2
   '@vueuse/nuxt': 10.1.2
   ant-design-vue: ^3.2.20
-  dayjs: ^1.11.7
+  dayjs-nuxt: ^1.1.0
   eslint: ^8.40.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-html: ^7.1.0
@@ -38,7 +38,6 @@ dependencies:
   '@pinia/nuxt': 0.4.11_typescript@5.0.4
   '@vueform/slider': 2.1.7
   ant-design-vue: 3.2.20
-  dayjs: 1.11.7
   nuxt-headlessui: 1.1.4
   nuxt-swiper: 1.1.0
   pinia: 2.1.1_typescript@5.0.4
@@ -56,6 +55,7 @@ devDependencies:
   '@types/throttle-debounce': 5.0.0
   '@vueuse/core': 10.1.2
   '@vueuse/nuxt': 10.1.2_nuxt@3.5.0
+  dayjs-nuxt: 1.1.0
   eslint: 8.40.0
   eslint-config-prettier: 8.8.0_eslint@8.40.0
   eslint-plugin-html: 7.1.0
@@ -2685,6 +2685,16 @@ packages:
   /data-uri-to-buffer/4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
     engines: {node: '>= 12'}
+    dev: true
+
+  /dayjs-nuxt/1.1.0:
+    resolution: {integrity: sha512-HvFK1IiTU85OpBhVaprj8x5Qy10LqUEOSiilQrvQEwTyetRRvCepKFKMi928V2zDXYcSWypLTUkfaFOxUuBkDw==}
+    dependencies:
+      '@nuxt/kit': 3.5.0
+      dayjs: 1.11.7
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
     dev: true
 
   /dayjs/1.11.7:

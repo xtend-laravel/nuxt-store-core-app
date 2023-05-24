@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     'nuxt-headlessui',
     '@nuxtjs/i18n',
     '@sidebase/nuxt-session',
+    'dayjs-nuxt',
   ],
   session: {
     session: {
