@@ -98,9 +98,9 @@ export const useCartStore = defineStore({
       })
     },
     async add(productId: number, quantity = 1, variants?: object): Promise<any> {
-      await this.persistCartData(productId, quantity, variants)
+      const cartLine = await this.persistCartData(productId, quantity, variants)
       await this.fetch()
-      return Promise.resolve()
+      return cartLine
     },
     async remove(productId: number): Promise<any> {
       this._products[productId]?.quantity > 0
