@@ -1,14 +1,8 @@
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    infoText: string
-    modalSendToFriendVisible: boolean
-    item: any
-  }>(),
-  {
-    infoText: 'Send this product to a friend',
-  },
-)
+const props = defineProps<{
+  modalSendToFriendVisible: boolean
+  item: any
+}>()
 
 const emit = defineEmits<{
   (e: 'closeModal'): void
@@ -43,8 +37,8 @@ function onSubmit() {
 <template>
   <div class="modal" :class="{ 'modal-open': modalSendToFriendVisible }">
     <div class="modal-box relative max-w-5xl p-0">
-      <div class="w-full bg-blue-400 p-4 text-lg font-semibold text-white">
-        <span class="mr-2">&#10003;</span> {{ infoText }}
+      <div class="bg-brand-400 w-full p-4 text-lg font-semibold text-white">
+        <span class="mr-2">&#10003;</span> Send this product to a friend
       </div>
       <label for="sendToFriendModal" class="absolute right-3 top-3 z-50" @click="closeModal">
         <button class="btn btn-sm btn-circle btn-outline text-white">

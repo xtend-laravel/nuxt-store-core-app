@@ -1,25 +1,20 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 
-const props = withDefaults(
-  defineProps<{
-    infoText: string
-    modalCartVisible: boolean
-  }>(),
-  {
-    infoText: 'Product added to your shopping cart',
-  },
-)
+defineProps<{
+  infoText: string
+  modalCartVisible: boolean
+}>()
 
 const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
 const cartStore = useCartStore()
-const lastAddedItem = computed(() => cartStore.lastAddedItem?.value)
-const images = computed(() => lastAddedItem.value?.product.images || [])
-
-const thumbnail = computed(() => images.value?.thumbnail?.replace('conversions/', '').replace('-medium', '') || '')
+const { lastAddedItem } = storeToRefs(cartStore)
+const images = lastAddedItem.value?.product.images || []
+const thumbnail = images?.thumbnail?.replace('conversions/', '').replace('-medium', '') || ''
 const purchasable = computed(() => lastAddedItem.value?.purchasable)
 
 const { formatPrice } = useFormattedPrice()
@@ -35,10 +30,10 @@ function closeModal() {
 </script>
 
 <template>
-  <div v-if="lastAddedItem" class="modal" :class="{ 'modal-open': modalCartVisible }">
+  <div class="modal" :class="{ 'modal-open': modalCartVisible }">
     <div class="modal-box relative max-w-5xl p-0">
       <div class="bg-brand-400 w-full p-4 text-lg font-semibold text-white">
-        <span class="mr-2">&#10003;</span> {{ infoText }}
+        <span class="mr-2">&#10003;</span> Product added to your shopping cart
       </div>
       <label for="addToCartModal" class="absolute right-3 top-3 z-50" @click="closeModal">
         <button class="btn btn-sm btn-circle btn-outline text-white">
