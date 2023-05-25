@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 
 const props = withDefaults(
@@ -17,7 +16,7 @@ const emit = defineEmits<{
 }>()
 
 const cartStore = useCartStore()
-const { lastAddedItem } = storeToRefs(cartStore)
+const lastAddedItem = computed(() => cartStore.lastAddedItem?.value)
 const images = computed(() => lastAddedItem.value?.product.images || [])
 
 const thumbnail = computed(() => images.value?.thumbnail?.replace('conversions/', '').replace('-medium', '') || '')
@@ -36,7 +35,7 @@ function closeModal() {
 </script>
 
 <template>
-  <div class="modal" :class="{ 'modal-open': modalCartVisible }">
+  <div v-if="lastAddedItem" class="modal" :class="{ 'modal-open': modalCartVisible }">
     <div class="modal-box relative max-w-5xl p-0">
       <div class="bg-brand-400 w-full p-4 text-lg font-semibold text-white">
         <span class="mr-2">&#10003;</span> {{ infoText }}
