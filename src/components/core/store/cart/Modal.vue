@@ -18,8 +18,9 @@ const emit = defineEmits<{
 
 const cartStore = useCartStore()
 const { lastAddedItem } = storeToRefs(cartStore)
-const images = lastAddedItem.value?.product.images || []
-const thumbnail = images?.thumbnail?.replace('conversions/', '').replace('-medium', '') || ''
+const images = computed(() => lastAddedItem.value?.product.images || [])
+
+const thumbnail = computed(() => images.value?.thumbnail?.replace('conversions/', '').replace('-medium', '') || '')
 const purchasable = computed(() => lastAddedItem.value?.purchasable)
 
 function closeModal() {
