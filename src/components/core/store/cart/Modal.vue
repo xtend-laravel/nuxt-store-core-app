@@ -23,6 +23,13 @@ const images = computed(() => lastAddedItem.value?.product.images || [])
 const thumbnail = computed(() => images.value?.thumbnail?.replace('conversions/', '').replace('-medium', '') || '')
 const purchasable = computed(() => lastAddedItem.value?.purchasable)
 
+const { formatPrice } = useFormattedPrice()
+
+// @todo make 100 the default value and use `formatPrice` directly instead?
+function getFormattedPrice(price: Ref<number> | number): string {
+  return formatPrice(unref(price), 0, 100).value
+}
+
 function closeModal() {
   emit('closeModal')
 }
@@ -56,7 +63,9 @@ function closeModal() {
                 </li>
               </ul>
             </div>
-            <span class="text-brand-500 text-lg font-semibold">&euro; 380.00</span>
+            <span class="text-brand-500 text-lg font-semibold">
+              {{ getFormattedPrice(lastAddedItem?.total) }}
+            </span>
           </div>
           <CoreStoreCartItemsSummary class="pb-0 pt-4" />
           <div class="text-center">
