@@ -41,8 +41,8 @@ export const useCartStore = defineStore({
     items(): UnwrapRef<CartState['_products']> {
       return this._products
     },
-    lastAddedItem(): UnwrapRef<Purchase> | undefined {
-      return this._products.find((item) => item.id === this._lastAddedLineId)
+    async lastAddedItem(): Promise<any> {
+      return await this._products.find((item) => item.id === this._lastAddedLineId)
     },
     cartCount(): number {
       return this._products.length
@@ -100,6 +100,7 @@ export const useCartStore = defineStore({
     async add(productId: number, quantity = 1, variants?: object): Promise<any> {
       await this.persistCartData(productId, quantity, variants)
       await this.fetch()
+      return Promise.resolve()
     },
     async remove(productId: number): Promise<any> {
       this._products[productId]?.quantity > 0
