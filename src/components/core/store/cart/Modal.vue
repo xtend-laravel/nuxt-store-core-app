@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useCartStore } from '#nuxt-store-core/store/cart'
-
-defineProps<{
+const props = defineProps<{
   infoText: string
   modalCartVisible: boolean
+  item: any
 }>()
 
 const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
-const cartStore = useCartStore()
-const { lastAddedItem } = storeToRefs(cartStore)
-const images = lastAddedItem.value?.product.images || []
+const item = reactive(props.item)
+const images = item?.product.images || []
 const thumbnail = images?.thumbnail?.replace('conversions/', '').replace('-medium', '') || ''
-const purchasable = computed(() => lastAddedItem.value?.purchasable)
+const purchasable = computed(() => item?.purchasable)
 
 const { formatPrice } = useFormattedPrice()
 
@@ -44,12 +41,12 @@ function closeModal() {
       </label>
       <div class="card lg:card-side bg-base-100 shadow-xl">
         <figure class="m-0 w-96">
-          <img :src="thumbnail" :alt="lastAddedItem?.product.name" />
+          <img :src="thumbnail" :alt="item?.product.name" />
         </figure>
         <div class="card-body">
           <div class="flex justify-between gap-6">
             <div class="text-lg font-semibold">
-              <span v-text="lastAddedItem?.quantity" />x {{ lastAddedItem?.product.name }}
+              <span v-text="item?.quantity" />x {{ item?.product.name }}
               <ul class="flex gap-2 text-xs">
                 <li v-for="optionValue in purchasable?.values" :key="optionValue.id">
                   <span><CoreStoreMultilingual :value="optionValue.option.name" />: </span>
@@ -58,7 +55,7 @@ function closeModal() {
               </ul>
             </div>
             <span class="text-brand-500 text-lg font-semibold">
-              {{ getFormattedPrice(lastAddedItem?.total) }}
+              {{ getFormattedPrice(item?.total) }}
             </span>
           </div>
           <CoreStoreCartItemsSummary class="pb-0 pt-4" />
