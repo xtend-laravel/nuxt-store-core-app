@@ -22,7 +22,9 @@ export const useAuthStore = defineStore({
       if (process.server) {
         return false
       }
+
       useAuthStore().getUser()
+
       return this.loggedIn
     },
   },

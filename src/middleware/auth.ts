@@ -5,7 +5,7 @@ import { useAuthStore } from '#nuxt-store-core/store/auth'
 export default defineNuxtRouteMiddleware(async (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
   const { isAuthenticated } = storeToRefs(useAuthStore())
 
-  if (!isAuthenticated.value) {
+  if (!isAuthenticated.value && !process.server) {
     return navigateTo('/login')
   }
 })
