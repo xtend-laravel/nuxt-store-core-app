@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
-import { useFetch } from 'nuxt/app'
 import useCart from '../composables/useCart'
 import { useGlobalStore } from './global'
 
@@ -110,18 +109,33 @@ export const useCartStore = defineStore({
       return await this.persistCartData(productId, -1)
     },
     async removeLine(lineId: number): Promise<any> {
-      await useFetch(`/api/carts/remove-line`, {
+      const response = await fetch(`/api/carts/remove-line`, {
         method: 'POST',
-        body: { cartId: this._cartId, lineId },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartId: this._cartId, lineId }),
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to remove line.')
+      }
 
       await this.fetch()
     },
+
     async updateQuantity(lineId: number, quantity: number): Promise<any> {
-      await useFetch(`/api/carts/update-line-quantity`, {
+      const response = await fetch(`/api/carts/update-line-quantity`, {
         method: 'POST',
-        body: { cartId: this._cartId, lineId, quantity },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartId: this._cartId, lineId, quantity }),
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to update quantity.')
+      }
 
       await this.fetch()
     },
