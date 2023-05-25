@@ -22,6 +22,13 @@ const methods = computed(() => {
   // )
 })
 
+const { formatPrice } = useFormattedPrice()
+
+// @todo make 100 the default value and use `formatPrice` directly instead?
+function getFormattedPrice(price: Ref<number> | number): string {
+  return formatPrice(unref(price), 0, 100).value
+}
+
 watch(
   () => form.shippingAddressId,
   () => {
@@ -82,7 +89,7 @@ watch(
                 <div class="w-11/12 text-xs" v-text="shippingMethod.description" />
               </div>
               <div class="text-right">
-                <span class="font-medium">&euro;{{ shippingMethod.price.value }}</span>
+                <span class="font-medium">{{ getFormattedPrice(shippingMethod.price.value) }}</span>
               </div>
             </div>
             <input
