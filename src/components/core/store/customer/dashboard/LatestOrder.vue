@@ -30,10 +30,10 @@ const props = withDefaults(
 const { formatPrice } = useFormattedPrice()
 
 const images = computed(() => {
-  return props.latestOrder.products?.map((item) => item.product.images.thumbnail)
+  return props.latestOrder?.products?.map((item) => item?.product?.images?.thumbnail)
 })
 
-const primaryImage = ref(images.value[0])
+const primaryImage = ref(images.value?.[0])
 
 // @todo make 100 the default value and use `formatPrice` directly instead?
 function getFormattedPrice(price: Ref<number> | number): string {
@@ -44,7 +44,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
 <template>
   <div v-if="latestOrder" class="card card-side bg-base-100 my-10 shadow-xl">
     <figure class="m-0">
-      <img :src="primaryImage" class="h-96 w-72 rounded-lg object-cover" />
+      <img :src="images[0]" class="h-96 w-72 rounded-lg object-cover" />
     </figure>
     <div class="card-body py-2">
       <div class="flex justify-between">
