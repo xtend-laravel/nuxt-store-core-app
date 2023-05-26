@@ -25,10 +25,18 @@ withDefaults(
     activeTitleClasses: 'text-white',
   },
 )
+
+const emit = defineEmits<{
+  (e: 'select'): void
+}>()
 </script>
 
 <template>
-  <NuxtLink :class="[wrapperClasses, isActive ? activeWrapperClasses : inactiveWrapperClasses]" :to="url">
+  <a
+    :class="[wrapperClasses, isActive ? activeWrapperClasses : inactiveWrapperClasses]"
+    :href="url"
+    @click.prevent="emit('select')"
+  >
     <span :class="contentClasses">
       <slot name="panel-header-icon">
         <HeadingIcon />
@@ -45,5 +53,5 @@ withDefaults(
         'rotate-180': isActive,
       }"
     />
-  </NuxtLink>
+  </a>
 </template>

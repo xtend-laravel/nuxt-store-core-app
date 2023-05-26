@@ -4,6 +4,7 @@ import PanelContent from './panel/Content.vue'
 
 const props = withDefaults(
   defineProps<{
+    activePanel: string
     url: string
     title: string
     component: any
@@ -21,9 +22,11 @@ const props = withDefaults(
   },
 )
 
-const route = useRoute()
+const emit = defineEmits<{
+  (e: 'select'): void
+}>()
 
-const isActive = computed(() => props.url === route.path)
+const isActive = computed(() => props.activePanel === props.url)
 </script>
 
 <template>
@@ -40,6 +43,7 @@ const isActive = computed(() => props.url === route.path)
         :title-classes="headerTitleClasses"
         :active-title-classes="headerActiveTitleClasses"
         :inactive-title-classes="headerInactiveTitleClasses"
+        @select="emit('select')"
       />
     </slot>
 
