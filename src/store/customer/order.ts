@@ -39,6 +39,7 @@ export interface Address {
 export interface Order {
   id: number
   created_at: string
+  updated_at: string
   total: number
   payment: string
   status: Status
