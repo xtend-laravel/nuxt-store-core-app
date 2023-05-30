@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import useStoreInventory from '../composables/useStoreInventory'
 
 export type ProductListLayout = 'grid' | 'list'
 
