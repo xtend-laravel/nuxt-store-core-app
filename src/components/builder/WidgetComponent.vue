@@ -18,6 +18,8 @@ function canResolveComponent(name) {
 
 <template>
   <Component :is="loadedComponent" :widget="widget.attributes">
+    <slot name="beforeComponent" />
     <slot />
+    <slot name="afterComponent" />
   </Component>
 </template>
