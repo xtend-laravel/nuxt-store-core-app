@@ -125,6 +125,38 @@ export const useCartStore = defineStore({
       await this.fetch()
     },
 
+    async placeOrder(): Promise<any> {
+      const response = await fetch(`/api/carts/place-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartId: this._cartId }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to place order.')
+      }
+
+      await this.fetch()
+    },
+
+    async setAddress(type: string, id: number): Promise<any> {
+      const response = await fetch(`/api/carts/set-address`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartId: this._cartId, type, id }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to set address.')
+      }
+
+      await this.fetch()
+    },
+
     async updateQuantity(lineId: number, quantity: number): Promise<any> {
       const response = await fetch(`/api/carts/update-line-quantity`, {
         method: 'POST',
