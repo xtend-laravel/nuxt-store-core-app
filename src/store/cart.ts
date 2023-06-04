@@ -125,13 +125,15 @@ export const useCartStore = defineStore({
       await this.fetch()
     },
 
-    async placeOrder(): Promise<any> {
-      const response = await fetch(`/api/carts/place-order`, {
+    async createOrder(): Promise<any> {
+      const response = await useApi({
+        endpoint: `carts/${this._cartId}/actions?action=create-order-action`,
+        requiresAuth: true,
+        action: 'create',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+        data: {
+          ...this.meta,
         },
-        body: JSON.stringify({ cartId: this._cartId }),
       })
 
       if (!response.ok) {
