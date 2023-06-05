@@ -33,6 +33,8 @@ const images = computed(() => {
   return props.latestOrder?.products?.map((item) => item?.product?.images?.thumbnail)
 })
 
+const selectedProduct = ref(props.latestOrder?.products[0])
+
 const primaryImage = ref(images.value?.[0])
 
 // @todo make 100 the default value and use `formatPrice` directly instead?
@@ -43,17 +45,23 @@ function getFormattedPrice(price: Ref<number> | number): string {
 
 <template>
   <div v-if="latestOrder" class="card card-side bg-base-100 my-10 shadow-xl">
-    <figure class="m-0">
-      <img :src="images[0]" class="h-96 w-72 rounded-lg object-cover" />
-    </figure>
-    <div class="card-body py-2">
+    <div class="m-0 hidden w-72 lg:block">
+      <img
+        v-if="selectedProduct?.product.images?.thumbnail"
+        :src="selectedProduct?.product.images?.thumbnail"
+        class="absolute inset-0 h-full w-72 rounded-lg object-cover"
+      />
+    </div>
+
+    <div class="card-body overflow-hidden px-4 py-4 lg:px-8">
       <div class="flex justify-between">
         <h2 class="card-title" :class="titleClasses">
           Latest order
           <span class="text-brand-600">{{ getFormattedPrice(latestOrder?.total) }}</span>
-          <span>(50 items)</span>
+          <span>({{ latestOrder.products.length }} items)</span>
         </h2>
-        <div class="order-item-thumbs">
+
+        <div v-if="false" class="order-item-thumbs">
           <ul class="flex gap-4">
             <li v-for="image in images" :key="image" class="h-12 w-12 border bg-gray-100">
               <img :src="image" class="h-12 w-12 max-w-full rounded-lg object-cover" />
@@ -61,27 +69,16 @@ function getFormattedPrice(price: Ref<number> | number): string {
           </ul>
         </div>
       </div>
+
       <div :class="containerClasses">
         <div :class="bodyClasses">
-          <CoreStoreCustomerDashboardLatestOrderProductTable :items="latestOrder.products" />
-          <!--          <ul> -->
-          <!--            <li v-for="item in latestOrder.products" :key="item.id" :class="lineWrapperClasses"> -->
-          <!--              <slot :key="item.id" name="override-items-line" :item="item"> -->
-          <!--                <CoreStoreCustomerDashboardLatestOrderLineItem -->
-          <!--                  :key="item.id" -->
-          <!--                  :wrapper-classes="lineWrapperClasses" -->
-          <!--                  :variant-content-classes="lineVariantContentClasses" -->
-          <!--                  :variant-wrap-classes="lineVariantWrapClasses" -->
-          <!--                  :variant-options-list-classes="lineVariantOptionsListClasses" -->
-          <!--                  :price-classes="linePriceClasses" -->
-          <!--                  :quantity-wrap-classes="lineQuantityWrapClasses" -->
-          <!--                  :item="item" -->
-          <!--                /> -->
-          <!--              </slot> -->
-          <!--            </li> -->
-          <!--          </ul> -->
+          <CoreStoreCustomerDashboardLatestOrderProductTable
+            v-model:selectedProduct="selectedProduct"
+            :items="latestOrder.products"
+          />
         </div>
       </div>
+
       <div class="card-actions mt-4 justify-end">
         <p :class="descriptionClasses">
           <slot name="description">
