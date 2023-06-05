@@ -20,6 +20,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
 </script>
 
 <template>
+  <pre>{{ totals }}</pre>
   <div class="bg-white pb-4 pt-10">
     <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
       <span v-text="labels.subTotal" />
