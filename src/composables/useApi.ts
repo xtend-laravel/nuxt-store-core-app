@@ -10,7 +10,7 @@ export default function useApi(options: IApiOptions): Promise<any> {
   const opts: any = {
     method: options.method,
     headers: {
-      'API-Server-Route-Key': useRuntimeConfig().public.apiKey,
+      'API-Server-Route-Key': 'api1234567890',
       'Content-Type': 'application/json',
     },
   }
