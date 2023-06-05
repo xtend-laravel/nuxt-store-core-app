@@ -38,7 +38,10 @@ function getFormattedPrice(price: Ref<number> | number): string {
 }
 
 async function removeLine(item: any) {
-  await cartStore.removeLine(item.id)
+  await cartStore.removeLine(item.id).then(() => {
+    cartStore.fetch()
+    // @todo if last item then we close the cart summary
+  })
 }
 </script>
 
