@@ -41,12 +41,5 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
     opts.query = query
   }
 
-  // eslint-disable-next-line no-console
-  console.log('useNitroApi', `${baseUrl}${endpoint}`)
-  // eslint-disable-next-line no-console
-  console.log('headers', headers)
-  // eslint-disable-next-line no-console
-  console.log('options', opts)
-
   return $fetch(`${baseUrl}${endpoint}`, opts)
 }
