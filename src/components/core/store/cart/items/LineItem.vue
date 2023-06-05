@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import { Popconfirm } from 'ant-design-vue'
+import type { Ref } from 'vue'
+import type { LineItem } from '#nuxt-store-core/types/product'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 import useProductRoute from '#nuxt-store-core/composables/useProductRoute'
 
-const props = withDefaults(
-  defineProps<{
-    variantWrapClasses: string
-    variantOptionsListClasses: string
-    rightColumnWrapClasses: string
-    priceClasses: string
-    quantityWrapClasses: string
-    item: Record<string, any>
-  }>(),
-  {
-    variantContentClasses: 'sm:col-gap-5 sm:flex',
-    variantOptionsListClasses: 'variant-options-list flex gap-2 text-xs',
-    variantWrapClasses: 'variant-wrap mt-1 text-xs text-gray-500',
-    rightColumnWrapClasses: 'right-column mt-4 flex flex-col justify-between pt-10 sm:mt-0',
-    priceClasses: 'price-style w-20 shrink-0 text-base font-semibold text-gray-900 sm:text-right',
-    quantityWrapClasses: 'quantity-wrap mt-2 flex items-center',
-  },
-)
+const props = defineProps<{
+  variantContentClasses: string
+  variantOptionsListClasses: string
+  variantWrapClasses: string
+  rightColumnWrapClasses: string
+  priceClasses: string
+  quantityWrapClasses: string
+  item: LineItem[]
+}>()
+
+const {
+  variantContentClasses = 'sm:col-gap-5 sm:flex',
+  variantOptionsListClasses = 'variant-options-list flex gap-2 text-xs',
+  variantWrapClasses = 'variant-wrap mt-1 text-xs text-gray-500',
+  rightColumnWrapClasses = 'right-column mt-4 flex flex-col justify-between pt-10 sm:mt-0',
+  priceClasses = 'price-style w-20 shrink-0 text-base font-semibold text-gray-900 sm:text-right',
+  quantityWrapClasses = 'quantity-wrap mt-2 flex items-center',
+} = props
 
 const cartStore = useCartStore()
 
