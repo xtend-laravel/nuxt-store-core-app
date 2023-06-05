@@ -51,6 +51,7 @@ export const useCartStore = defineStore({
       const {
         data: { cart },
       } = await useCart()
+
       this.setCartId(cart.id)
       this.setLastAddedLineId(cart.lastAddedLineId)
       this.setItems(cart.lineItems)
@@ -133,20 +134,14 @@ export const useCartStore = defineStore({
     },
 
     async setAddress(type: string, id: number): Promise<any> {
-      // @todo Refactor to useApi
-      const response = await fetch(`/api/carts/set-address`, {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._cartId}/actions?action=update-cart-address-action`,
+        requiresAuth: true,
+        action: 'update',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cartId: this._cartId, type, id }),
+        data: { cartId: this._cartId, type, id },
       })
-
-      if (!response.ok) {
-        throw new Error('Failed to set address.')
-      }
-
-      await this.fetch()
     },
   },
 })
