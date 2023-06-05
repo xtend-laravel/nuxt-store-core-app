@@ -1,21 +1,12 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
-import useCart from '../composables/useCart'
-import { useGlobalStore } from './global'
-
-export interface Purchase {
-  id: number
-  productId: number
-  quantity: number
-  product?: any
-  purchasable?: any
-  total?: number
-}
+import useCart from '#nuxt-store-core/composables/useCart'
+import type { LineItem } from '#nuxt-store-core/types/product'
 
 interface CartState {
   _cartId: number
   _lastAddedLineId: number
-  _products: Purchase[]
+  _items: LineItem[]
   _totals: Record<string, number>
   _meta: Record<string, any>
 }
@@ -26,26 +17,26 @@ export const useCartStore = defineStore({
   state: (): CartState => ({
     _cartId: 0,
     _lastAddedLineId: 0,
-    _products: [],
+    _items: [],
     _totals: {},
     _meta: {},
   }),
 
   getters: {
     isCartEmpty(): boolean {
-      return this._products.length === 0
+      return this._items.length === 0
     },
     cartId(): UnwrapRef<CartState['_cartId']> {
       return this._cartId
     },
-    items(): UnwrapRef<CartState['_products']> {
-      return this._products
+    items(): UnwrapRef<CartState['_items']> {
+      return this._items
     },
-    lastAddedItem(): UnwrapRef<Purchase> | undefined {
-      return this._products.find((item) => item.id === this._lastAddedLineId)
+    lastAddedItem(): UnwrapRef<LineItem> | undefined {
+      return this._items.find((item) => item.id === this._lastAddedLineId)
     },
     cartCount(): number {
-      return this._products.length
+      return this._items.reduce((acc, item) => acc + item.quantity, 0)
     },
     totals(): UnwrapRef<CartState['_totals']> {
       return this._totals
@@ -62,15 +53,15 @@ export const useCartStore = defineStore({
       } = await useCart()
       this.setCartId(cart.id)
       this.setLastAddedLineId(cart.lastAddedLineId)
-      this.setProducts(cart.products)
+      this.setItems(cart.lineItems)
       this.setTotals(cart.totals)
       this.setMeta(cart.meta)
     },
     setCartId(cartId: number): void {
       this._cartId = cartId
     },
-    setProducts(products: Purchase[]): void {
-      this._products = products
+    setItems(lineItems: LineItem[]): void {
+      this._items = lineItems
     },
     setLastAddedLineId(lineId: number): void {
       this._lastAddedLineId = lineId
@@ -81,52 +72,62 @@ export const useCartStore = defineStore({
     setMeta(meta: Record<string, any>): void {
       this._meta = meta
     },
-    // @todo Later this should be changed to lineId and the API updated to match
-    async persistCartData(productId: number, currentQuantity: number, variants?: object): Promise<any> {
-      return useGlobalStore().persistEntity({
-        repository: 'carts',
+    async increaseQty(productId: number, quantity = 1, variants?: object): Promise<any> {
+      return this.updateQty(productId, quantity, variants)
+    },
+    async decreaseQty(productId: number, quantity = 1, variants?: object): Promise<any> {
+      this._items[productId]?.quantity > 0 ? (this._items[productId].quantity -= 1) : delete this._items[productId]
+
+      return this.updateQty(productId, this._items[productId]?.quantity || 0)
+    },
+    async updateQty(productId: number, quantity = 1, variants?: object): Promise<any> {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._cartId}/public-actions?action=update-cart-line-action`,
+        requiresAuth: false,
         action: 'update',
         method: 'POST',
         data: {
           cartId: this._cartId,
           product: {
             id: productId,
-            quantity: currentQuantity || 1,
+            quantity: quantity || 1,
             variants,
           },
         },
       })
     },
-    async add(productId: number, quantity = 1, variants?: object): Promise<any> {
-      const cartLine = await this.persistCartData(productId, quantity, variants)
-      await this.fetch()
-      return cartLine
-    },
-    async remove(productId: number): Promise<any> {
-      this._products[productId]?.quantity > 0
-        ? (this._products[productId].quantity -= 1)
-        : delete this._products[productId]
-
-      return await this.persistCartData(productId, -1)
+    async addToCart(productId: number, quantity = 1, variants?: object): Promise<any> {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._cartId}/public-actions?action=add-to-cart-action`,
+        requiresAuth: false,
+        action: 'create',
+        method: 'POST',
+        data: {
+          cartId: this._cartId,
+          product: {
+            id: productId,
+            quantity: quantity || 1,
+            variants,
+          },
+        },
+      })
     },
     async removeLine(lineId: number): Promise<any> {
-      const response = await fetch(`/api/carts/remove-line`, {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._cartId}/public-actions?action=delete-cart-line-action`,
+        requiresAuth: false,
+        action: 'delete',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cartId: this._cartId, lineId }),
+        data: { cartId: this._cartId, lineId },
       })
-
-      if (!response.ok) {
-        throw new Error('Failed to remove line.')
-      }
-
-      await this.fetch()
     },
 
     async createOrder(): Promise<any> {
-      const response = await useApi({
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
         endpoint: `carts/${this._cartId}/actions?action=create-order-action`,
         requiresAuth: true,
         action: 'create',
@@ -135,15 +136,10 @@ export const useCartStore = defineStore({
           ...this.meta,
         },
       })
-
-      if (!response.ok) {
-        throw new Error('Failed to place order.')
-      }
-
-      await this.fetch()
     },
 
     async setAddress(type: string, id: number): Promise<any> {
+      // @todo Refactor to useApi
       const response = await fetch(`/api/carts/set-address`, {
         method: 'POST',
         headers: {
@@ -154,22 +150,6 @@ export const useCartStore = defineStore({
 
       if (!response.ok) {
         throw new Error('Failed to set address.')
-      }
-
-      await this.fetch()
-    },
-
-    async updateQuantity(lineId: number, quantity: number): Promise<any> {
-      const response = await fetch(`/api/carts/update-line-quantity`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cartId: this._cartId, lineId, quantity }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to update quantity.')
       }
 
       await this.fetch()
