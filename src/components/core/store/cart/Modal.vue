@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  infoText: string
+  infoText?: string
   modalCartVisible: boolean
   item: any
 }>()
