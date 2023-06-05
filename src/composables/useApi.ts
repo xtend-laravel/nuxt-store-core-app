@@ -14,10 +14,23 @@ export default function useApi(options: IApiOptions): Promise<any> {
       'Content-Type': 'application/json',
     },
   }
+  let response: Promise<any>
   if (!['GET', 'DELETE'].includes(options.method)) {
     opts.body = options ? JSON.stringify(options) : undefined
-    return $fetch(`/api/v1/restify/${options.endpoint}/${options.action}`, opts)
+    response = $fetch(`/api/v1/restify/${options.endpoint}/${options.action}`, opts)
+  } else {
+    response = $fetch(
+      `/api/v1/restify/${options.endpoint}/${options.action}?requiresAuth=${options.requiresAuth}`,
+      opts,
+    )
   }
 
-  return $fetch(`/api/v1/restify/${options.endpoint}/${options.action}?requiresAuth=${options.requiresAuth}`, opts)
+  return response.catch((error: any) => {
+    const { data }: any = error.data
+    if (error.status === 422) {
+      throw new Error(data?.message)
+    } else {
+      throw new Error('An error occurred during the API call.')
+    }
+  })
 }

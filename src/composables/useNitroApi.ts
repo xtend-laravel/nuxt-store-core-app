@@ -31,9 +31,9 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
     headers.Authorization = `Bearer ${getCookie(event, 'token') || ''}`
   }
 
-  // console.log('useNitroApi', `${baseUrl}${endpoint}`)
-  // console.log('options', options)
-  // console.log('headers', headers)
+  console.log('useNitroApi', `${baseUrl}${endpoint}`)
+  console.log('options', options)
+  console.log('headers', headers)
 
   const opts: any = {
     method,
