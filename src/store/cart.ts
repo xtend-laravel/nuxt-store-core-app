@@ -36,7 +36,7 @@ export const useCartStore = defineStore({
       return this._items.find((item) => item.id === this._lastAddedLineId)
     },
     cartCount(): number {
-      return this._items.reduce((acc, item) => acc + item.quantity, 0)
+      return this._items ? this._items.reduce((acc, item) => acc + item.quantity, 0) : 0
     },
     totals(): UnwrapRef<CartState['_totals']> {
       return this._totals
