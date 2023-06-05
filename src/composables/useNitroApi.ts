@@ -31,10 +31,6 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
     headers.Authorization = `Bearer ${getCookie(event, 'token') || ''}`
   }
 
-  console.log('useNitroApi', `${baseUrl}${endpoint}`)
-  console.log('options', options)
-  console.log('headers', headers)
-
   const opts: any = {
     method,
     headers,
@@ -44,6 +40,13 @@ export default function useNitroApi(options: INitroApiOptions, data?: any): Prom
     opts.body = data ? JSON.stringify(data) : undefined
     opts.query = query
   }
+
+  // eslint-disable-next-line no-console
+  console.log('useNitroApi', `${baseUrl}${endpoint}`)
+  // eslint-disable-next-line no-console
+  console.log('headers', headers)
+  // eslint-disable-next-line no-console
+  console.log('options', opts)
 
   return $fetch(`${baseUrl}${endpoint}`, opts)
 }
