@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-  <CoreLayoutContainer class="mx-auto py-12">
+  <section class="mx-auto max-w-screen-2xl py-12">
     <div class="flex w-full flex-col gap-4 lg:flex-row">
       <!-- sidebar -->
       <div class="w-full lg:w-1/4">
@@ -34,5 +34,5 @@ defineProps<{
         </div>
       </div>
     </div>
-  </CoreLayoutContainer>
+  </section>
 </template>
