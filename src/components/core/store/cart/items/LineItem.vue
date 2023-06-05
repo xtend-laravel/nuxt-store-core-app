@@ -6,13 +6,13 @@ import { useCartStore } from '#nuxt-store-core/store/cart'
 import useProductRoute from '#nuxt-store-core/composables/useProductRoute'
 
 const props = defineProps<{
-  variantContentClasses: string
-  variantOptionsListClasses: string
-  variantWrapClasses: string
-  rightColumnWrapClasses: string
-  priceClasses: string
-  quantityWrapClasses: string
-  item: LineItem[]
+  variantContentClasses?: string
+  variantOptionsListClasses?: string
+  variantWrapClasses?: string
+  rightColumnWrapClasses?: string
+  priceClasses?: string
+  quantityWrapClasses?: string
+  item: LineItem
 }>()
 
 const {

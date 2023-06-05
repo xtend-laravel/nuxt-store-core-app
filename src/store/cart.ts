@@ -72,15 +72,13 @@ export const useCartStore = defineStore({
     setMeta(meta: Record<string, any>): void {
       this._meta = meta
     },
-    async increaseQty(productId: number, quantity = 1, variants?: object): Promise<any> {
-      return this.updateQty(productId, quantity, variants)
+    async increaseQty(itemId: number, quantity: number): Promise<any> {
+      return this.updateQty(itemId, quantity)
     },
-    async decreaseQty(productId: number, quantity = 1, variants?: object): Promise<any> {
-      this._items[productId]?.quantity > 0 ? (this._items[productId].quantity -= 1) : delete this._items[productId]
-
-      return this.updateQty(productId, this._items[productId]?.quantity || 0)
+    async decreaseQty(itemId: number, quantity: number): Promise<any> {
+      return this.updateQty(itemId, quantity)
     },
-    async updateQty(productId: number, quantity = 1, variants?: object): Promise<any> {
+    async updateQty(itemId: number, quantity = 1): Promise<any> {
       // @todo Improve remove endpoint add entity then if action allow public: or private: actions
       return await useApi({
         endpoint: `carts/${this._cartId}/public-actions?action=update-cart-line-action`,
@@ -88,12 +86,8 @@ export const useCartStore = defineStore({
         action: 'update',
         method: 'POST',
         data: {
-          cartId: this._cartId,
-          product: {
-            id: productId,
-            quantity: quantity || 1,
-            variants,
-          },
+          lineId: itemId,
+          quantity: quantity || 1,
         },
       })
     },

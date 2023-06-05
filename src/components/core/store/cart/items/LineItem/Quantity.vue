@@ -5,10 +5,10 @@ import IconSubtract from '~icons/carbon/subtract'
 
 const props = defineProps<{
   item: any
-  quantityWrapClasses: string
-  decreaseQuantityClasses: string
-  increaseQuantityClasses: string
-  quantityInputClasses: string
+  quantityWrapClasses?: string
+  decreaseQuantityClasses?: string
+  increaseQuantityClasses?: string
+  quantityInputClasses?: string
 }>()
 
 const {
@@ -22,14 +22,18 @@ const cartStore = useCartStore()
 async function increaseQuantity(item: any) {
   if (item.quantity < item.product.stock) {
     item.quantity++
-    await cartStore.increaseQty(item.id, item.quantity)
+    await cartStore.increaseQty(item.id, item.quantity).then(() => {
+      cartStore.fetch()
+    })
   }
 }
 
 async function decreaseQuantity(item: any) {
   if (item.quantity > 1) {
     item.quantity--
-    await cartStore.decreaseQty(item.id, item.quantity)
+    await cartStore.decreaseQty(item.id, item.quantity).then(() => {
+      cartStore.fetch()
+    })
   }
 }
 </script>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
+
 const props = defineProps<{
   infoText?: string
   modalCartVisible: boolean
