@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UnwrapRef } from 'vue'
+import useApi from '#nuxt-store-core/composables/useApi'
 import useCart from '#nuxt-store-core/composables/useCart'
 import type { LineItem } from '#nuxt-store-core/types/product'
 
