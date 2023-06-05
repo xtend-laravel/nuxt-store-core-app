@@ -51,7 +51,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
         <h2 class="card-title" :class="titleClasses">
           Latest order
           <span class="text-brand-600">{{ getFormattedPrice(latestOrder?.total) }}</span>
-          <span>(5 items)</span>
+          <span>(50 items)</span>
         </h2>
         <div class="order-item-thumbs">
           <ul class="flex gap-4">
@@ -63,46 +63,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
       </div>
       <div :class="containerClasses">
         <div :class="bodyClasses">
-          <div class="overflow-x-auto">
-            <table class="table-compact table w-full">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Variants</th>
-                  <th>Qty</th>
-                  <th>Unit Price</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in latestOrder.products.slice(0, 4)" :key="item.id">
-                  <td>
-                    <div v-text="item.product.name" />
-                  </td>
-                  <td>
-                    <div :class="variantWrapClasses">
-                      <!-- variant options -->
-                      <ul :class="variantOptionsListClasses" class="flex gap-2">
-                        <template v-for="optionValue in item.purchasable.values" :key="optionValue.id">
-                          <span><CoreStoreMultilingual :value="optionValue.option.name" />: </span>
-                          <span><CoreStoreMultilingual :value="optionValue.name" /></span>
-                        </template>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    <div v-text="item.quantity" />
-                  </td>
-                  <td>
-                    {{ getFormattedPrice(item.product.prices.basePrice) }}
-                  </td>
-                  <td>
-                    {{ getFormattedPrice(item.total) }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <CoreStoreCustomerDashboardLatestOrderProductTable :items="latestOrder.products" />
           <!--          <ul> -->
           <!--            <li v-for="item in latestOrder.products" :key="item.id" :class="lineWrapperClasses"> -->
           <!--              <slot :key="item.id" name="override-items-line" :item="item"> -->
@@ -121,7 +82,7 @@ function getFormattedPrice(price: Ref<number> | number): string {
           <!--          </ul> -->
         </div>
       </div>
-      <div class="card-actions justify-end">
+      <div class="card-actions mt-4 justify-end">
         <p :class="descriptionClasses">
           <slot name="description">
             Ordered <span class="text-brand-600">{{ fromNow(latestOrder.created_at) }}</span>
