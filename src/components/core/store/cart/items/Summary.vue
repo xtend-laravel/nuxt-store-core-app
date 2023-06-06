@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { storeToRefs } from 'pinia'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 
 const cartStore = useCartStore()
-cartStore.fetch()
+await cartStore.fetch()
 
-const { totals } = storeToRefs(cartStore)
 // @todo need to set the currency based on the store perhaps env for now later currency via API and ability to switch
 const { formatPrice } = useFormattedPrice()
 
@@ -23,19 +21,19 @@ function getFormattedPrice(price: Ref<number> | number): string {
 </script>
 
 <template>
-  <pre>{{ totals }}</pre>
+  <pre>{{ cartStore.totals }}</pre>
   <div class="bg-white pb-4 pt-10">
     <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
       <span v-text="labels.subTotal" />
-      <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.sub_total)" />
+      <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(cartStore.totals.sub_total)" />
     </div>
     <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
       <span v-text="labels.shippingTotal" />
-      <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(totals.shipping_total)" />
+      <span class="text-lg font-semibold text-gray-900" v-text="getFormattedPrice(cartStore.totals.shipping_total)" />
     </div>
     <div class="font-heading mb-3 flex items-center justify-between bg-gray-50 px-4 py-2 font-medium leading-8">
       <span class="font-medium text-gray-900" v-text="labels.total" />
-      <span class="text-brand-600 flex items-center text-lg" v-text="getFormattedPrice(totals.total)" />
+      <span class="text-brand-600 flex items-center text-lg" v-text="getFormattedPrice(cartStore.totals.total)" />
     </div>
   </div>
 </template>
