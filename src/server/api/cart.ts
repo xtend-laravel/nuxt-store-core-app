@@ -25,7 +25,7 @@ export default defineEventHandler(async (event: H3Event) => {
   }).then((response: any) => {
     console.log('setCookie cartId:', response.data.cart.id)
     setCookie(event, 'cartId', response.data.cart.id, {
-      domain: process.env.NUXT_APP_HUB_BASE_URL,
+      domain: process.env.NUXT_APP_SESSION_DOMAIN,
       sameSite: 'lax',
     })
     return response
