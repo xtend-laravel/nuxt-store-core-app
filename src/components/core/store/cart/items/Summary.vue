@@ -3,7 +3,10 @@ import type { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '#nuxt-store-core/store/cart'
 
-const { totals } = storeToRefs(useCartStore())
+const cartStore = useCartStore()
+cartStore.fetch()
+
+const { totals } = storeToRefs(cartStore)
 // @todo need to set the currency based on the store perhaps env for now later currency via API and ability to switch
 const { formatPrice } = useFormattedPrice()
 
