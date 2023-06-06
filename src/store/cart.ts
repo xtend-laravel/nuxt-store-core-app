@@ -12,6 +12,8 @@ interface CartState {
   _meta: Record<string, any>
 }
 
+const { session, refresh, update, reset } = await useSession()
+
 export const useCartStore = defineStore({
   id: 'cart',
 
@@ -51,7 +53,9 @@ export const useCartStore = defineStore({
     async fetch(): Promise<void> {
       const {
         data: { cart },
-      } = await useCart(this._cartId)
+      } = await useCart()
+
+      await update({ cartId: cart.id })
 
       this.setCartId(cart.id)
       this.setLastAddedLineId(cart.lastAddedLineId)

@@ -10,10 +10,11 @@ export default defineEventHandler(async (event: H3Event) => {
   //   method: 'GET',
   // })
 
+  const cartId = event.context.session.cartId || 0
   let endpoint = `/api/restify/carts/getters/current-cart?sessionId=${event.context.session.id}`
-  const query: any = getQuery(event)
-  if (query && query.cartId) {
-    endpoint = `/api/restify/carts/getters/current-cart?cartId=${query.cartId}`
+
+  if (cartId > 0) {
+    endpoint = `/api/restify/carts/getters/current-cart?cartId=${cartId}`
   }
 
   return await useNitroApi({
