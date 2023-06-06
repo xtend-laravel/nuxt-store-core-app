@@ -11,9 +11,9 @@ export default defineEventHandler(async (event: H3Event) => {
   // })
 
   let endpoint = `/api/restify/carts/getters/current-cart?sessionId=${event.context.session.id}`
-  const params: any = event.context.params
-  if (params && params.id > 0) {
-    endpoint = `/api/restify/carts/getters/current-cart?cartId=${params.id}`
+  const query: any = getQuery(event)
+  if (query && query.cartId) {
+    endpoint = `/api/restify/carts/getters/current-cart?cartId=${query.cartId}`
   }
 
   return await useNitroApi({
