@@ -12,8 +12,6 @@ interface CartState {
   _meta: Record<string, any>
 }
 
-const { session, refresh, update, reset } = await useSession()
-
 export const useCartStore = defineStore({
   id: 'cart',
 
@@ -55,6 +53,7 @@ export const useCartStore = defineStore({
         data: { cart },
       } = await useCart()
 
+      const { update } = await useSession()
       await update({ cartId: cart.id })
 
       this.setCartId(cart.id)
