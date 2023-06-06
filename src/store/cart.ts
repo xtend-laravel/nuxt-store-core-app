@@ -51,7 +51,7 @@ export const useCartStore = defineStore({
     async fetch(): Promise<void> {
       const {
         data: { cart },
-      } = await useCart()
+      } = await useCart(this._cartId)
 
       this.setCartId(cart.id)
       this.setLastAddedLineId(cart.lastAddedLineId)

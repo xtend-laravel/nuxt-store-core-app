@@ -1,3 +1,3 @@
-export default async function useCart(): Promise<any> {
-  return $fetch('/api/cart')
+export default async function useCart(cartId: number): Promise<any> {
+  return $fetch(`/api/cart/${cartId}`)
 }
