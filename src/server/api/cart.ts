@@ -23,6 +23,7 @@ export default defineEventHandler(async (event: H3Event) => {
     action: 'custom',
     endpoint,
   }).then((response: any) => {
+    console.log('setCookie cartId:', response.data.cart.id)
     setCookie(event, 'cartId', response.data.cart.id)
     return response
   })
