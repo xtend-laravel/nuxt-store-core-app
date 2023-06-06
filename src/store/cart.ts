@@ -53,9 +53,6 @@ export const useCartStore = defineStore({
         data: { cart },
       } = await useCart()
 
-      const { update } = await useSession()
-      await update({ cartId: cart.id })
-
       this.setCartId(cart.id)
       this.setLastAddedLineId(cart.lastAddedLineId)
       this.setItems(cart.lineItems)
