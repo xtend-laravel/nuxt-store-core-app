@@ -26,6 +26,7 @@ export default defineEventHandler(async (event: H3Event) => {
     // console.log('setCookie cartId:', response.data.cart.id)
     setCookie(event, 'cartId', response.data.cart.id, {
       domain: process.env.NUXT_APP_SESSION_DOMAIN,
+      maxAge: 60 * 60 * 24 * 30,
       httpOnly: true,
       sameSite: 'lax',
       secure: true,
