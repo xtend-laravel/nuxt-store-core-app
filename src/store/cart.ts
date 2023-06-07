@@ -144,5 +144,16 @@ export const useCartStore = defineStore({
         data: { cartId: this._cartId, type, id },
       })
     },
+
+    async setShippingOption(identifier: string): Promise<any> {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._cartId}/actions?action=update-shipping-option-action`,
+        requiresAuth: true,
+        action: 'update',
+        method: 'POST',
+        data: { cartId: this._cartId, identifier },
+      })
+    },
   },
 })

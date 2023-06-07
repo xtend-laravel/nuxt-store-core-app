@@ -11,9 +11,3 @@ defineProps<{
     <slot />
   </Collapse>
 </template>
-
-<style>
-.v-collapse {
-  transition: height var(--vc-auto-duration) cubic-bezier(0.33, 1, 0.68, 1);
-}
-</style>

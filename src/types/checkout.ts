@@ -13,6 +13,7 @@ export interface OrderSummary<TAmount, TCurrency> {
   billingAddressId: number
   shippingAddressId: number
   separateBillingAddress: boolean
+  shippingMethodIdentifier?: string
   currency: TCurrency
   subtotal: TAmount
   shipping: TAmount

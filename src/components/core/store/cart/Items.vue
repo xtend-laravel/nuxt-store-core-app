@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '~/store/cart'
+import { useAuthStore } from '~/store/auth'
 
 const cartStore = useCartStore()
 
 const { items } = storeToRefs(cartStore)
+const { currentUser, isAuthenticated } = storeToRefs(useAuthStore())
 </script>
 
 <template>
@@ -19,7 +21,7 @@ const { items } = storeToRefs(cartStore)
           <CoreStoreCartItemsSummary />
         </slot>
       </div>
-      <slot name="override-footer-actions">
+      <slot v-if="isAuthenticated" name="override-footer-actions">
         <CoreStoreCartItemsFooterActions />
       </slot>
     </div>

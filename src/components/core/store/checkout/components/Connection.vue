@@ -47,7 +47,7 @@ async function fetchAuthCheck() {
     await checkoutStore.fetch()
     setTimeout(() => {
       checkoutStore.markStepAsCompleted('connection')
-      checkoutStore.setCurrentStep(1)
+      checkoutStore.setCurrentStep(checkoutStore.nextStep)
     }, 2000)
     return
   }

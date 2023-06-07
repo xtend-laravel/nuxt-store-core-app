@@ -16,6 +16,7 @@ export const useCheckoutStore = defineStore({
       cartId: 0,
       billingAddressId: 0,
       shippingAddressId: 0,
+      shippingMethodIdentifier: '',
       separateBillingAddress: false,
       currency: 'EUR',
       subtotal: '0.00',
@@ -36,6 +37,9 @@ export const useCheckoutStore = defineStore({
     currentStep(): UnwrapRef<CheckoutState['_currentStep']> {
       return this._currentStep
     },
+    nextStep(): UnwrapRef<number> {
+      return this._steps.findIndex((step) => step.completed === false)
+    },
     steps(): UnwrapRef<CheckoutState['_steps']> {
       return this._steps
     },
@@ -47,6 +51,15 @@ export const useCheckoutStore = defineStore({
     },
     shippingMethods(): UnwrapRef<CheckoutState['_shippingMethods']> {
       return this._shippingMethods
+    },
+    selectedShippingMethod(): UnwrapRef<string | undefined> {
+      return this._orderSummary.shippingMethodIdentifier
+    },
+    selectedBillingAddressId(): UnwrapRef<number | undefined> {
+      return this._orderSummary.billingAddressId
+    },
+    selectedShippingAddressId(): UnwrapRef<number | undefined> {
+      return this._orderSummary.shippingAddressId
     },
     separateBillingAddress(): UnwrapRef<boolean> {
       return this._orderSummary.separateBillingAddress
@@ -60,6 +73,7 @@ export const useCheckoutStore = defineStore({
     init(): void {
       this.setOrderSummary({
         ...this._orderSummary,
+        cartId: useCartStore().cartId,
         subtotal: useCartStore().totals.sub_total,
         shipping: useCartStore().totals.shipping_total,
         tax: useCartStore().totals.tax_total,
@@ -68,12 +82,26 @@ export const useCheckoutStore = defineStore({
       })
     },
     async fetch(): Promise<void> {
+      this.init()
       const { data } = await useCheckout()
       if (data.addresses) {
         this.setAddresses(data.addresses)
       }
+
       if (data.shipping_methods) {
         this.setShippingMethods(data.shipping_methods)
+      }
+
+      if (data.selectedAddressIds?.billing) {
+        this.setBillingAddressId(data.selectedAddressIds.billing)
+      }
+
+      if (data.selectedAddressIds?.shipping) {
+        this.setShippingAddressId(data.selectedAddressIds.shipping)
+      }
+
+      if (data.selectedShippingIdentifier) {
+        this.setSelectedShippingMethod(data.selectedShippingIdentifier)
       }
     },
     async createOrder(): Promise<void> {},
@@ -94,6 +122,15 @@ export const useCheckoutStore = defineStore({
     },
     setShippingMethods(shippingMethods: any[]): void {
       this._shippingMethods = shippingMethods
+    },
+    setSelectedShippingMethod(shippingMethodIdentifier: string): void {
+      this._orderSummary.shippingMethodIdentifier = shippingMethodIdentifier
+    },
+    setBillingAddressId(billingAddressId: number): void {
+      this._orderSummary.billingAddressId = billingAddressId
+    },
+    setShippingAddressId(shippingAddressId: number): void {
+      this._orderSummary.shippingAddressId = shippingAddressId
     },
     setSeparateBillingAddress(separateBillingAddress: boolean): void {
       this._orderSummary.separateBillingAddress = separateBillingAddress
