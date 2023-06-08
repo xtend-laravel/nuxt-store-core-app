@@ -83,6 +83,10 @@ export const useCheckoutStore = defineStore({
     },
     async fetch(): Promise<void> {
       this.init()
+      if (!this.isAuthenticated) {
+        return
+      }
+
       const { data } = await useCheckout()
       if (data.addresses) {
         this.setAddresses(data.addresses)
