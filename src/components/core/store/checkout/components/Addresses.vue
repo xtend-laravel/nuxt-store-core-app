@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useAddressStore } from '#nuxt-store-core/store/address'
+import { useCartStore } from '#nuxt-store-core/store/cart'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
-import usePersistForm from '#nuxt-store-core/composables/usePersistForm'
 import IconEdit from '~icons/carbon/edit'
 import IconTrash from '~icons/carbon/trash-can'
 import IconCheck from '~icons/carbon/checkmark-filled'
@@ -18,24 +18,32 @@ const props = defineProps({
     required: false,
   },
 })
+
+const cartStore = useCartStore()
 const checkoutStore = useCheckoutStore()
-const { addresses, separateBillingAddress } = storeToRefs(checkoutStore)
+await checkoutStore.fetch()
+const { addresses, separateBillingAddress, selectedShippingAddressId, selectedBillingAddressId } =
+  storeToRefs(checkoutStore)
 
 const form: any = reactive({
   separateBillingAddress: separateBillingAddress.value,
-  shippingAddressId: 0,
-  billingAddressId: 0,
+  shippingAddressId: selectedShippingAddressId.value,
+  billingAddressId: selectedBillingAddressId.value,
+})
+
+onMounted(() => {
+  if (props.currentStepKey == 'shipping_address' && form.shippingAddressId > 0) {
+    checkoutStore.markStepAsCompleted(props.currentStepKey)
+  } else if (props.currentStepKey == 'billing_address' && form.billingAddressId > 0) {
+    checkoutStore.markStepAsCompleted(props.currentStepKey)
+  }
 })
 
 watch([() => form.shippingAddressId, () => form.billingAddressId], () => {
   checkoutStore.markStepAsCompleted(props.currentStepKey)
-  usePersistForm({
-    repository: 'carts',
-    action: 'update',
-    method: 'POST',
-    data: form,
-    exclude: ['separateBillingAddress'],
-  })
+  const type = props.currentStepKey === 'shipping_address' ? 'shipping' : 'billing'
+  const value = props.currentStepKey === 'shipping_address' ? form.shippingAddressId : form.billingAddressId
+  cartStore.setAddress(type, value)
 })
 
 function toggleBillingStep() {
@@ -172,6 +180,15 @@ function handleCancel(e: MouseEvent) {
                 <h4 v-if="address.title" class="mb-2 font-semibold" v-text="address.title" />
                 <h4 v-else class="mb-4 font-medium" v-text="`Address ${address.id}`" />
                 <input
+                  v-if="currentStepKey == 'billing_address'"
+                  :id="`${currentStepKey}_${address.id}`"
+                  v-model="form.billingAddressId"
+                  :value="address.id"
+                  class="peer hidden"
+                  type="radio"
+                />
+                <input
+                  v-else
                   :id="`${currentStepKey}_${address.id}`"
                   v-model="form.shippingAddressId"
                   :value="address.id"

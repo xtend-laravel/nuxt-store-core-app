@@ -42,7 +42,7 @@ function closeModal() {
         </button>
       </label>
       <div class="card lg:card-side bg-base-100 shadow-xl">
-        <figure class="m-0 w-96">
+        <figure class="h-60 w-full border object-cover object-top">
           <img :src="thumbnail" :alt="item?.product.name" />
         </figure>
         <div class="card-body">

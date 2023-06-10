@@ -1,37 +1,9 @@
 <script setup lang="ts">
-// import { useCartStore } from '#nuxt-store-core/store/cart'
+import { storeToRefs } from 'pinia'
 import IconCheck from '~icons/carbon/checkmark-filled'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
-// const cartStore = useCartStore()
 const checkoutStore = useCheckoutStore()
-// const { $stripe } = useNuxtApp()
-// const clientSecret = cartStore.meta?.stripe_client_secret || ''
-// let cardElement: StripeCardElement
-
-// async function initStripe() {
-//   const stripe: any = await $stripe
-//   const elements: any = stripe.elements({
-//     clientSecret,
-//   })
-//   const paymentElement = elements.create('payment', {
-//     layout: 'tabs',
-//   })
-//   paymentElement.mount('#payment-element')
-// }
-//
-// async function submitPayment() {
-//   const stripe = await $stripe
-//   const paymentElement = elements.create('payment')
-//   const { error, paymentIntent } = await stripe.confirmCardPayment('{{ client_secret }}', {
-//     payment_method: {
-//       card: cardElement,
-//       billing_details: {
-//         name: 'Jenny Rosen',
-//       },
-//     },
-//   })
-// }
 
 const paymentMethods = [
   {
@@ -54,33 +26,19 @@ const paymentMethods = [
     value: 'paypal-x-times',
     image: '/paypal-x-times-en.svg',
   },
-  // {
-  //   name: 'Apple pay',
-  //   value: 'apple_pay',
-  //   image: '/apple_pay.png',
-  // },
-  // {
-  //   name: 'Google pay',
-  //   value: 'google_pay',
-  //   image: '/google_pay.png',
-  // },
 ]
 
+const { selectedPaymentMethod } = storeToRefs(checkoutStore)
 const form: any = reactive({
-  paymentGatewayId: 0,
+  paymentGatewayIdentifier: selectedPaymentMethod.value,
 })
 
-// onMounted(() => {
-//   if (clientSecret) {
-//     initStripe()
-//   }
-// })
-
 watch(
-  () => form.paymentGatewayId,
+  () => form.paymentGatewayIdentifier,
   () => {
-    if (form.paymentGatewayId && checkoutStore.checkoutType === 'express') {
+    if (form.paymentGatewayIdentifier && checkoutStore.checkoutType === 'express') {
       checkoutStore.markStepAsCompleted('payment_method')
+      checkoutStore.setSelectedPaymentMethod(form.paymentGatewayIdentifier)
     }
   },
 )
@@ -98,7 +56,7 @@ watch(
         >
           <input
             :id="`paymentMethod_${paymentMethod.value}`"
-            v-model="form.paymentGatewayId"
+            v-model="form.paymentGatewayIdentifier"
             type="radio"
             name="payment_method"
             :value="paymentMethod.value"
@@ -115,16 +73,5 @@ watch(
         </label>
       </template>
     </div>
-    <!--    <div class="mt-10 flex flex-col-reverse gap-4 md:flex-row md:justify-end"> -->
-    <!--      <button -->
-    <!--        :disabled="!form.paymentGatewayId" -->
-    <!--        type="button" -->
-    <!--        class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 flex items-center justify-center rounded border border-transparent px-6 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none" -->
-    <!--        :class="{ 'hover:!bg-brand-500 cursor-not-allowed opacity-40': !form.paymentGatewayId }" -->
-    <!--        @click="submitPayment" -->
-    <!--      > -->
-    <!--        Place Order -->
-    <!--      </button> -->
-    <!--    </div> -->
   </div>
 </template>

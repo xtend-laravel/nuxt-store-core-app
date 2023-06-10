@@ -4,6 +4,7 @@ import useCheckout from '../composables/useCheckout'
 import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
 import type { Addresses, CheckoutState, CheckoutStep, OrderSummary } from '~/types/checkout'
+import useApi from '~/composables/useApi'
 
 export const useCheckoutStore = defineStore({
   id: 'checkout',
@@ -18,6 +19,7 @@ export const useCheckoutStore = defineStore({
       shippingAddressId: 0,
       shippingMethodIdentifier: '',
       separateBillingAddress: false,
+      paymentGatewayIdentifier: '',
       currency: 'EUR',
       subtotal: '0.00',
       shipping: '0.00',
@@ -43,6 +45,9 @@ export const useCheckoutStore = defineStore({
     steps(): UnwrapRef<CheckoutState['_steps']> {
       return this._steps
     },
+    stepsValidated(): boolean {
+      return this._steps.every((step) => step.completed)
+    },
     orderSummary(): UnwrapRef<OrderSummary<string, string>> {
       return this._orderSummary
     },
@@ -54,6 +59,9 @@ export const useCheckoutStore = defineStore({
     },
     selectedShippingMethod(): UnwrapRef<string | undefined> {
       return this._orderSummary.shippingMethodIdentifier
+    },
+    selectedPaymentMethod(): UnwrapRef<string | undefined> {
+      return this._orderSummary.paymentGatewayIdentifier
     },
     selectedBillingAddressId(): UnwrapRef<number | undefined> {
       return this._orderSummary.billingAddressId
@@ -139,6 +147,10 @@ export const useCheckoutStore = defineStore({
     setSeparateBillingAddress(separateBillingAddress: boolean): void {
       this._orderSummary.separateBillingAddress = separateBillingAddress
     },
+    setSelectedPaymentMethod(paymentGatewayIdentifier: string): void {
+      this._orderSummary.paymentGatewayIdentifier = paymentGatewayIdentifier
+      // init payment gateway for plugin
+    },
     markStepAsIncomplete(stepKey: any): void {
       const step: any = this._steps.find((step: CheckoutStep) => step.key === stepKey)
       step.completed = false
@@ -175,6 +187,30 @@ export const useCheckoutStore = defineStore({
       const step: any = this._steps.find((step: CheckoutStep) => step.key === 'billing_address')
       step.completed = false
       this.setSeparateBillingAddress(!this._orderSummary.separateBillingAddress)
+    },
+    async createOrder(): Promise<any> {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._orderSummary.cartId}/actions?action=create-order-action`,
+        requiresAuth: true,
+        action: 'create',
+        method: 'POST',
+        data: {
+          ...useCartStore().meta,
+        },
+      })
+    },
+    async confirmPayment(): Promise<any> {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._orderSummary.cartId}/actions?action=authorize-payment-checkout-action`,
+        requiresAuth: true,
+        action: 'custom',
+        method: 'POST',
+        data: {
+          ...useCartStore().meta,
+        },
+      })
     },
   },
 })

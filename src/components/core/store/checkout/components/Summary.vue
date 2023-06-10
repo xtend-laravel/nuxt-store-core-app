@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import CheckoutActionIcon from '../../cart/items/CheckoutActionIcon.vue'
+import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 
+const checkoutStore = useCheckoutStore()
 const notes = ref('')
 const giftWrap = ref(false)
 const giftMessage = ref('')
+
+async function submit() {
+  checkoutStore.confirmPayment().then((data: any) => {
+    // eslint-disable-next-line no-console
+    console.log('createOrder', data)
+    checkoutStore.createOrder()
+  })
+}
 </script>
 
 <template>
@@ -52,13 +62,17 @@ const giftMessage = ref('')
           />
         </div>
         <div class="mt-10 w-full text-center">
-          <NuxtLink
-            to="checkout"
+          <button
+            id="checkout-action"
+            type="button"
+            :disabled="!checkoutStore.stepsValidated"
             class="focus:shadow-outline-brand focus:border-brand-700 active:bg-brand-700 hover:bg-brand-600 bg-brand-500 x-6 inline-flex w-full items-center justify-center rounded-md py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out hover:bg-gray-800 hover:text-white focus:shadow"
+            :class="{ 'cursor-not-allowed opacity-50': !checkoutStore.stepsValidated }"
+            @click="submit"
           >
             <span>Place order</span>
             <Component :is="CheckoutActionIcon" class="ml-4 h-6 w-6 transition-all group-hover:ml-8" />
-          </NuxtLink>
+          </button>
         </div>
       </template>
     </CoreStoreCartItems>

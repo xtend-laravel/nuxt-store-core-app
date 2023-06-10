@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { useCartStore } from '#nuxt-store-core/store/cart'
 import { useCheckoutStore } from '#nuxt-store-core/store/checkout'
 import IconCheck from '~icons/carbon/checkmark-filled'
 import ShippingIcon from '~icons/carbon/delivery-truck'
 
 const props = defineProps<{
   enableFilter?: boolean
+  currentStepKey?: string
 }>()
 const enableFilter = props.enableFilter ?? true
 const selectedFilter = ref('express')
+
+const cartStore = useCartStore()
 const checkoutStore = useCheckoutStore()
-const { shippingMethods, checkoutType } = storeToRefs(checkoutStore)
+await checkoutStore.fetch()
+
+const { shippingMethods, selectedShippingMethod } = storeToRefs(checkoutStore)
 const form: any = reactive({
-  shippingAddressId: 0,
+  shippingOptionIdentifier: selectedShippingMethod.value,
 })
 
 const methods = computed(() => {
@@ -22,21 +28,15 @@ const methods = computed(() => {
   // )
 })
 
-const { formatPrice } = useFormattedPrice()
+const formattedPrice = useFormattedPrice()
 
-// @todo make 100 the default value and use `formatPrice` directly instead?
-function getFormattedPrice(price: Ref<number> | number): string {
-  return formatPrice(unref(price), 0, 100).value
-}
-
-watch(
-  () => form.shippingAddressId,
-  () => {
-    if (form.shippingAddressId && checkoutStore.checkoutType === 'express') {
-      checkoutStore.markStepAsCompleted('shipping_method')
-    }
-  },
-)
+watch([() => form.shippingOptionIdentifier], () => {
+  checkoutStore.markStepAsCompleted(props.currentStepKey)
+  cartStore.setShippingOption(form.shippingOptionIdentifier)
+  // if (form.shippingOptionIdentifier && checkoutStore.checkoutType === 'express') {
+  //   checkoutStore.markStepAsCompleted('shipping_method')
+  // }
+})
 </script>
 
 <template>
@@ -89,12 +89,17 @@ watch(
                 <div class="w-11/12 text-xs" v-text="shippingMethod.description" />
               </div>
               <div class="text-right">
-                <span class="font-medium">{{ getFormattedPrice(shippingMethod.price.value) }}</span>
+                <span
+                  v-if="shippingMethod.price.value > 0"
+                  class="font-medium"
+                  v-text="formattedPrice.formatPrice(shippingMethod.price.value, 0, 100).value"
+                />
+                <span v-else>Free</span>
               </div>
             </div>
             <input
               :id="`shippingMethod_${shippingMethod.identifier}`"
-              v-model="form.shippingAddressId"
+              v-model="form.shippingOptionIdentifier"
               :value="shippingMethod.identifier"
               class="peer hidden"
               type="radio"
