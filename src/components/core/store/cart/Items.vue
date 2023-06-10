@@ -21,7 +21,7 @@ const { currentUser, isAuthenticated } = storeToRefs(useAuthStore())
           <CoreStoreCartItemsSummary />
         </slot>
       </div>
-      <slot v-if="isAuthenticated" name="override-footer-actions">
+      <slot name="override-footer-actions">
         <CoreStoreCartItemsFooterActions />
       </slot>
     </div>

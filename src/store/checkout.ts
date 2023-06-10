@@ -86,6 +86,7 @@ export const useCheckoutStore = defineStore({
       if (!this.isAuthenticated) {
         return
       }
+      console.log('fetching checkout data')
 
       const { data } = await useCheckout()
       if (data.addresses) {
@@ -108,7 +109,6 @@ export const useCheckoutStore = defineStore({
         this.setSelectedShippingMethod(data.selectedShippingIdentifier)
       }
     },
-    async createOrder(): Promise<void> {},
     setType(type: string): void {
       this._type = type
     },

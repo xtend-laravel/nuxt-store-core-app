@@ -134,6 +134,20 @@ export const useCartStore = defineStore({
       })
     },
 
+    async confirmPayment(paymentIntent: any): Promise<any> {
+      // @todo Improve remove endpoint add entity then if action allow public: or private: actions
+      return await useApi({
+        endpoint: `carts/${this._cartId}/actions?action=authorize-payment-checkout-action`,
+        requiresAuth: true,
+        action: 'custom',
+        method: 'POST',
+        data: {
+          ...this.meta,
+          paymentIntent,
+        },
+      })
+    },
+
     async setAddress(type: string, id: number): Promise<any> {
       // @todo Improve remove endpoint add entity then if action allow public: or private: actions
       return await useApi({
