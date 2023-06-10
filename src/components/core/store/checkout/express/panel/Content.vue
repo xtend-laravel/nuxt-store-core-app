@@ -46,7 +46,7 @@ const iconsClasses = computed(() => {
       </div>
     </div>
     <!-- content -->
-    <div class="relative w-full grow overflow-x-auto px-4 pb-12 lg:px-8 2xl:px-12">
+    <div class="relative w-full grow overflow-x-auto px-4 pb-12 lg:px-8">
       <StepLock v-if="step.locked" :step="step" />
       <component :is="step.component" :key="step.key" :current-step-key="step.key" />
     </div>

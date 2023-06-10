@@ -177,7 +177,7 @@ watch([() => form.email, () => form.password], ([email, password]) => {
 
 <template>
   <!-- Login box -->
-  <div class="flex flex-1 flex-col justify-center space-y-5">
+  <div class="m-auto flex max-w-3xl flex-1 flex-col justify-center space-y-5">
     <!-- authenticated -->
     <div
       v-if="isAuthenticated && useAuthStore().user && mode === 'checkout'"

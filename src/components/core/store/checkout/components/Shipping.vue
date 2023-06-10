@@ -60,7 +60,7 @@ watch([() => form.shippingOptionIdentifier], () => {
     </template>
 
     <h2 class="mb-4 text-base">Shipping method</h2>
-    <div class="grid grid-cols-4 items-center items-stretch gap-4 md:grid-cols-3" :class="{ '': methods.length > 1 }">
+    <div class="grid grid-cols-4 items-center items-stretch gap-4 md:grid-cols-2" :class="{ '': methods.length > 1 }">
       <div v-for="shippingMethod in methods" :key="shippingMethod.identifier">
         <section class="shadow-3xl border-base group my-0 rounded bg-gray-50 hover:bg-white">
           <div class="relative flex h-32 items-center p-4 text-sm not-italic">
@@ -69,9 +69,8 @@ watch([() => form.shippingOptionIdentifier], () => {
               <svg
                 v-if="shippingMethod.name.indexOf('UPS') !== false"
                 xmlns="http://www.w3.org/2000/svg"
-                class="mr-4"
-                width="56"
-                height="66.644"
+                class="relative -top-6 left-0 mr-2 w-10"
+                viewBox="0 0 66 67"
               >
                 <path
                   d="M8.333 55.062C3.6 51.187 1.1 45.609 1.1 38.947V7.279c7.474-3.962 16.524-5.97 26.9-5.97s19.427 2.008 26.9 5.97v31.668c0 6.662-2.5 12.236-7.233 16.115-4.33 3.549-18.088 9.586-19.668 10.273-1.578-.687-15.336-6.723-19.666-10.273z"

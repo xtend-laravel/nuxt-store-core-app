@@ -20,8 +20,8 @@ const props = defineProps<{
 
 const {
   progressBarClasses = 'col-span-2',
-  leftColumnClasses = 'col-span-9 overflow-hidden lg:px-10',
-  rightColumnClasses = 'col-span-3 flex items-center',
+  leftColumnClasses = 'col-span-8 overflow-hidden lg:px-10',
+  rightColumnClasses = 'col-span-4 flex items-center',
   steps = [
     {
       index: 0,
@@ -98,8 +98,8 @@ checkoutStore.setCurrentStep(0)
   <section class="relative overflow-hidden p-4 lg:p-8">
     <template v-if="!isCartEmpty">
       <slot name="header">
-        <Header class="text-center" heading="Checkout faster" />
-        <p class="text-center text-lg font-light text-gray-400">You are almost there...</p>
+        <Header class="text-center" />
+        <p class="hidden text-center text-lg font-light text-gray-400">You are almost there...</p>
       </slot>
       <div class="grid grid-cols-1 md:grid-cols-12 md:gap-x-4 md:gap-y-10">
         <div :class="leftColumnClasses">
