@@ -25,6 +25,11 @@ const currentPage = ref(1)
 const offset = computed(() => perPage * (currentPage.value - 1))
 const paginatedItems = computed(() => props.items.slice(offset.value, offset.value + perPage))
 
+// Select initial product
+onMounted(() => {
+  emit('update:selectedProduct', props.items[0])
+})
+
 function selectProduct(item: any) {
   emit('update:selectedProduct', item)
 }
@@ -74,7 +79,12 @@ function selectProduct(item: any) {
       </table>
     </div>
 
-    <nav class="flex items-center justify-between border-t border-gray-200 bg-white py-3" aria-label="Pagination">
+    <!-- Only show pagination if there are more than 5 items -->
+    <nav
+      v-if="items.length > perPage"
+      class="flex items-center justify-between border-t border-gray-200 bg-white py-3"
+      aria-label="Pagination"
+    >
       <div class="hidden sm:block">
         <p class="text-sm text-gray-700">
           Showing
