@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { useAuthStore } from '~/store/auth'
 import { useUserStore } from '~/store/user'
 
 interface Item {
@@ -24,8 +25,10 @@ withDefaults(
   },
 )
 
+const authStore = useAuthStore()
 const userStore = useUserStore()
 const { userForm } = storeToRefs(userStore)
+const { currentUser } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -33,9 +36,7 @@ const { userForm } = storeToRefs(userStore)
     <slot name="override-welcome">
       <div v-if="userForm" class="mb-12">
         <p class="mb-0">Welcome</p>
-        <p class="text-xl font-semibold">
-          {{ userForm.first_name }} <span v-if="userForm.last_name">{{ userForm.last_name }}</span>
-        </p>
+        <p class="text-xl font-semibold" v-text="currentUser.name" />
       </div>
     </slot>
 
